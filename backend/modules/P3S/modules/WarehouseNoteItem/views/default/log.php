@@ -60,6 +60,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'product_name',
             'product_sku',
             'measure.name',
+
+            // 'owner.creator.profile.fullname',
+            // 'owner.updator.profile.fullname',
             // 'product_label',
             // 'product_value',
             // 'combination_id',
@@ -77,6 +80,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'price',
             'subtotal',
+            [
+                'attribute' => 'owner.creator.profile.fullname',
+                'label' => Yii::t('app.c2', 'Created By'),
+            ],
+            [
+                'attribute' => 'owner.updator.profile.fullname',
+                'label' => Yii::t('app.c2', 'Updated By'),
+            ],
             'memo',
             'created_at',
             [

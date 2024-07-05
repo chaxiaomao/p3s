@@ -2,6 +2,7 @@
 
 namespace common\models\c2\entity;
 
+use backend\models\c2\entity\rbac\BeUser;
 use common\models\c2\statics\WarehouseNoteItemStatus;
 use common\models\c2\statics\WarehouseNoteState;
 use cza\base\models\ActiveRecord;
@@ -381,6 +382,16 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
             }
         }
         $this->updateAttributes(['state' => WarehouseNoteState::COMMIT]);
+    }
+
+    public function getCreator()
+    {
+        return $this->hasOne(BeUser::className(), ['id' => 'created_by']);
+    }
+
+    public function getUpdator()
+    {
+        return $this->hasOne(BeUser::className(), ['id' => 'updated_by']);
     }
 
 }
