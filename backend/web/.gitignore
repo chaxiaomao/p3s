@@ -1,0 +1,12 @@
+/index-test.php
+images/admins/*
+images/user/*
+assets/*
+runtime/*
+
+# exception to the rule
+!assets/.gitkeep
+!images/admins/.gitkeep
+!images/admins/default.png
+!images/user/.gitkeep
+!images/user/default.png

@@ -1,0 +1,532 @@
+<?php
+
+namespace common\models\c2\entity;
+
+use backend\models\c2\entity\rbac\BeUser;
+use common\helpers\CodeGenerator;
+use common\models\c2\statics\InventoryDeliveryNoteState;
+use common\models\c2\statics\InventoryDeliveryType;
+use common\models\c2\statics\OrderState;
+use common\models\c2\statics\WarehouseNoteType;
+use cza\base\models\statics\EntityModelStatus;
+use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\helpers\ArrayHelper;
+use yii\validators\RequiredValidator;
+
+/**
+ * This is the model class for table "{{%inventory_delivery_note}}".
+ *
+ * @property string $id
+ * @property integer $type
+ * @property string $code
+ * @property string $label
+ * @property string $warehouse_id
+ * @property string $sales_order_id
+ * @property string $customer_id
+ * @property string $occurrence_date
+ * @property string $grand_total
+ * @property string $contact_man
+ * @property string $cs_name
+ * @property string $sender_name
+ * @property string $financial_name
+ * @property string $payment_method
+ * @property string $delivery_method
+ * @property string $memo
+ * @property string $remote_ip
+ * @property integer $is_audited
+ * @property string $audited_by
+ * @property string $updated_by
+ * @property string $created_by
+ * @property integer $state
+ * @property integer $status
+ * @property integer $position
+ * @property string $updated_at
+ * @property string $created_at
+ */
+class InventoryDeliveryNote extends \cza\base\models\ActiveRecord
+{
+
+    public $items;
+
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return '{{%inventory_delivery_note}}';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['warehouse_id', 'sales_order_id', 'customer_id', 'audited_by', 'updated_by', 'created_by', 'position'], 'integer'],
+            [['occurrence_date', 'updated_at', 'created_at', 'items'], 'safe'],
+            [['grand_total'], 'number'],
+            [['items'], 'validateItems'],
+            [['customer_id', 'sales_order_id'], 'required'],
+            [['memo'], 'string'],
+            [['type', 'is_audited', 'state', 'status'], 'integer', 'max' => 4],
+            [['code', 'label', 'contact_man', 'cs_name', 'sender_name', 'financial_name', 'payment_method', 'delivery_method', 'remote_ip'], 'string', 'max' => 255],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => Yii::t('app.c2', 'ID'),
+            'type' => Yii::t('app.c2', 'Type'),
+            'code' => Yii::t('app.c2', 'Code'),
+            'label' => Yii::t('app.c2', 'Label'),
+            'warehouse_id' => Yii::t('app.c2', 'Warehouse ID'),
+            'sales_order_id' => Yii::t('app.c2', 'Sales Order ID'),
+            'customer_id' => Yii::t('app.c2', 'Customer ID'),
+            'occurrence_date' => Yii::t('app.c2', 'Occurrence Date'),
+            'grand_total' => Yii::t('app.c2', 'Grand Total'),
+            'contact_man' => Yii::t('app.c2', 'Contact Man'),
+            'cs_name' => Yii::t('app.c2', 'Cs Name'),
+            'sender_name' => Yii::t('app.c2', 'Sender Name'),
+            'financial_name' => Yii::t('app.c2', 'Financial Name'),
+            'payment_method' => Yii::t('app.c2', 'Payment Method'),
+            'delivery_method' => Yii::t('app.c2', 'Delivery Method'),
+            'memo' => Yii::t('app.c2', 'Memo'),
+            'remote_ip' => Yii::t('app.c2', 'Remote Ip'),
+            'is_audited' => Yii::t('app.c2', 'Is Audited'),
+            'audited_by' => Yii::t('app.c2', 'Audited By'),
+            'updated_by' => Yii::t('app.c2', 'Updated By'),
+            'created_by' => Yii::t('app.c2', 'Created By'),
+            'state' => Yii::t('app.c2', 'State'),
+            'status' => Yii::t('app.c2', 'Status'),
+            'position' => Yii::t('app.c2', 'Position'),
+            'updated_at' => Yii::t('app.c2', 'Updated At'),
+            'created_at' => Yii::t('app.c2', 'Created At'),
+            'customer_name' => Yii::t('app.c2', 'Customer ID'),
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     * @return \common\models\c2\query\InventoryDeliveryNoteQuery the active query used by this AR class.
+     */
+    public static function find()
+    {
+        return new \common\models\c2\query\InventoryDeliveryNoteQuery(get_called_class());
+    }
+
+    /**
+     * setup default values
+     **/
+    public function loadDefaultValues($skipIfSet = true)
+    {
+        parent::loadDefaultValues($skipIfSet);
+        if ($this->isNewRecord) {
+            $this->code = CodeGenerator::getCodeByDate($this, 'DN');
+            // $this->state = InventoryDeliveryNoteState::PROCESSING;
+        }
+    }
+
+    public function behaviors()
+    {
+        return ArrayHelper::merge(parent::behaviors(), [
+            BlameableBehavior::className()
+        ]); // TODO: Change the autogenerated stub
+    }
+
+    public function getCreator()
+    {
+        return $this->hasOne(BeUser::className(), ['id' => 'created_by']);
+    }
+
+    public function getUpdator()
+    {
+        return $this->hasOne(BeUser::className(), ['id' => 'updated_by']);
+    }
+
+    public function getWarehouse()
+    {
+        return $this->hasOne(Warehouse::className(), ['id' => 'warehouse_id']);
+    }
+
+    public function validateItems($attribute)
+    {
+        $items = $this->$attribute;
+
+        foreach ($items as $index => $row) {
+            $requiredValidator = new RequiredValidator();
+            $error = null;
+            // $requiredValidator->validate($row['product_id'], $error);
+            // $requiredValidator->validate($row['combination_id'], $error);
+            // $requiredValidator->validate($row['package_id'], $error);
+            // $requiredValidator->validate($row['product_sum'], $error);
+            // if (!empty($error)) {
+            //     $key = $attribute . '[' . $index . '][product_id]';
+            //     // $this->addError($key, Yii::t('app.c2', 'Product/Combination/Package not be null.'));
+            //     $this->addError($key, Yii::t('app.c2', '{attribute} can not be empty!', ['attribute' => Yii::t('app.c2', 'Product')]));
+            // }
+            // if (!empty($error)) {
+            //     $key = $attribute . '[' . $index . '][combination_id]';
+            //     // $this->addError($key, Yii::t('app.c2', 'Product/Combination/Package not be null.'));
+            //     $this->addError($key, Yii::t('app.c2', '{attribute} can not be empty!', ['attribute' => Yii::t('app.c2', 'Product Combination')]));
+            // }
+            // if (!empty($error)) {
+            //     $key = $attribute . '[' . $index . '][package_id]';
+            //     // $this->addError($key, Yii::t('app.c2', 'Product/Combination/Package not be null.'));
+            //     $this->addError($key, Yii::t('app.c2', '{attribute} can not be empty!', ['attribute' => Yii::t('app.c2', 'Product Package')]));
+            // }
+            // if (!empty($error)) {
+            //     $key = $attribute . '[' . $index . '][product_sum]';
+            //     // $this->addError($key, Yii::t('app.c2', 'Product/Combination/Package not be null.'));
+            //     $this->addError($key, Yii::t('app.c2', '{attribute} can not be empty!', ['attribute' => Yii::t('app.c2', 'Product Number')]));
+            // }
+        }
+    }
+
+    public function getNoteItems()
+    {
+        return $this->hasMany(InventoryDeliveryNoteItem::className(), ['note_id' => 'id']);
+    }
+
+    public function getWarehouseNoteItem()
+    {
+        return $this->hasMany(WarehouseNoteItem::className(), ['ref_note_id' => 'id']);
+    }
+
+    public function loadItems()
+    {
+        $this->items = $this->getNoteItems()->all();
+    }
+
+    public function beforeSave($insert)
+    {
+        if ($this->order->state != OrderState::PROCESSING) {
+            $this->addError('sale_order_id', Yii::t('app.c2', 'Order State Change'));
+            return false;
+        }
+        return parent::beforeSave($insert); // TODO: Change the autogenerated stub
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes); // TODO: Change the autogenerated stub
+        // isset($changedAttributes['customer_id']) || isset($changedAttributes['sales_order_id']) ||
+        // $this->unlinkAll('noteItems', $this);
+        if ($insert) {
+            $items = $this->order->orderItems;
+            if (!empty($items)) {
+                foreach ($items as $item) {
+                    $pieces = $item->pieces - $item->send_pieces;
+                    $product_sum = $item->product_sum - $item->produced_number;
+                    if ($pieces >= 0 && $product_sum >= 0) {
+                        $attributes = [
+                            // 'label' => isset($item['label']) ? $item['label'] : '',
+                            'customer_id' => $this->customer_id,
+                            'product_id' => $item->product_id,
+                            'product_name' => $item->product_name,
+                            'product_sku' => $item->product_sku,
+                            'combination_id' => $item->combination_id,
+                            'combination_name' => $item->combination_name,
+                            'package_id' => $item->package_id,
+                            'package_name' => $item->package_name,
+                            'measure_id' => $item->measure_id,
+                            'pieces' => $pieces,
+                            'product_sum' => $product_sum,
+                            'price' => $item->price,
+                            'subtotal' => $item->price * $product_sum,
+                            'memo' => $item->memo,
+                            'position' => 0,
+                        ];
+                        $itemModel = new InventoryDeliveryNoteItem();
+                        $itemModel->setAttributes($attributes);
+                        $itemModel->link('owner', $this);
+                    }
+                }
+            }
+            $this->updateAttributes(['grand_total' => $this->order->grand_total]);
+        } else {
+            $grand_total = 0.00;
+            if (!empty($this->items)) {
+                foreach ($this->items as $item) {
+                    $is_auto_number = $item['is_auto_number'] == 1 ? true : false;
+                    $product = Product::findOne($item['product_id']);
+                    $combination = null;
+                    if (isset($item['combination_id'])) {
+                        $combination = ProductCombination::findOne($item['combination_id']);
+                    }
+                    $package = null;
+                    if (isset($item['package_id'])) {
+                        $package = ProductPackage::findOne($item['package_id']);
+                    }
+                    $pieces = isset($item['pieces']) ? $item['pieces'] : 0;
+                    $product_sum = $item['product_sum'];
+                    if (!is_null($package)) {
+                        $product_sum = $is_auto_number ? $package->product_capacity * $pieces : $item['product_sum'];
+                    }
+                    $price = isset($item['price']) ? $item['price'] : 0.00;
+                    $subtotal = $is_auto_number ? $product_sum * $price : $item['subtotal'];
+                    $grand_total += $subtotal;
+                    $attributes = [
+                        // 'label' => isset($item['label']) ? $item['label'] : '',
+                        'customer_id' => $this->customer_id,
+                        'product_id' => !is_null($product) ? $product->id : 0,
+                        'product_name' => !is_null($product) ? $product->name : '',
+                        'product_sku' => !is_null($product) ? $product->sku : '',
+                        // 'product_label' => !is_null($product) ? $product->label : '',
+                        // 'product_value' => !is_null($product) ? $product->value : '',
+                        'combination_id' => !is_null($combination) ? $combination->id : 0,
+                        'combination_name' => !is_null($combination) ? $combination->name : '',
+                        'package_id' => !is_null($package) ? $package->id : 0,
+                        'package_name' => !is_null($package) ? $package->name : '',
+                        'measure_id' => isset($item['measure_id']) ? $item['measure_id'] : 0,
+                        'pieces' => $pieces,
+                        'product_sum' => $product_sum,
+                        'price' => $price,
+                        'subtotal' => $subtotal,
+                        'memo' => isset($item['memo']) ? $item['memo'] : '',
+                        'position' => isset($item['position']) ? $item['position'] : 0,
+                        'is_auto_number' => $item['is_auto_number'],
+                    ];
+                    if (isset($item['id']) && $item['id'] == '') {
+                        $itemModel = new InventoryDeliveryNoteItem();
+                        $itemModel->setAttributes($attributes);
+                        $itemModel->link('owner', $this);
+                    } elseif (isset($item['id'])) {
+                        $itemModel = InventoryDeliveryNoteItem::findOne($item['id']);
+                        if (!is_null($itemModel)) {
+                            $itemModel->updateAttributes($attributes);
+                        }
+                    }
+                }
+            }
+            $this->updateAttributes(['grand_total' => $grand_total]);
+            // if ($this->grand_total == '') {
+            //     $this->updateAttributes(['grand_total' => $grand_total]);
+            // }
+        }
+
+    }
+
+    // public function afterSave($insert, $changedAttributes)
+    // {
+    //     parent::afterSave($insert, $changedAttributes); // TODO: Change the autogenerated stub
+    //     $grand_total = 0.00;
+    //     if (!empty($this->items)) {
+    //         foreach ($this->items as $item) {
+    //             $product = Product::findOne($item['product_id']);
+    //             $combination = ProductCombination::findOne($item['combination_id']);
+    //             $package = ProductPackage::findOne($item['package_id']);
+    //             $pieces = isset($item['pieces']) ? $item['pieces'] : 0;
+    //             $product_sum = $item['product_sum'] == '' ? $package->product_capacity * $pieces : $item['product_sum'];
+    //             $price = isset($item['price']) ? $item['price'] : 0.00;
+    //             $subtotal = $item['subtotal'] == '' ? $product_sum * $price : $item['subtotal'];
+    //             $grand_total += $subtotal;
+    //             $attributes = [
+    //                 // 'label' => isset($item['label']) ? $item['label'] : '',
+    //                 'customer_id' => $this->customer_id,
+    //                 'product_id' => !is_null($product) ? $product->id : 0,
+    //                 'product_name' => !is_null($product) ? $product->name : '',
+    //                 'product_sku' => !is_null($product) ? $product->sku : '',
+    //                 // 'product_label' => !is_null($product) ? $product->label : '',
+    //                 // 'product_value' => !is_null($product) ? $product->value : '',
+    //                 'combination_id' => !is_null($combination) ? $combination->id : 0,
+    //                 'combination_name' => !is_null($combination) ? $combination->name : '',
+    //                 'package_id' => !is_null($package) ? $package->id : 0,
+    //                 'package_name' => !is_null($package) ? $package->name : '',
+    //                 'measure_id' => isset($item['measure_id']) ? $item['measure_id'] : 0,
+    //                 'pieces' => $pieces,
+    //                 'product_sum' => $product_sum,
+    //                 'price' => $price,
+    //                 'subtotal' => $subtotal,
+    //                 'memo' => isset($item['memo']) ? $item['memo'] : '',
+    //                 'position' => isset($item['position']) ? $item['position'] : 0,
+    //             ];
+    //             if (isset($item['id']) && $item['id'] == '') {
+    //                 $itemModel = new InventoryDeliveryNoteItem();
+    //                 $itemModel->setAttributes($attributes);
+    //                 $itemModel->link('owner', $this);
+    //             } elseif (isset($item['id'])) {
+    //                 $itemModel = InventoryDeliveryNoteItem::findOne($item['id']);
+    //                 if (!is_null($itemModel)) {
+    //                     $itemModel->updateAttributes($attributes);
+    //                 }
+    //             }
+    //         }
+    //     }
+    //
+    //     if ($this->grand_total == '') {
+    //         $this->updateAttributes(['grand_total' => $grand_total]);
+    //     }
+    // }
+
+    public function setStateToInit()
+    {
+        // foreach ($this->getNoteItems()->all() as $item) {
+        //     $item->updateAttributes([
+        //         'status' => EntityModelStatus::STATUS_INACTIVE
+        //     ]);
+        // }
+        $this->updateAttributes(['state' => InventoryDeliveryNoteState::INIT]);
+    }
+
+    public function setStateToCancel()
+    {
+        // foreach ($this->getNoteItems()->all() as $item) {
+        //     $item->updateAttributes([
+        //         'status' => EntityModelStatus::STATUS_INACTIVE
+        //     ]);
+        //     $item->productCombination->updateCounters([
+        //         'stock' => $item->product_sum,
+        //     ]);
+        //     $item->product->updateCounters([
+        //         'stock' => $item->product_sum,
+        //     ]);
+        // }
+        foreach ($this->getWarehouseNoteItem()->all() as $item) {
+            $item->productCombination->updateCounters([
+                'stock' => $item->number,
+            ]);
+            $item->product->updateCounters([
+                'stock' => $item->number,
+            ]);
+        }
+        $this->updateAttributes(['state' => InventoryDeliveryNoteState::CANCEL]);
+    }
+
+    public function setStateToProcessing()
+    {
+        foreach ($this->getNoteItems()->all() as $item) {
+            $item->updateAttributes([
+                'status' => EntityModelStatus::STATUS_ACTIVE
+            ]);
+            $item->productCombination->updateCounters([
+                'stock' => -($item->product_sum),
+            ]);
+            $item->product->updateCounters([
+                'stock' => -($item->product_sum),
+            ]);
+        }
+        $this->updateAttributes(['state' => InventoryDeliveryNoteState::PROCESSING]);
+    }
+
+    public function allSend()
+    {
+        $note = new WarehouseNote();
+        $note->loadDefaultValues();
+        $note->ref_note_id = $this->id;
+        $note->type = WarehouseNoteType::DELIVERY;
+        $note->ref_note_code = $this->code;
+        $items = [];
+        foreach ($this->getNoteItems()->asArray()->all() as $item) {
+            $item['id'] = '';
+            $items[] = $item;
+        }
+        $note->items = $items;
+        $note->save();
+    }
+
+    public function setStateToSolved()
+    {
+        $db = Yii::$app->db->beginTransaction();
+        foreach ($this->getNoteItems()->all() as $item) {
+            $orderItem = OrderItem::findOne(['order_id' => $this->sales_order_id, 'product_id' => $item->product_id]);
+            if (is_null($orderItem)) {
+                $db->rollBack();
+                return false;
+            }
+            $orderItem->updateCounters([
+                'send_pieces' => $item->pieces,
+                'produced_number' => $item->product_sum,
+            ]);
+            // $package = $item->productPackage;
+            // if (is_null($package)) {
+            //     $db->rollBack();
+            //     return false;
+            // }
+            // foreach ($package->packageItems as $packageItem) {
+            //     $packageItem->product->updateCounters([
+            //         'stock' => -($packageItem->need_number * $item->pieces),
+            //     ]);
+            // }
+        }
+        $this->updateAttributes(['state' => InventoryDeliveryNoteState::SOLVED]);
+        $db->commit();
+        return true;
+    }
+
+    // public function setStateToSolved()
+    // {
+    //     $db = Yii::$app->db->beginTransaction();
+    //     foreach ($this->getNoteItems()->all() as $item) {
+    //         $orderItem = OrderItem::findOne(['order_id' => $this->sales_order_id, 'product_id' => $item->product_id]);
+    //         if (is_null($orderItem)) {
+    //             $db->rollBack();
+    //             return false;
+    //         }
+    //         $orderItem->updateCounters([
+    //             'send_pieces' => $item->pieces,
+    //             'produced_number' => $item->product_sum,
+    //         ]);
+    //         $combination = $item->productCombination;
+    //         if (is_null($combination)) {
+    //             $db->rollBack();
+    //             return false;
+    //         }
+    //         foreach ($combination->combinationItems as $combinationItem) {
+    //             $orderItemConsumption = $combinationItem->orderItemConsumption;
+    //             if (is_null($orderItem)) {
+    //                 $db->rollBack();
+    //                 return false;
+    //             }
+    //             $need_sum = $orderItemConsumption->need_sum - $item->product_sum * $combinationItem->need_number;
+    //             $orderItemConsumption->updateCounters([
+    //                 'production_sum' => $item->product_sum,
+    //                 'need_sum' => $need_sum > 0 ? -($need_sum) : -($orderItemConsumption->need_sum),
+    //             ]);
+    //         }
+    //         $package = $item->productPackage;
+    //         if (is_null($package)) {
+    //             $db->rollBack();
+    //             return false;
+    //         }
+    //         foreach ($package->packageItems as $packageItem) {
+    //             $orderItemConsumption = $packageItem->orderItemConsumption;
+    //             if (is_null($orderItem)) {
+    //                 $db->rollBack();
+    //                 return false;
+    //             }
+    //             $need_sum = $orderItemConsumption->need_sum - $item->pieces * $packageItem->need_number;
+    //             $orderItemConsumption->updateCounters([
+    //                 'production_sum' => $item->product_sum,
+    //                 'need_sum' => $need_sum > 0 ? -($need_sum) : -($orderItemConsumption->need_sum),
+    //             ]);
+    //         }
+    //     }
+    //     $this->updateAttributes(['state' => InventoryDeliveryNoteState::SOLVED]);
+    //     $db->commit();
+    //     return true;
+    // }
+
+    public function getOrder()
+    {
+        return $this->hasOne(Order::className(), ['id' => 'sales_order_id']);
+    }
+
+    public function getCustomer()
+    {
+        return $this->hasOne(FeUser::className(), ['id' => 'customer_id']);
+    }
+
+    public function beforeDelete()
+    {
+        foreach ($this->getNoteItems()->all() as $item) {
+            $item->delete();
+        }
+        return parent::beforeDelete(); // TODO: Change the autogenerated stub
+    }
+
+}

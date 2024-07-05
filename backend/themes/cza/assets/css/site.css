@@ -1,0 +1,208 @@
+html,
+body {
+    height: 100%;
+}
+
+.wrap {
+    min-height: 100%;
+    height: auto;
+    margin: 0 auto -60px;
+    padding: 0 0 60px;
+}
+
+.wrap > .container {
+    padding: 70px 15px 20px;
+}
+
+.footer {
+    height: 60px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+.jumbotron {
+    text-align: center;
+    background-color: transparent;
+}
+
+.jumbotron .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+}
+
+.not-set {
+    color: #c55;
+    font-style: italic;
+}
+
+/* add sorting icons to gridview sort links */
+a.asc:after, a.desc:after {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    padding-left: 5px;
+}
+
+a.asc:after {
+    content: /*"\e113"*/ "\e151";
+}
+
+a.desc:after {
+    content: /*"\e114"*/ "\e152";
+}
+
+.sort-numerical a.asc:after {
+    content: "\e153";
+}
+
+.sort-numerical a.desc:after {
+    content: "\e154";
+}
+
+.sort-ordinal a.asc:after {
+    content: "\e155";
+}
+
+.sort-ordinal a.desc:after {
+    content: "\e156";
+}
+
+.grid-view th {
+    white-space: nowrap;
+}
+
+.hint-block {
+    display: block;
+    margin-top: 5px;
+    color: #999;
+}
+
+.error-summary {
+    color: #a94442;
+    background: #fdf7f7;
+    border-left: 3px solid #eed3d7;
+    padding: 10px 20px;
+    margin: 0 0 15px 0;
+}
+.dropdown.disabled{background: #eeeeee;}
+.content-header {
+    position: relative;
+    padding: 15px 15px 15px 15px;
+}
+.content-header > .breadcrumb {
+    float: left;
+    right: auto;
+}
+.panel-primary > .panel-heading {
+    color: #fff;
+    background-color: #3c8dbc;
+    border-color: #3c8dbc;
+}
+.box-footer .btn{margin-left: 10px;}
+
+@media (max-width: 720px) {
+    .bg1{background: url('/images/home/sjbg.jpg')}
+    /*#content-block .sidebar-column .information-blocks{margin-bottom: 20px;}*/
+}
+@media (min-width: 720px) {
+     .bg1{background: url('/images/home/dnbj.jpg')}
+}
+.nav-tabs-custom > .nav-tabs > li.disabled > a {
+    color: #ccc;
+    border-radius: 0;
+}
+#map-container{min-height:500px;}
+.autoImg{  width: 35px;height: auto}
+.searchBtn{display: inline-block;}
+/*#w2 input{width: 95px;  height: 30px; }*/
+.search{display: flex;align-items: center;margin-top: 20px}
+
+.poler-content-block {
+    /* margin-top: 25px; */
+    height: 525px;
+    padding: 57px 10px 0 15px;
+    background: url(/images/admins/iphone.png) no-repeat;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.poler-visual-content {
+    background-color: #fff;
+    content: close-quote;
+    width: 226px;
+    height: 410px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.kv-avatar .krajee-default.file-preview-frame,.kv-avatar .krajee-default.file-preview-frame:hover {
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    text-align: center;
+}
+.kv-reqd {
+    color: red;
+    font-family: monospace;
+    font-weight: normal;
+}
+.modal-dialog.modal-lg {
+     width: 80%;
+}
+
+/*** Gridster customize settings  ***/
+.gridster .gs-w {
+  background: #61A9CF;
+  cursor: pointer;
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+.gridster .player {
+  -webkit-box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+  background: #BBB;
+}
+.gridster .gs-w.try {
+  background-image: url(../img/sprite.png);
+  background-repeat: no-repeat;
+  background-position: 37px -169px;
+}
+.gridster .preview-holder {
+  border: none !important;
+  border-radius: 0 !important;
+  background: red !important;
+}
+.gridster ul {
+  background-color: #EFEFEF;
+}
+.gridster li {
+  font-size: 1em;
+  font-weight: bold;
+  text-align: center;
+  line-height: 100%;
+}
+ul {
+  list-style-type: none;
+}
+li {
+  list-style: none;
+  font-weight: bold;
+}
+.gridster-box {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.controls {
+  margin-bottom: 20px;
+}
+.order {
+    background-color: #fdffdf;
+    padding: 10px;
+    margin-bottom: 10px
+}
