@@ -11,7 +11,6 @@ use cza\base\models\statics\OperationEvent;
 use yii\web\JsExpression;
 
 $messageName = $model->getMessageName();
-
 ?>
 
 <?php
@@ -55,15 +54,24 @@ $form = ActiveForm::begin(['action' => 'cat-product-rs-save', 'options' => ['id'
 
     <div class="well">
         <?php
+
+        $allAssignedProducts = \common\models\c2\entity\ProductCategoryRs::find()
+            ->select('product_id')
+            ->where(['not', ['in', 'product_id', $model->product_ids]])
+            ->asArray()->all();
+        $ids = \yii\helpers\ArrayHelper::getColumn($allAssignedProducts, 'product_id');
+
         echo DualListbox::widget([
             'model' => $model,
             'attribute' => 'product_ids',
-            'items' => \common\models\c2\entity\Product::getHashMap('id', 'name', ['NOT', ['id' => $model->entityModel->id]], ['status' => EntityModelStatus::STATUS_ACTIVE]),
+            // 'items' => \common\models\c2\entity\Product::getHashMap('id', 'name', ['NOT', ['id' => $model->entityModel->id]]),
+            'items' => \common\models\c2\entity\Product::getHashMap('id', 'name', ['not', ['in', 'id', $ids]]),
             'options' => [
                 'style' => "height:350px;",
+                'multiple' => true,
             ],
             'clientOptions' => [
-                'moveOnSelect' => true,
+                'moveOnSelect' => false,
                 'selectedListLabel' => Yii::t('app.c2', 'Associated Products'),
                 'nonSelectedListLabel' => Yii::t('app.c2', 'Associable Products'),
             ],

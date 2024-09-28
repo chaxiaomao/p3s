@@ -25,7 +25,8 @@ class CatProductRsForm extends Model {
             ->where(['category_id' => $this->entityModel->id])
             ->asArray()
             ->all();
-        $this->product_ids = ArrayHelper::getColumn($product, 'product_id') ? ArrayHelper::getColumn($product, 'product_id') : [];
+        $ids = ArrayHelper::getColumn($product, 'product_id');
+        $this->product_ids = $ids ? $ids : [];
     }
 
     public function save($params, $id) {

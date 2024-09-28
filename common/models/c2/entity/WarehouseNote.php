@@ -2,6 +2,7 @@
 
 namespace common\models\c2\entity;
 
+use backend\models\c2\entity\rbac\BeUser;
 use common\models\c2\statics\WarehouseNoteItemStatus;
 use common\models\c2\statics\WarehouseNoteState;
 use cza\base\models\ActiveRecord;
@@ -234,6 +235,8 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
         if (!empty($items)) {
             foreach ($items as $item) {
                 $item->product->updateStock($item->number);
+                $item->product->updated_at = date('Y-m-d h:i:s', time());
+                $item->product->update();
                 // $item->product->updateCounters(['stock' => $item->number]);
                 $item->updateAttributes(['status' => WarehouseNoteItemStatus::COMMIT]);
             }
@@ -247,6 +250,7 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
             return;
         }
         $items = $this->getNoteItems()
+            ->with('product')
             ->with('productCombination')
             // ->with('scheduleNoteItems')
             ->all();
@@ -311,7 +315,7 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
             return;
         }
         $items = $this->getNoteItems()
-            // ->with('product')
+            ->with('product')
             // ->with('productionConsumption')
             ->all();
         if (!empty($items)) {
@@ -379,6 +383,16 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
             }
         }
         $this->updateAttributes(['state' => WarehouseNoteState::COMMIT]);
+    }
+
+    public function getCreator()
+    {
+        return $this->hasOne(BeUser::className(), ['id' => 'created_by']);
+    }
+
+    public function getUpdator()
+    {
+        return $this->hasOne(BeUser::className(), ['id' => 'updated_by']);
     }
 
 }

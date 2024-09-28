@@ -15,21 +15,6 @@ use yii\helpers\ArrayHelper;
 class Material extends Product
 {
 
-    public function rules()
-    {
-        return [
-            [['low_price', 'sales_price', 'cost_price', 'market_price'], 'number'],
-            [['supplier_id', 'currency_id', 'measure_id', 'sold_count', 'warehouse_id', 'created_by', 'updated_by', 'position'], 'integer'],
-            [['summary', 'description'], 'string'],
-            [['released_at', 'created_at', 'updated_at', 'category_ids'], 'safe'],
-            [['type', 'is_released', 'status'], 'integer', 'max' => 4],
-            [['seo_code', 'sku', 'name', 'label', 'value'], 'string', 'max' => 255],
-            [['sku', 'name',], 'required',],
-            // [['sku',], 'unique',],
-            [['stock',], 'double',],
-        ];
-    }
-
     // public function rules()
     // {
     //     return ArrayHelper::merge(parent::rules(), [

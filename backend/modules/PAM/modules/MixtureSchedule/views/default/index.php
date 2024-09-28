@@ -121,7 +121,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 [
                     'class' => \common\widgets\grid\ActionColumn::className(),
-                    'template' => '{update} {commit} {enter} {termination} {finish}',
+                    'template' => '{update} {commit} {enter} {termination} {finish} {delete}',
                     'width' => '200px',
                     'visibleButtons' => [
                         'update' => function ($model) {
@@ -141,6 +141,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'finish' => function ($model) {
                             return ($model->state == \common\models\c2\statics\ProductionScheduleState::COMMIT);
+                        },
+                        'delete' => function ($model) {
+                            return ($model->state == \common\models\c2\statics\ProductionScheduleState::INIT);
                         },
                     ],
                     'buttons' => [
