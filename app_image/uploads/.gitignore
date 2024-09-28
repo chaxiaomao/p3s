@@ -1,0 +1,4 @@
+*
+store/*
+!.gitignore
+!store/.gitkeep

@@ -1,0 +1,10 @@
+product add sotck float6 add warehouse_id bigint
+product_combination add stock mediumint9
+production_schedule fixed accomplish memo -> text
+production_schedule_item add pieces
+production_schedule_item_consumption -> producion_consumption
+production_consumption add state -> default 1 fixed need_number need_sum float6
+
+production_consumption add send_sum med9
+production_consumption_item add produced_sum
+production_schedule_item add enter_product_id enter_sum
