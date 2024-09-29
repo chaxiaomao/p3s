@@ -75,7 +75,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format' => 'html',
                 'attribute' => 'number',
                 'value' => function ($model) {
-                    return $model->isReceipt() ? "<span style='color: #00a65a'>进仓" . $model->number . "</span>" : "<span style='color: red'>出仓" . $model->number . "</span>";
+
+                    if ($model->owner->type == \common\models\c2\statics\WarehouseNoteType::MODIFY_BY_USER) {
+                        return "<span style='color: #7c7c7c'>手动更新{$model->number}</span>";
+                    }
+                    return $model->isReceipt() ? "<span style='color: #00a65a'>进仓{$model->number}</span>" : "<span style='color: red'>出仓{$model->number}</span>";
                 }
             ],
             'price',

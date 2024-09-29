@@ -209,4 +209,17 @@ class DefaultController extends Controller
         return $this->asJson($responseData);
     }
 
+    public function actionReceiptLog()
+    {
+        $searchModel = new ProductionScheduleSearch();
+        $searchModel->type = ProductionScheduleType::PRODUCT;
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('index', [
+            'model' => $this->retrieveModel(),
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
 }

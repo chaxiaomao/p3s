@@ -157,7 +157,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'class' => \common\widgets\grid\ActionColumn::className(),
                     'width' => '200px',
                     'template' => '{update} {commit} {calculation} {termination} {entrance} 
-                    {finish} {send} {check} {checkv2} {print} {delete}',
+                    {finish} {send} {check} {checkv2} {print} {delete} {delivery-record}',
                     'visibleButtons' => [
                         'update' => function ($model) {
                             return ($model->state == \common\models\c2\statics\ProductionScheduleState::INIT);
@@ -182,7 +182,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'check' => function ($model) {
                             return ($model->state != \common\models\c2\statics\ProductionScheduleState::FINISH);
                         },
-                        'check-v2' => function ($model) {
+                        'checkv2' => function ($model) {
                             return ($model->state != \common\models\c2\statics\ProductionScheduleState::FINISH);
                         },
                         'print' => function ($model) {
@@ -192,6 +192,9 @@ $this->params['breadcrumbs'][] = $this->title;
                             return ($model->state == \common\models\c2\statics\ProductionScheduleState::COMMIT
                             || $model->state == \common\models\c2\statics\ProductionScheduleState::ALL_SEND);
                         },
+                        // 'delivery-record' => function ($model) {
+                        //     return ($model->state != \common\models\c2\statics\ProductionScheduleState::FINISH);
+                        // },
                     ],
                     'buttons' => [
                         'update' => function ($url, $model, $key) {
@@ -274,6 +277,16 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'schedule_id' => $model->id
                             ], [
                                 'title' => Yii::t('app.c2', 'Production Consumption Check'),
+                                'data-pjax' => '0',
+                                'class' => 'btn btn-info btn-xs',
+                            ]);
+                        },
+                        'delivery-record' => function ($url, $model, $key) {
+                            return Html::a('出仓物料记录', [
+                                '/pam/production-consumption/default/send-record',
+                                'ProductionConsumptionSearch[schedule_id]' => $model->id
+                            ], [
+                                'title' => '出仓物料记录',
                                 'data-pjax' => '0',
                                 'class' => 'btn btn-info btn-xs',
                             ]);

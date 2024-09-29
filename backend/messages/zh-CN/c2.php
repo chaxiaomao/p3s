@@ -309,6 +309,7 @@ return [
     'Warehouse Note Items Log' => '仓库记录',
     'Updated By' => '修改人',
     'Warehouse Note Type' => '记录类型',
+    'Modify By User' => '手动修改',
     '' => '',
 ];
 

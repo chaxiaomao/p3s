@@ -37,6 +37,24 @@ class DefaultController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+
+    /**
+     * Lists all ProductionConsumption models.
+     * @return mixed
+     */
+    public function actionSendRecord()
+    {
+        $searchModel = new ProductionConsumptionSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        return $this->render('index_send_record', [
+            'model' => $this->retrieveModel(),
+            // 'scheduleId' => Yii::$app->request->queryParams['ProductionConsumptionSearch']['schedule_id'],
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+
     /**
      * Lists all ProductionConsumption models.
      * @return mixed

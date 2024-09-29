@@ -2,9 +2,9 @@
 
 namespace backend\modules\Database\modules\Product\controllers;
 
+use backend\models\c2\entity\Product;
 use common\models\c2\statics\ProductType;
 use Yii;
-use common\models\c2\entity\Product;
 use common\models\c2\search\ProductSearch;
 
 use cza\base\components\controllers\backend\ModelController as Controller;

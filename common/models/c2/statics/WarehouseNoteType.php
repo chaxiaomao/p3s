@@ -19,6 +19,7 @@ class WarehouseNoteType extends AbstractStaticClass {
     const PROCESS_RECEIPT = 5;
     const DELIVERY = 6;
     const PROCESS_SAB = 7;
+    const MODIFY_BY_USER = 0;
 
     protected static $_data;
 
@@ -38,6 +39,7 @@ class WarehouseNoteType extends AbstractStaticClass {
                 static::MIXTURE_RECEIPT => ['id' => static::MIXTURE_RECEIPT, 'label' => Yii::t('app.c2', 'Warehouse Mixture Receipt')],
                 static::PROCESS_RECEIPT => ['id' => static::PROCESS_RECEIPT, 'label' => Yii::t('app.c2', 'Warehouse Process Receipt')],
                 static::PROCESS_SAB => ['id' => static::PROCESS_SAB, 'label' => Yii::t('app.c2', 'Warehouse Process Back')],
+                static::MODIFY_BY_USER => ['id' => static::MODIFY_BY_USER, 'label' => Yii::t('app.c2', 'Modify By User')],
             ];
         }
         if ($id !== '' && !empty($attr)) {

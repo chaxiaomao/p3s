@@ -2,6 +2,7 @@
 
 namespace backend\modules\Database\modules\Material\controllers;
 
+use backend\models\c2\entity\Material;
 use common\models\c2\statics\ProductType;
 use Yii;
 use common\models\c2\entity\Product;
@@ -95,12 +96,12 @@ class DefaultController extends Controller
      * Finds the Product model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param string $id
-     * @return Product the loaded model
+     * @return Material the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Product::findOne($id)) !== null) {
+        if (($model = Material::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

@@ -32,7 +32,7 @@ use yii\helpers\ArrayHelper;
  * @property integer $sold_count
  * @property integer $is_released
  * @property string $released_at
- * @property string $stock
+ * @property integer $stock
  * @property string $created_by
  * @property string $updated_by
  * @property integer $status

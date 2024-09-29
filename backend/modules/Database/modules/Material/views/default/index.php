@@ -154,11 +154,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 [
                     'attribute' => 'stock',
-                    'class' => '\kartik\grid\EditableColumn',
-                    'editableOptions' => [
-                        'inputType' => \kartik\editable\Editable::INPUT_TEXT,
-                        'formOptions' => ['action' => Url::toRoute('editColumn')],
-                    ],
+                    // 'class' => '\kartik\grid\EditableColumn',
+                    // 'editableOptions' => [
+                    //     'inputType' => \kartik\editable\Editable::INPUT_TEXT,
+                    //     'formOptions' => ['action' => Url::toRoute('editColumn')],
+                    // ],
                 ],
                 [
                     'label' => Yii::t('app.c2', 'Measure'),

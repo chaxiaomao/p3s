@@ -129,8 +129,8 @@ class Menu extends \yii\widgets\Menu {
             if (!isset($item['active'])) {
                 if ($this->activateParents && $hasActiveChild || $this->activateItems && $this->isItemActive($item)) {
                     $active = $items[$i]['active'] = true;
-                    Yii::info('1qqqq');
-                    Yii::info($item['label'] . ':' . $active);
+                    // Yii::info('1qqqq');
+                    // Yii::info($item['label'] . ':' . $active);
                 } else {
                     $items[$i]['active'] = false;
                 }
