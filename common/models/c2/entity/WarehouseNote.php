@@ -244,6 +244,29 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
         $this->updateAttributes(['state' => WarehouseNoteState::COMMIT]);
     }
 
+    /**
+     * 出仓
+     */
+    public function setProcessSendNoteStateToCommit()
+    {
+        if ($this->state == WarehouseNoteState::COMMIT) {
+            return;
+        }
+        $items = $this->getNoteItems()
+            ->with('product')
+            ->all();
+        if (!empty($items)) {
+            foreach ($items as $item) {
+                $item->product->updateStock(-($item->number));
+                $item->product->updated_at = date('Y-m-d h:i:s', time());
+                $item->product->update();
+                // $item->product->updateCounters(['stock' => $item->number]);
+                $item->updateAttributes(['status' => WarehouseNoteItemStatus::COMMIT]);
+            }
+        }
+        $this->updateAttributes(['state' => WarehouseNoteState::COMMIT]);
+    }
+
     public function setProductionScheduleNoteToCommit()
     {
         if ($this->state == WarehouseNoteState::COMMIT) {

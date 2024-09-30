@@ -176,7 +176,7 @@ class WarehouseNoteItem extends \cza\base\models\ActiveRecord
         || $warehouseType == WarehouseNoteType::PRODUCTION
         || $warehouseType == WarehouseNoteType::RECEIPT
         || $warehouseType == WarehouseNoteType::PROCESS_RECEIPT
-        || $warehouseType == WarehouseNoteType::PROCESS_SAB
+        // || $warehouseType == WarehouseNoteType::PROCESS_SAB
         ) {
             return true;
         }

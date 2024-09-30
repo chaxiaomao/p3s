@@ -13,13 +13,6 @@ use cza\base\models\statics\OperationEvent;
 
 $this->title = Yii::t('app.c2', 'Warehouse Notes');
 $this->params['breadcrumbs'][] = $this->title;
-
-$btnText = Yii::t('app.c2', 'Commit');
-$from = Yii::$app->request->get('from');
-if ($from == 'pam-send') {
-    $btnText = '确认进仓';
-}
-
 ?>
     <div class="well warehouse-note-index">
 
@@ -48,14 +41,6 @@ if ($from == 'pam-send') {
                             'title' => Yii::t('app.c2', 'Add'),
                             'data-pjax' => '0',
                         ]) . ' ' .
-                        Html::a('<i class="glyphicon glyphicon-adjust">' . Yii::t('app.c2', 'All Send') . '</i>', [
-                            'all-send',
-                            'id' => $note->id,
-                        ], [
-                            'class' => 'btn btn-danger all-send',
-                            'title' => Yii::t('app.c2', 'All Send'),
-                            'data-pjax' => '0',
-                        ]) . '' .
                         // Html::button('<i class="glyphicon glyphicon-remove"></i>', [
                         //     'class' => 'btn btn-danger',
                         //     'title' => Yii::t('app.c2', 'Delete Selected Items'),
@@ -140,8 +125,8 @@ if ($from == 'pam-send') {
                                 'class' => 'edit'
                             ]);
                         },
-                        'commit' => function ($url, $model, $key)  use ($btnText) {
-                            return Html::a($btnText, [
+                        'commit' => function ($url, $model, $key) {
+                            return Html::a('确认出仓', [
                                 'commit',
                                 'id' => $model->id,
                             ], [
@@ -158,7 +143,7 @@ if ($from == 'pam-send') {
 
 
         echo Html::beginTag('div', ['class' => 'box-footer']);
-        echo Html::a('<i class="fa fa-arrow-left"></i> ' . Yii::t('app.c2', 'Go Back'), ['/pam/production-schedule'], ['data-pjax' => '0', 'class' => 'btn btn-default pull-right', 'title' => Yii::t('app.c2', 'Go Back'),]);
+        echo Html::a('<i class="fa fa-arrow-left"></i> ' . Yii::t('app.c2', 'Go Back'), ['/pam/process-schedule'], ['data-pjax' => '0', 'class' => 'btn btn-default pull-right', 'title' => Yii::t('app.c2', 'Go Back'),]);
         // echo Html::a('<i class="fa fa-window-close-o"></i> ' . Yii::t('app.c2', 'Close'), ['index'], ['data-pjax' => '0', 'data-dismiss' => 'modal', 'class' => 'btn btn-default pull-right', 'title' => Yii::t('app.c2', 'Close'),]);
         echo Html::endTag('div');
 
@@ -222,37 +207,6 @@ $js .= "jQuery(document).off('click', 'a.commit').on('click', 'a.commit', functi
                 });
             });";
 
-$js .= "jQuery(document).off('click', 'a.all-send').on('click', 'a.all-send', function(e) {
-                e.preventDefault();
-                var lib = window['krajeeDialog'];
-                var url = jQuery(e.currentTarget).attr('href');
-                lib.confirm('" . Yii::t('app.c2', 'Are you sure? This action can not reverse.') . "', function (result) {
-                    if (!result) {
-                        return;
-                    }
-                    jQuery.ajax({
-                            url: url,
-                            success: function(data) {
-                                var lifetime = 6500;
-                                if(data._meta.result == '" . cza\base\models\statics\OperationResult::SUCCESS . "'){
-                                    jQuery('#{$model->getPrefixName('grid')}').trigger('" . OperationEvent::REFRESH . "');
-                                    // jQuery('#refresh').click();
-                                }
-                                else{
-                                  lifetime = 16500;
-                                }
-                                jQuery.msgGrowl ({
-                                        type: data._meta.type, 
-                                        title: '" . Yii::t('cza', 'Tips') . "',
-                                        text: data._meta.message,
-                                        position: 'top-center',
-                                        lifetime: lifetime,
-                                });
-                            },
-                            error :function(data){alert(data._meta.message);}
-                    });
-                });
-            });";
 
 $this->registerJs($js);
 

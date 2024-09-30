@@ -310,6 +310,7 @@ return [
     'Updated By' => '修改人',
     'Warehouse Note Type' => '记录类型',
     'Modify By User' => '手动修改',
+    'Warehouse Process Mixture Send' => '半加工物料出仓',
     '' => '',
 ];
 

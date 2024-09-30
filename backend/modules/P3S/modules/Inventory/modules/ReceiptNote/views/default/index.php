@@ -188,7 +188,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'enter' => function ($url, $model, $key) {
                             return Html::a(Yii::t('app.c2', 'Enter'), [
-                                '/p3s/warehouse-note/receipt/index', 'id' => $model->id
+                                '/p3s/warehouse-note/receipt/index',
+                                'id' => $model->id,
+                                'from' => 'p3s-receipt',
                             ], [
                                 'title' => Yii::t('app.c2', 'Enter'),
                                 'data-pjax' => '0',

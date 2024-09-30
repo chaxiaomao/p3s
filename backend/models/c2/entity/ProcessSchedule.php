@@ -23,7 +23,7 @@ class ProcessSchedule extends \common\models\c2\entity\ProductionSchedule
         return ArrayHelper::merge(parent::rules(), [
             // [['producer_id'], 'required'],
             [['items'], 'safe'],
-            [['items'], 'validateItems'],
+            // [['items'], 'validateItems'],
         ]);
     }
 

@@ -38,7 +38,7 @@ class WarehouseNoteType extends AbstractStaticClass {
                 static::MIXTURE_SEND => ['id' => static::MIXTURE_SEND, 'label' => Yii::t('app.c2', 'Warehouse Mixture Send')],
                 static::MIXTURE_RECEIPT => ['id' => static::MIXTURE_RECEIPT, 'label' => Yii::t('app.c2', 'Warehouse Mixture Receipt')],
                 static::PROCESS_RECEIPT => ['id' => static::PROCESS_RECEIPT, 'label' => Yii::t('app.c2', 'Warehouse Process Receipt')],
-                static::PROCESS_SAB => ['id' => static::PROCESS_SAB, 'label' => Yii::t('app.c2', 'Warehouse Process Back')],
+                static::PROCESS_SAB => ['id' => static::PROCESS_SAB, 'label' => Yii::t('app.c2', 'Warehouse Process Mixture Send')],
                 static::MODIFY_BY_USER => ['id' => static::MODIFY_BY_USER, 'label' => Yii::t('app.c2', 'Modify By User')],
             ];
         }

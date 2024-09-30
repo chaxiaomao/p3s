@@ -13,6 +13,12 @@ use cza\base\models\statics\OperationEvent;
 
 $this->title = Yii::t('app.c2', 'Warehouse Notes');
 $this->params['breadcrumbs'][] = $this->title;
+
+$btnText = Yii::t('app.c2', 'Commit');
+$from = Yii::$app->request->get('from');
+if ($from == 'p3s-receipt') {
+    $btnText = '确认进仓';
+}
 ?>
     <div class="well warehouse-note-index">
 
@@ -125,8 +131,8 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'class' => 'edit'
                             ]);
                         },
-                        'commit' => function ($url, $model, $key) {
-                            return Html::a(Yii::t('app.c2', 'Commit'), [
+                        'commit' => function ($url, $model, $key) use ($btnText) {
+                            return Html::a($btnText, [
                                 'commit',
                                 'id' => $model->id,
                             ], [

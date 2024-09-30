@@ -176,7 +176,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'sab' => function ($url, $model, $key) {
                             return Html::a(Yii::t('app.c2', 'Process Back'), [
-                                '/p3s/warehouse-note/process-back',
+                                '/p3s/warehouse-note/process-send',
                                 'id' => $model->id
                             ], [
                                 'title' => Yii::t('app.c2', 'Process Back'),

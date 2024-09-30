@@ -238,6 +238,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             return Html::a(Yii::t('app.c2', 'Send Production Consumption'), [
                                 '/p3s/warehouse-note/mixture-send',
                                 'id' => $model->id,
+                                'from' => 'pam-send',
                             ], [
                                 'title' => Yii::t('app.c2', 'Send Production Consumption'),
                                 'data-pjax' => '0',
