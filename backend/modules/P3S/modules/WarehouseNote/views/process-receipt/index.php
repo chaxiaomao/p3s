@@ -126,7 +126,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]);
                         },
                         'commit' => function ($url, $model, $key) {
-                            return Html::a(Yii::t('app.c2', 'Commit'), [
+                            return Html::a('确认进仓', [
                                 'commit',
                                 'id' => $model->id,
                             ], [

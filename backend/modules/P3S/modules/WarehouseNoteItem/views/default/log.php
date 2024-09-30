@@ -86,7 +86,14 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => '更新后库存',
                 'value' => function ($model) {
-                    return $model->before_stock != 0 ? $model->before_stock + $model->number : '';
+                    if ($model->before_stock != 0) {
+                        if ($model->isReceipt()) {
+                            return $model->before_stock + $model->number;
+                        }
+                        return $model->before_stock - $model->number;
+                    }
+
+                    return '';
                 }
             ],
             'price',

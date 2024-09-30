@@ -1,4 +1,10 @@
 <?php
+/** @var $model \common\models\c2\entity\ProductionSchedule */
+$items = $model
+    ->getScheduleItems()
+    ->with('product')
+    ->with('enterProduct')
+    ->all();
 ?>
 <div style="background-color: #f3c17d; margin-bottom: 10px">
     <div class="row">
@@ -24,7 +30,7 @@
             <td class="memo">备注</td>
         </tr>
 
-        <?php foreach ($model->scheduleItems as $item): ?>
+        <?php foreach ($items as $item): ?>
             <tr class="tc">
                 <td class=""><?= $item->product_sku ?></td>
                 <td class=""><?= $item->product_name ?></td>

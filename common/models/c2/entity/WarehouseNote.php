@@ -265,6 +265,13 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
                     'before_stock' => $item->product->stock,
                     'status' => WarehouseNoteItemStatus::COMMIT
                 ]);
+
+                $model = ProductionScheduleItem::findOne([
+                    'schedule_id' => $this->ref_note_id,
+                    'product_id' => $item->product_id
+                ]);
+                $model->updateCounters(['production_sum' => $item->number]);
+
                 $item->product->updateStock(-($item->number));
 
                 // $item->product->updated_at = date('Y-m-d h:i:s', time());
@@ -409,9 +416,12 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
                     'enter_product_id' => $item->product_id
                 ]);
                 $model->updateCounters(['enter_sum' => $item->number]);
-                $item->product->updateCounters(['stock' => $item->number]);
-                $item->product->updated_at = date('Y-m-d h:i:s', time());
-                $item->product->update();
+
+                $item->product->updateStock($item->number);
+
+                // $item->product->updateCounters(['stock' => $item->number]);
+                // $item->product->updated_at = date('Y-m-d h:i:s', time());
+                // $item->product->update();
             }
         }
         $this->updateAttributes(['state' => WarehouseNoteState::COMMIT]);
@@ -441,7 +451,7 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
                 ]);
                 $model->updateCounters(['enter_sum' => $item->number]);
                 // $item->product->updateCounters(['stock' => $item->number]);
-                $product = $item->product->updateStock($item->number);
+                $item->product->updateStock($item->number);
             }
         }
         $this->updateAttributes(['state' => WarehouseNoteState::COMMIT]);
