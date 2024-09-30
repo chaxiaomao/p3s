@@ -82,6 +82,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $model->isReceipt() ? "<span style='color: #00a65a'>进仓{$model->number}</span>" : "<span style='color: red'>出仓{$model->number}</span>";
                 }
             ],
+            'before_stock',
+            [
+                'label' => '更新后库存',
+                'value' => function ($model) {
+                    return $model->before_stock != 0 ? $model->before_stock + $model->number : '';
+                }
+            ],
             'price',
             'subtotal',
             [

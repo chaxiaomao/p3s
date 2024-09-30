@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $btnText = Yii::t('app.c2', 'Commit');
 $from = Yii::$app->request->get('from');
 if ($from == 'pam-send') {
-    $btnText = '确认进仓';
+    $btnText = '确认出仓';
 }
 
 ?>

@@ -157,7 +157,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'class' => \common\widgets\grid\ActionColumn::className(),
                     'width' => '200px',
                     'template' => '{update} {commit} {calculation} {termination} {entrance} 
-                    {finish} {send} {check} {checkv2} {print} {delete} {delivery-record}',
+                    {finish} {send} {check} {checkv2} {print} {delivery-record} {delete}',
                     'visibleButtons' => [
                         'update' => function ($model) {
                             return ($model->state == \common\models\c2\statics\ProductionScheduleState::INIT);
@@ -201,27 +201,28 @@ $this->params['breadcrumbs'][] = $this->title;
                             return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
                                 'title' => Yii::t('app', 'Info'),
                                 'data-pjax' => '0',
+                                'class' => 'btn btn-warning btn-xs calculation m-1',
                             ]);
                         },
                         'calculation' => function ($url, $model, $key) {
                             return Html::a(Yii::t('app.c2', 'Schedule Calculation'), ['calculation', 'id' => $model->id], [
                                 'title' => Yii::t('app.c2', 'Schedule Calculation'),
                                 'data-pjax' => '0',
-                                'class' => 'btn btn-warning btn-xs calculation',
+                                'class' => 'btn btn-warning btn-xs calculation m-1',
                             ]);
                         },
                         'commit' => function ($url, $model, $key) {
                             return Html::a(Yii::t('app.c2', 'Schedule Commit'), ['commit', 'id' => $model->id], [
                                 'title' => Yii::t('app.c2', 'Schedule Commit'),
                                 'data-pjax' => '0',
-                                'class' => 'btn btn-warning btn-xs commit',
+                                'class' => 'btn btn-warning btn-xs commit m-1',
                             ]);
                         },
                         'termination' => function ($url, $model, $key) {
                             return Html::a(Yii::t('app.c2', 'Schedule Termination'), ['termination', 'id' => $model->id], [
                                 'title' => Yii::t('app.c2', 'Schedule Termination'),
                                 'data-pjax' => '0',
-                                'class' => 'btn btn-danger btn-xs termination',
+                                'class' => 'btn btn-danger btn-xs termination m-1',
                             ]);
                         },
                         'entrance' => function ($url, $model, $key) {
@@ -231,7 +232,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ], [
                                 'title' => Yii::t('app.c2', 'Enter'),
                                 'data-pjax' => '0',
-                                'class' => 'btn btn-warning btn-xs entrance',
+                                'class' => 'btn btn-warning btn-xs entrance m-1',
                             ]);
                         },
                         'send' => function ($url, $model, $key) {
@@ -242,14 +243,14 @@ $this->params['breadcrumbs'][] = $this->title;
                             ], [
                                 'title' => Yii::t('app.c2', 'Send Production Consumption'),
                                 'data-pjax' => '0',
-                                'class' => 'btn btn-info btn-xs',
+                                'class' => 'btn btn-info btn-xs m-1',
                             ]);
                         },
                         'delete' => function ($url, $model, $key) {
                             return Html::a('<span class="glyphicon glyphicon-trash"></span>', ['delete', 'id' => $model->id], [
                                 'title' => Yii::t('app', 'Info'),
                                 'data-pjax' => '0',
-                                'class' => 'delete',
+                                'class' => 'delete m-1',
                             ]);
                         },
                         // 'check' => function ($url, $model, $key) {
@@ -269,7 +270,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ], [
                                 'title' => Yii::t('app.c2', 'Production Consumption Check'),
                                 'data-pjax' => '0',
-                                'class' => 'btn btn-info btn-xs',
+                                'class' => 'btn btn-info btn-xs m-1',
                             ]);
                         },
                         'checkv2' => function ($url, $model, $key) {
@@ -279,7 +280,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ], [
                                 'title' => Yii::t('app.c2', 'Production Consumption Check'),
                                 'data-pjax' => '0',
-                                'class' => 'btn btn-info btn-xs',
+                                'class' => 'btn btn-info btn-xs m-1',
                             ]);
                         },
                         'delivery-record' => function ($url, $model, $key) {
@@ -289,7 +290,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ], [
                                 'title' => '出仓物料记录',
                                 'data-pjax' => '0',
-                                'class' => 'btn btn-info btn-xs',
+                                'class' => 'btn btn-info btn-xs m-1',
                             ]);
                         },
                         // 'print' => function ($url, $model, $key) {
@@ -320,7 +321,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ], [
                                 'title' => Yii::t('app.c2', 'Finish'),
                                 'data-pjax' => '0',
-                                'class' => 'btn btn-success btn-xs finish',
+                                'class' => 'btn btn-success btn-xs finish m-1',
                             ]);
                         },
                     ]

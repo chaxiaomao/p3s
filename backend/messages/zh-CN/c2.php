@@ -311,6 +311,7 @@ return [
     'Warehouse Note Type' => '记录类型',
     'Modify By User' => '手动修改',
     'Warehouse Process Mixture Send' => '半加工物料出仓',
+    'Before Stocks' => '更新前库存',
     '' => '',
 ];
 

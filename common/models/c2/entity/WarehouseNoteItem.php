@@ -23,6 +23,7 @@ use Yii;
  * @property string $package_name
  * @property integer $pieces
  * @property integer $number
+ * @property integer $before_stock
  * @property integer $price
  * @property integer $subtotal
  * @property string $memo
@@ -52,7 +53,7 @@ class WarehouseNoteItem extends \cza\base\models\ActiveRecord
     public function rules()
     {
         return [
-            [['note_id', 'ref_note_id', 'measure_id', 'product_id', 'combination_id', 'package_id', 'pieces', 'number', 'price', 'subtotal', 'position'], 'integer'],
+            [['note_id', 'ref_note_id', 'measure_id', 'product_id', 'combination_id', 'package_id', 'pieces', 'number', 'price', 'subtotal', 'position', 'before_stock'], 'integer'],
             [['created_at', 'updated_at', 'item_id'], 'safe'],
             [['product_name', 'product_sku', 'product_label', 'product_value', 'combination_name', 'package_name', 'memo'], 'string', 'max' => 255],
             [['status'], 'integer', 'max' => 4],
@@ -88,6 +89,7 @@ class WarehouseNoteItem extends \cza\base\models\ActiveRecord
             'created_at' => Yii::t('app.c2', 'Created At'),
             'updated_at' => Yii::t('app.c2', 'Updated At'),
             'warehouse_note_type' => Yii::t('app.c2', 'Warehouse Note Type'),
+            'before_stock' => Yii::t('app.c2', 'Before Stocks'),
         ];
     }
 

@@ -234,11 +234,15 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
             ->all();
         if (!empty($items)) {
             foreach ($items as $item) {
+                $item->updateAttributes([
+                    'before_stock' => $item->product->stock,
+                    'status' => WarehouseNoteItemStatus::COMMIT
+                ]);
                 $item->product->updateStock($item->number);
-                $item->product->updated_at = date('Y-m-d h:i:s', time());
-                $item->product->update();
+                // $item->product->updated_at = date('Y-m-d h:i:s', time());
+                // $item->product->update();
                 // $item->product->updateCounters(['stock' => $item->number]);
-                $item->updateAttributes(['status' => WarehouseNoteItemStatus::COMMIT]);
+
             }
         }
         $this->updateAttributes(['state' => WarehouseNoteState::COMMIT]);
@@ -257,11 +261,16 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
             ->all();
         if (!empty($items)) {
             foreach ($items as $item) {
+                $item->updateAttributes([
+                    'before_stock' => $item->product->stock,
+                    'status' => WarehouseNoteItemStatus::COMMIT
+                ]);
                 $item->product->updateStock(-($item->number));
-                $item->product->updated_at = date('Y-m-d h:i:s', time());
-                $item->product->update();
+
+                // $item->product->updated_at = date('Y-m-d h:i:s', time());
+                // $item->product->update();
                 // $item->product->updateCounters(['stock' => $item->number]);
-                $item->updateAttributes(['status' => WarehouseNoteItemStatus::COMMIT]);
+                // $item->updateAttributes(['status' => WarehouseNoteItemStatus::COMMIT]);
             }
         }
         $this->updateAttributes(['state' => WarehouseNoteState::COMMIT]);
@@ -279,21 +288,32 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
             ->all();
         if (!empty($items)) {
             foreach ($items as $item) {
+                $item->updateAttributes([
+                    'before_stock' => $item->product->stock,
+                    'status' => WarehouseNoteItemStatus::COMMIT
+                ]);
                 if (!is_null($item->productCombination)) {
                     // $item->productCombination->stock = $item->productCombination->stock + $item->number;
                     // $item->productCombination->save();
-                    $item->productCombination->updateCounters(['stock' => $item->number]);
-                    $item->productCombination->updated_at = date('Y-m-d h:i:s', time());
-                    $item->productCombination->update();
-                    $item->product->updateCounters(['stock' => $item->number,]);
-                    $item->product->updated_at = date('Y-m-d h:i:s', time());
-                    $item->product->update();
+
+                    // $item->productCombination->updateCounters(['stock' => $item->number]);
+                    // $item->productCombination->updated_at = date('Y-m-d h:i:s', time());
+                    // $item->productCombination->update();
+
+                    $item->productCombination->updateStock($item->number);
+
+                    // $item->product->updateCounters(['stock' => $item->number,]);
+                    // $item->product->updated_at = date('Y-m-d h:i:s', time());
+                    // $item->product->update();
+
+                    $item->product->updateStock($item->number);
+
                     $item->scheduleItem->updateCounters(['enter_sum' => $item->number]);
                 }
                 // if (!is_null($item->scheduleNoteItems)) {
                 //     $item->scheduleNoteItems->updateCounters(['enter_sum' => $item->number]);
                 // }
-                $item->updateAttributes(['status' => WarehouseNoteItemStatus::COMMIT]);
+                // $item->updateAttributes(['status' => WarehouseNoteItemStatus::COMMIT]);
             }
         }
         $this->updateAttributes(['state' => WarehouseNoteState::COMMIT]);
@@ -311,22 +331,26 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
         $note = $this->inventoryDeliveryNote;
         if (!empty($items)) {
             foreach ($items as $item) {
+                $item->updateAttributes([
+                    'before_stock' => $item->product->stock,
+                    'status' => WarehouseNoteItemStatus::COMMIT
+                ]);
                 if (!is_null($item->productCombination)) {
-                    // $item->productCombination->stock = $item->productCombination->stock + $item->number;
-                    // $item->productCombination->save();
-                    $item->productCombination->updateCounters(['stock' => -($item->number)]);
-                    $item->productCombination->updated_at = date('Y-m-d h:i:s', time());
-                    $item->productCombination->update();
+                    // $item->productCombination->updateCounters(['stock' => -($item->number)]);
+                    // $item->productCombination->updated_at = date('Y-m-d h:i:s', time());
+                    // $item->productCombination->update();
+                    $item->productCombination->updateStock(-($item->number));
                 }
-                $item->product->updateCounters(['stock' => -($item->number)]);
-                $item->product->updated_at = date('Y-m-d h:i:s', time());
-                $item->product->update();
+                $item->product->updateStock(-($item->number));
+                // $item->product->updateCounters(['stock' => -($item->number)]);
+                // $item->product->updated_at = date('Y-m-d h:i:s', time());
+                // $item->product->update();
                 $orderItem = OrderItem::findOne(['order_id' => $note->sales_order_id, 'product_id' => $item->product_id]);
                 $orderItem->updateCounters([
                     'produced_number' => $item->number,
                     'send_pieces' => $item->pieces,
                 ]);
-                $item->updateAttributes(['status' => WarehouseNoteItemStatus::COMMIT]);
+                // $item->updateAttributes(['status' => WarehouseNoteItemStatus::COMMIT]);
             }
         }
         $this->updateAttributes(['state' => WarehouseNoteState::COMMIT]);
@@ -343,15 +367,20 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
             ->all();
         if (!empty($items)) {
             foreach ($items as $item) {
+                $item->updateAttributes([
+                    'before_stock' => $item->product->stock,
+                    'status' => WarehouseNoteItemStatus::COMMIT
+                ]);
                 $model = ProductionConsumption::findOne([
                     'schedule_id' => $this->ref_note_id,
                     'need_product_id' => $item->product_id
                 ]);
                 $model->updateCounters(['send_sum' => $item->number]);
-                $item->product->updateCounters(['stock' => -($item->number)]);
-                $item->product->updated_at = date('Y-m-d h:i:s', time());
-                $item->product->update();
-                $item->updateAttributes(['status' => WarehouseNoteItemStatus::COMMIT]);
+                $item->product->updateStock(-($item->number));
+                // $item->product->updateCounters(['stock' => -($item->number)]);
+                // $item->product->updated_at = date('Y-m-d h:i:s', time());
+                // $item->product->update();
+                // $item->updateAttributes(['status' => WarehouseNoteItemStatus::COMMIT]);
             }
         }
         $this->updateAttributes(['state' => WarehouseNoteState::COMMIT]);
@@ -366,10 +395,15 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
             return;
         }
         $items = $this->getNoteItems()
+            ->with('product')
             // ->with('scheduleNoteItems')
             ->all();
         if (!empty($items)) {
             foreach ($items as $item) {
+                $item->updateAttributes([
+                    'before_stock' => $item->product->stock,
+                    'status' => WarehouseNoteItemStatus::COMMIT
+                ]);
                 $model = ProductionScheduleItem::findOne([
                     'schedule_id' => $this->ref_note_id,
                     'enter_product_id' => $item->product_id
@@ -392,10 +426,15 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
             return;
         }
         $items = $this->getNoteItems()
+            ->with('product')
             // ->with('scheduleNoteItems')
             ->all();
         if (!empty($items)) {
             foreach ($items as $item) {
+                $item->updateAttributes([
+                    'before_stock' => $item->product->stock,
+                    'status' => WarehouseNoteItemStatus::COMMIT
+                ]);
                 $model = ProductionScheduleItem::findOne([
                     'schedule_id' => $this->ref_note_id,
                     'product_id' => $item->product_id

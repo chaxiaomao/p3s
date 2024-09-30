@@ -3,6 +3,10 @@ body {
     height: 100%;
 }
 
+.m-1 {
+    margin: 2px;
+}
+
 .wrap {
     min-height: 100%;
     height: auto;

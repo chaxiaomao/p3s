@@ -13,7 +13,7 @@ use yii\validators\RequiredValidator;
  * @property string $product_id
  * @property string $name
  * @property string $label
- * @property string $stock
+ * @property integer $stock
  * @property string $memo
  * @property integer $status
  * @property integer $position
@@ -182,6 +182,15 @@ class ProductCombination extends \cza\base\models\ActiveRecord
     public function getProduct()
     {
         return $this->hasOne(Product::className(), ['id' => 'product_id']);
+    }
+
+    public function updateStock($num)
+    {
+        $this->updateAttributes([
+            'stock' => $this->stock + $num,
+            'updated_by' => Yii::$app->user->id,
+            'updated_at' => date('Y-m-d H:i:s'),
+        ]);
     }
 
 }
