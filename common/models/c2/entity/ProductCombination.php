@@ -188,7 +188,7 @@ class ProductCombination extends \cza\base\models\ActiveRecord
     {
         $this->updateAttributes([
             'stock' => $this->stock + $num,
-            'updated_by' => Yii::$app->user->id,
+            // 'updated_by' => Yii::$app->user->id,
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
     }
