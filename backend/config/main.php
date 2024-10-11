@@ -31,6 +31,9 @@ $config = [
         //     'enableAutoLogin' => true,
         //     'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         // ],
+        // 'as beforeAction' => [
+        //     'class' => 'backend\components\actions\UserTimeLimitAction',
+        // ],
         'user' => [
             'class' => 'backend\components\User',
             'identityClass' => 'backend\models\c2\entity\rbac\BeUser',
