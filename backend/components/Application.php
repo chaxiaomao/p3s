@@ -85,7 +85,7 @@ class Application extends \yii\web\Application {
             $user = Yii::$app->user->identity;
             if ($user && !in_array($user->username, $this->allowUsers)) {
                 Yii::$app->user->logout();
-                Yii::$app->response->content = "Resting";
+                Yii::$app->response->content = "现在是休息时间，系统进行夜间维护，时间为每天晚上$sys_close_at - 次日$sys_open_at";
                 return false;
             }
         }
