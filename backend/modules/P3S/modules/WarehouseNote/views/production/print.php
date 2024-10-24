@@ -32,7 +32,7 @@
                 <td class=""><?= $item->combination_name ?></td>
                 <td class=""><?= $item->production_sum ?></td>
                 <td class=""><?= $item->enter_sum ?></td>
-                <td class=""><?= !is_null($item->product->measure) ? $item->product->measure->name : '' ?></td>
+                <td class=""><?= $item->product && !is_null($item->product->measure) ? $item->product->measure->name : '' ?></td>
                 <td class=""><?= $item->memo ?></td>
             </tr>
 
