@@ -78,7 +78,7 @@ class Application extends \yii\web\Application {
     {
 
         $sys_open_at = Yii::$app->settings->get('sys_open_at', '8:00');
-        $sys_close_at = Yii::$app->settings->get('sys_close_at', '19:00');
+        $sys_close_at = Yii::$app->settings->get('sys_close_at', '20:00');
         // $sys_close_at = '13:00';
 
         if ($this->isSysClose($sys_open_at, $sys_close_at)) {
