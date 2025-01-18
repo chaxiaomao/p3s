@@ -103,7 +103,7 @@ $form = ActiveForm::begin([
                             //  'max' => 4,
                             'allowEmptyList' => true,
                             'rowOptions' => function ($model, $index, $context) use ($multipleItemsId) {
-                                return ['id' => "row{multiple_index_{$multipleItemsId}}", 'data-id' => $model['id']];
+                                return ['id' => "row{multiple_index_{$multipleItemsId}}", 'data-id' => isset($model['id']) ? $model['id'] : ''];
                             },
                             'columns' => [
                                 [
