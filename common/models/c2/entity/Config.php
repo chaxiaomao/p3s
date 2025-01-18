@@ -4,6 +4,7 @@ namespace common\models\c2\entity;
 
 use Yii;
 use yii\behaviors\BlameableBehavior;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "{{%config}}".

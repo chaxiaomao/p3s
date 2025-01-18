@@ -45,7 +45,7 @@ use yii\helpers\Html;
                             ],
                             ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Category')]), 'icon' => 'fa fa-circle-o', 'url' => ['/database/product-category'], 'visible' => \Yii::$app->user->can('P_PRODUCT')],
                             ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Customer')]), 'icon' => 'fa fa-circle-o', 'url' => ['/database/user'], 'visible' => \Yii::$app->user->can('P_SYSTEM')],
-                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Supplier')]), 'icon' => 'fa fa-circle-o', 'url' => ['/database/supplier'], 'visible' => \Yii::$app->user->can('P_SYSTEM')],
+                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Supplier')]), 'icon' => 'fa fa-circle-o', 'url' => ['/database/supplier'], 'visible' => \Yii::$app->user->can('P_SYSTEM') || \Yii::$app->user->can('P_SUPPILER')],
                             ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Measure')]), 'icon' => 'fa fa-circle-o', 'url' => ['/logistics/measure'], 'visible' => \Yii::$app->user->can('P_SYSTEM')],
                             ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Currency')]), 'icon' => 'fa fa-circle-o', 'url' => ['/logistics/currency'], 'visible' => \Yii::$app->user->can('P_SYSTEM')],
                             ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Warehouse')]), 'icon' => 'fa fa-circle-o', 'url' => ['/database/warehouse'], 'visible' => \Yii::$app->user->can('P_SYSTEM')],

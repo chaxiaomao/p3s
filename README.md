@@ -10,3 +10,14 @@
 4.导出数据：以前面做出的分类选择需要导出的种类，加入物料最后更新时间
 
 7.产品种类管理:现在右侧筛选那点击的时候会有自动跳回顶部，以及整个种类界面都会卡顿及自动跳顶
+
+SELECT
+table_name AS 'Table Name',
+table_rows AS 'Number of Rows',
+round((data_length + index_length) / 1024 / 1024, 2) AS 'Size (MB)'
+FROM
+information_schema.tables
+WHERE
+table_schema = '你的数据库名'
+ORDER BY
+(data_length + index_length) DESC;
