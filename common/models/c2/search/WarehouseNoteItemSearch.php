@@ -249,7 +249,7 @@ class WarehouseNoteItemSearch extends WarehouseNoteItem
             '{{%warehouse_note_item}}.status' => $this->status,
         ]);
 
-        $query->andFilterWhere(['like', 'product_name', $this->product_name])
+        $query->andFilterWhere(['like', '{{%warehouse_note_item}}.product_name', $this->product_name])
             ->andFilterWhere(['like', 'product_sku', $this->product_sku])
             ->andFilterWhere(['like', 'code', $this->code])
             ->andFilterWhere(['like', 'product_label', $this->product_label])
