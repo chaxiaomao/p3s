@@ -146,7 +146,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'product_sku',
             'product_name',
             'product_label',
-            'product_value',
+            // 'product_value',
             // 'measure_id',
             'number',
             // 'price',

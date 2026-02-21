@@ -252,12 +252,12 @@ class WarehouseNoteItemSearch extends WarehouseNoteItem
         $query->andFilterWhere(['like', '{{%warehouse_note_item}}.product_name', $this->product_name])
             ->andFilterWhere(['like', '{{%warehouse_note_item}}.product_sku', $this->product_sku])
             ->andFilterWhere(['like', 'code', $this->code])
-            ->andFilterWhere(['like', 'product_label', $this->product_label])
-            ->andFilterWhere(['like', 'product_value', $this->product_value])
+            ->andFilterWhere(['like', '{{%warehouse_note_item}}.product_label', $this->product_label])
+            // ->andFilterWhere(['like', 'product_value', $this->product_value])
             ->andFilterWhere(['like', 'combination_name', $this->combination_name])
             ->andFilterWhere(['like', 'package_name', $this->package_name])
             ->andFilterWhere(['like', '{{%warehouse_note_item}}.created_at', $this->created_at])
-            ->andFilterWhere(['like', 'memo', $this->memo]);
+            ->andFilterWhere(['like', '{{%inventory_receipt_note}}.memo', $this->memo]);
 
         return $dataProvider;
     }
