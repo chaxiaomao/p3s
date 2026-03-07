@@ -56,7 +56,7 @@ $form = ActiveForm::begin([
 
                     'label' => [
                         'type' => Form::INPUT_TEXT,
-                        'label' => '标签<span style="color:red">（CL订单需要标注“CL-”前缀）</span>',
+                        'label' => '标签<span style="color:red">（CL订单需要标注“CL/CL-”前缀）</span>',
                         'options' => [
                             // 'placeholder' => $model->getAttributeLabel('label')
                             'placeholder' => '如：CL-9074 -UK/SEA 线上 漆皮护理套装'

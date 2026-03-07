@@ -69,7 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'filter' => ['' => ''] + \common\models\c2\entity\FeUser::getHashMap('id', 'username', ['type' => \common\models\c2\statics\FeUserType::TYPE_CUSTOMER, 'status' => EntityModelStatus::STATUS_ACTIVE])
                 ],
                 'code',
-                // 'label',
+                'label',
                 // 'customer_id',
                 // 'production_date',
                 // 'delivery_date',

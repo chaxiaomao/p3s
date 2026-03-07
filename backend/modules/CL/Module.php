@@ -25,6 +25,9 @@ class Module extends \yii\base\Module
             'pam' => [
                 'class' => 'backend\modules\CL\modules\PAM\Module',
             ],
+            'p3s' => [
+                'class' => 'backend\modules\CL\modules\P3S\Module',
+            ],
         ];
         // custom initialization code goes here
     }
