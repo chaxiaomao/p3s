@@ -33,7 +33,7 @@ $this->title = '采购订单打印';
         <td class="box60">数量</td>
         <td class="box60">单位</td>
         <td class="box60">价格</td>
-        <td class="box120">金额</td>
+        <td class="box120">金额(元)</td>
         <td class="memo">备注</td>
     </tr>
 
@@ -43,8 +43,8 @@ $this->title = '采购订单打印';
             <td class=""><?= $item->product_name ?></td>
             <td class=""><?= $item->number ?></td>
             <td class=""><?= !is_null($item->measure) ? $item->measure->name : '' ?></td>
-            <td class=""><?= $item->price ?></td>
-            <td class=""><?= $item->subtotal ?></td>
+            <td class=""><?= number_format($item->price, 3) ?></td>
+            <td class=""><?= number_format($item->subtotal, 3) ?></td>
             <td class=""><?= $item->memo ?></td>
         </tr>
 

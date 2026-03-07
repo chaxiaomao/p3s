@@ -91,6 +91,28 @@ class DefaultController extends Controller
 
         return (Yii::$app->request->isAjax) ? $this->renderAjax('edit', ['model' => $model,]) : $this->render('edit', ['model' => $model,]);
     }
+    /**
+     * create/update a ProductionSchedule model.
+     * fit to pajax call
+     * @return mixed
+     */
+    public function actionUpdate($id = null)
+    {
+        $model = $this->retrieveModel($id);
+        // $model->type = ProductionScheduleType::PRODUCT;
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);
+            } else {
+                Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
+            }
+        }
+
+        $model->loadItems();
+
+        return (Yii::$app->request->isAjax) ? $this->renderAjax('update', ['model' => $model,]) : $this->render('update', ['model' => $model,]);
+    }
 
     /**
      * Finds the ProductionSchedule model based on its primary key value.

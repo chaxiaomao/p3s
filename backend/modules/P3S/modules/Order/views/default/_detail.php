@@ -29,7 +29,7 @@ use yii\widgets\DetailView;
         <td class="box120">数量</td>
         <td class="box120">单价</td>
 <!--        <td class="box120">上次单价</td>-->
-        <td class="box120">小计</td>
+        <td class="box120">小计(元)</td>
 <!--        <td class="box120">尺码</td>-->
 <!--        <td class="box120">毛重</td>-->
 <!--        <td class="box120">净重</td>-->
@@ -44,9 +44,8 @@ use yii\widgets\DetailView;
             <td class="success"><?= !is_null($item->productPackage) ? $item->productPackage->name : '' ?></td>
             <td class="success"><?= $item->pieces ?></td>
             <td class="success"><?= $item->product_sum ?></td>
-            <td class="success"><?= $item->price ?></td>
-<!--            <td class="success">--><?//= $item->getLastPrice() ?><!--</td>-->
-            <td class="success"><?= $item->subtotal ?></td>
+            <td class="success"><?= number_format($item->price, 3) ?></td>
+            <td class="success"><?= number_format($item->subtotal, 3) ?></td>
 <!--            <td class="success"></td>-->
 <!--            <td class="success"></td>-->
 <!--            <td class="success"></td>-->

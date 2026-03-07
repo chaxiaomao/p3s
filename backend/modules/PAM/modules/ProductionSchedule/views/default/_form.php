@@ -53,7 +53,12 @@ $form = ActiveForm::begin([
                         ],
                     ],
                     'code' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('code')]],
-                    'label' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('label')]],
+                    'label' => [
+                        'type' => Form::INPUT_TEXT,
+                        'options' => [
+                            'placeholder' => $model->getAttributeLabel('label')
+                        ]
+                    ],
                     'dept_manager_name' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('dept_manager_name')]],
                     'financial_name' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('financial_name')]],
                     'occurrence_date' => ['type' => Form::INPUT_WIDGET, 'widgetClass' => '\kartik\widgets\DateTimePicker', 'options' => [
@@ -100,8 +105,9 @@ $form = ActiveForm::begin([
             ]);
 
             ?>
-<!--            <p style="color: red">产品总量留空则自动计算。</p>-->
+            <!--            <p style="color: red">产品总量留空则自动计算。</p>-->
             <?php
+
             $multipleItemsId = $model->getPrefixName('items');
             echo Form::widget([
                 'model' => $model,
@@ -118,7 +124,7 @@ $form = ActiveForm::begin([
                             //  'max' => 4,
                             'allowEmptyList' => true,
                             'rowOptions' => function ($model, $index, $context) use ($multipleItemsId) {
-                                return ['id' => "row{multiple_index_{$multipleItemsId}}", 'data-id' => $model['id']];
+                                return ['id' => "row{multiple_index_{$multipleItemsId}}", 'data-id' => $model ? $model['id'] : ''];
                             },
                             'columns' => [
                                 [

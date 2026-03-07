@@ -37,8 +37,8 @@ $this->title = '送货订单打印';
             <td class=""><?= !is_null($item->productPackage) ? $item->productPackage->name : '' ?></td>
             <td class=""><?= $item->pieces ?></td>
             <td class=""><?= $item->product_sum ?></td>
-            <td class=""><?= $item->price ?></td>
-            <td class=""><?= $item->subtotal ?></td>
+            <td class=""><?= number_format($item->price, 3) ?></td>
+            <td class=""><?= number_format($item->subtotal, 3) ?></td>
             <td class=""><?= $item->memo ?></td>
         </tr>
 
@@ -46,7 +46,7 @@ $this->title = '送货订单打印';
 
     <tr class="">
         <td class="" colspan="6">合计金额大写(人民币)：<?= \common\helpers\MoneyHelper::trendNumToChiness($model->grand_total) ?></td>
-        <td class="tc"><?= $model->grand_total ?></td>
+        <td class="tc"><?= number_format($item->grand_total, 3) ?></td>
         <td class=""></td>
     </tr>
 

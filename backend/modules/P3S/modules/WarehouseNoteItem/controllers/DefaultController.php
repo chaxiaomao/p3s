@@ -39,6 +39,7 @@ class DefaultController extends Controller
             'note' => $note,
         ]);
     }
+
     /**
      * Lists all WarehouseNoteItem models.
      * @return mixed

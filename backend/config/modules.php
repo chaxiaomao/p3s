@@ -7,6 +7,9 @@
  */
 
 return [
+    'cl' => [
+        'class' => 'backend\modules\CL\Module',
+    ],
     'database' => [
         'class' => 'backend\modules\Database\Module',
     ],

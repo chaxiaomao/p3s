@@ -156,9 +156,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'class' => \common\widgets\grid\ActionColumn::className(),
                     'width' => '200px',
-                    'template' => '{update} {commit} {calculation} {termination} {entrance} 
+                    'template' => '{update1} {update} {commit} {calculation} {termination} {entrance} 
                     {finish} {send} {check} {checkv2} {print} {delivery-record} {delete}',
                     'visibleButtons' => [
+                        'update1' => function ($model) {
+                            if ($model->state == \common\models\c2\statics\ProductionScheduleState::INIT) {
+                                return false;
+                            }
+                            return ($model->state != \common\models\c2\statics\ProductionScheduleState::TERMINATION
+                                || $model->state != \common\models\c2\statics\ProductionScheduleState::FINISH
+                            );
+                        },
                         'update' => function ($model) {
                             return ($model->state == \common\models\c2\statics\ProductionScheduleState::INIT);
                         },
@@ -197,11 +205,18 @@ $this->params['breadcrumbs'][] = $this->title;
                         // },
                     ],
                     'buttons' => [
+                        'update1' => function ($url, $model, $key) {
+                            return Html::a('<span class="glyphicon glyphicon-pencil">修改span>', ['update', 'id' => $model->id], [
+                                'title' => Yii::t('app', 'Edit'),
+                                'data-pjax' => '0',
+                                'class' => 'btn btn-success btn-xs m-1',
+                            ]);
+                        },
                         'update' => function ($url, $model, $key) {
-                            return Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['edit', 'id' => $model->id], [
+                            return Html::a('<span class="glyphicon glyphicon-pencil">修改</span>', ['edit', 'id' => $model->id], [
                                 'title' => Yii::t('app', 'Info'),
                                 'data-pjax' => '0',
-                                'class' => 'btn btn-warning btn-xs calculation m-1',
+                                'class' => 'btn btn-success btn-xs m-1',
                             ]);
                         },
                         'calculation' => function ($url, $model, $key) {

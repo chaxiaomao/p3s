@@ -30,7 +30,7 @@
         <td class="box120">单位</td>
         <td class="box120">数量</td>
         <td class="box120">价格</td>
-        <td class="box120">金额</td>
+        <td class="box120">金额(元)</td>
         <td class="memo">备注</td>
     </tr>
 
@@ -40,8 +40,8 @@
             <td class=""><?= $item->product_name ?></td>
             <td class=""><?= $item->number ?></td>
             <td class=""><?= !is_null($item->measure) ? $item->measure->name : '' ?></td>
-            <td class=""><?= $item->price ?></td>
-            <td class=""><?= $item->subtotal ?></td>
+            <td class=""><?= number_format($item->price, 3) ?></td>
+            <td class=""><?= number_format($item->subtotal, 3) ?></td>
             <td class=""><?= $item->memo ?></td>
         </tr>
 
