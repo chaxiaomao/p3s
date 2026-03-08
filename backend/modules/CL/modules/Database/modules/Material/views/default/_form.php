@@ -49,7 +49,15 @@ $form = ActiveForm::begin([
             'attributes' => [
                 // 'type' => ['type' => Form::INPUT_DROPDOWN_LIST, 'items' => \common\models\c2\statics\ProductType::getHashMap('id', 'label')],
                 // 'seo_code' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('seo_code')]],
-                'sku' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('sku')]],
+                // 'sku' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('sku')]],
+                'sku' => [
+                    'type' => Form::INPUT_TEXT,
+                    'label' => 'sku<span class="text-red">（CL产品需要标注“CL/CL-”前缀）</span>',
+                    'options' => [
+                        // 'placeholder' => $model->getAttributeLabel('label')
+                        'placeholder' => '如：CL-XXX'
+                    ]
+                ],
                 'name' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('name')]],
                 'label' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('label')]],
                 'value' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('value')]],

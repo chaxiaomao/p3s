@@ -67,6 +67,8 @@ class OrderItemSearch extends OrderItem
             return $dataProvider;
         }
 
+        $query->with('customer', 'order', 'product.measure');
+
         if (!empty($this->order_code)) {
             $query->joinWith([
                 'order' => function ($q) {

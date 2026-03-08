@@ -2,6 +2,7 @@
 
 namespace backend\modules\CL\modules\PAM\modules\ProcessSchedule\controllers;
 
+use backend\models\c2\entity\cl\ProductionScheduleSearch;
 use backend\models\c2\entity\MixtureScheduleTermination;
 use backend\models\c2\entity\ProcessSchedule;
 use common\models\c2\entity\OrderItem;
@@ -11,7 +12,6 @@ use common\models\c2\statics\ProductionScheduleType;
 use cza\base\models\statics\ResponseDatum;
 use Yii;
 use backend\models\c2\entity\MixtureSchedule;
-use common\models\c2\search\ProductionScheduleSearch;
 
 use cza\base\components\controllers\backend\ModelController as Controller;
 use yii\web\NotFoundHttpException;

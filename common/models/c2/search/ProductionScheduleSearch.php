@@ -69,7 +69,7 @@ class ProductionScheduleSearch extends ProductionSchedule
             // $query->where('0=1');
             return $dataProvider;
         }
-
+        $query->with('creator.profile', 'updator.profile');
         $query->andFilterWhere([
             'id' => $this->id,
             'occurrence_date' => $this->occurrence_date,

@@ -146,7 +146,7 @@ class OrderItem extends \cza\base\models\ActiveRecord
 
     public function getCustomer()
     {
-        return $this->hasOne(FeUser::className(), ['id' => 'order_id']);
+        return $this->hasOne(FeUser::className(), ['id' => 'customer_id']);
     }
 
     public function getMeasure()

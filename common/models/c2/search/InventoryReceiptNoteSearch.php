@@ -71,6 +71,8 @@ class InventoryReceiptNoteSearch extends InventoryReceiptNote
             return $dataProvider;
         }
 
+        $query->with('creator.profile', 'updator.profile', 'supplier');
+
         if (!empty($this->supplier_name)) {
             $query->leftJoin('{{%supplier}} c', 'c.id = {{%inventory_receipt_note}}.supplier_id');
         }

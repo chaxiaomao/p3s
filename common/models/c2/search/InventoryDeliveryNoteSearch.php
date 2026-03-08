@@ -75,6 +75,8 @@ class InventoryDeliveryNoteSearch extends InventoryDeliveryNote
             return $dataProvider;
         }
 
+        $query->with('customer', 'creator.profile', 'updator.profile');
+
         if (!empty($this->customer_name)) {
             $query->leftJoin('{{%fe_user}} c', 'c.id = {{%inventory_delivery_note}}.customer_id');
         }

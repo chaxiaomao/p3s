@@ -69,8 +69,8 @@ class ProductionScheduleSearch extends ProductionSchedule
             // $query->where('0=1');
             return $dataProvider;
         }
-
-        $query->andFilterWhere(['like', 'label', 'cl-']);
+        $query->with('creator.profile', 'updator.profile');
+        $query->where(['like', 'label', 'cl']);
 
         $query->andFilterWhere([
             'id' => $this->id,

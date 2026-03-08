@@ -1,4 +1,5 @@
 <?php
+define('CL_MYSQL_ID', 234);
 
 define('BACKEND_BASE_URL', 'http://be-jade.tunnel.echomod.cn');
 define('FRONTEND_BASE_URL', 'http://fe-apollo-pre.local.bulletelc.com');

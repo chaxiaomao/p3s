@@ -195,7 +195,7 @@ class WarehouseNoteItemSearch extends WarehouseNoteItem
     {
         $query = WarehouseNoteItem::find();
         // $query->with('measure', 'receiptNoteItem');
-        $query->with('measure');
+        $query->with('measure', 'supplier');
         $query->select([
             '{{%warehouse_note_item}}.*',
             '{{%warehouse_note}}.type',
@@ -208,8 +208,6 @@ class WarehouseNoteItemSearch extends WarehouseNoteItem
         $query->leftJoin(InventoryReceiptNote::tableName(), '{{%warehouse_note_item}}.ref_note_id = {{%inventory_receipt_note}}.id');
         $query->leftJoin(InventoryReceiptNoteItem::tableName(), '{{%warehouse_note_item}}.ref_note_id = {{%inventory_receipt_note_item}}.note_id and {{%warehouse_note_item}}.product_id = {{%inventory_receipt_note_item}}.product_id');
         $query->where(['{{%warehouse_note}}.type' => WarehouseNoteType::RECEIPT]);
-
-        Yii::info($query->createCommand()->getRawSql());
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

@@ -86,28 +86,30 @@ $this->params['breadcrumbs'][] = $this->title;
             'pieces',
             'send_pieces',
             [
+                'format' => 'html',
                 'class' => 'kartik\grid\FormulaColumn',
-                'header' => Yii::t('app.c2', 'Diff Stock'),
+                'header' => '相差件数',
                 'value' => function ($model, $key, $index, $widget) {
                     $p = compact('model', 'key', 'index');
-                    $value = $widget->col(5, $p) - $widget->col(6, $p);
-                    return $value > 0 ? $value : 0;
+                    $value = $widget->col(6, $p) - $widget->col(5, $p);
+                    return $value < 0 ? "<span class='text-red'>{$value}</span>" : "<span class='text-green'>+{$value}</span>";
                 },
                 'mergeHeader' => true,
-                'pageSummary' => true
+                // 'pageSummary' => true
             ],
             'product_sum',
             'produced_number',
             [
+                'format' => 'html',
                 'class' => 'kartik\grid\FormulaColumn',
-                'header' => Yii::t('app.c2', 'Diff Stock'),
+                'header' => '相差产品数',
                 'value' => function ($model, $key, $index, $widget) {
                     $p = compact('model', 'key', 'index');
-                    $value = $widget->col(6, $p) - $widget->col(7, $p);
-                    return $value > 0 ? $value : 0;
+                    $value = $widget->col(9, $p) - $widget->col(8, $p);
+                    return $value < 0 ? "<span class='text-red'>{$value}</span>" : "<span class='text-green'>+{$value}</span>";
                 },
                 'mergeHeader' => true,
-                'pageSummary' => true
+                // 'pageSummary' => true
             ],
             // [
             //     // 'attribute' => 'order_id',

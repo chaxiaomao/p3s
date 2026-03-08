@@ -97,7 +97,7 @@ if ($models) {
             <td style="width: 112px">需要物料总量</td>
             <td style="width: 112px">现有库存</td>
             <td style="width: 112px">差值</td>
-            <td style="width: 220px">关联订单</td>
+            <td style="width: 200px">关联订单</td>
         </tr>
 
         <?php
@@ -126,16 +126,18 @@ if ($models) {
                 </td>
                 <td class="success">
 
-                    <a role="button" data-toggle="collapse" href="#Expand_<?= $datum['need_product_id'] ?>" aria-expanded="false"
-                       aria-controls="collapseExample">
-                        <i class="glyphicon glyphicon-eye-open">查看</i>
-                    </a>
+<!--                    <a role="button" data-toggle="collapse" href="#Expand_--><?php //= $datum['need_product_id'] ?><!--" aria-expanded="false"-->
+<!--                       aria-controls="collapseExample">-->
+<!--                        <i class="glyphicon glyphicon-eye-open">查看</i>-->
+<!--                    </a>-->
+                    <a class="btn btn-link" role="button" data-toggle="collapse" href="#Expand_<?= $datum['need_product_id'] ?>" aria-expanded="false"
+                       aria-controls="collapseExample">查看 <span class="badge"><?= count($product_schedules[$datum['need_product_id']]) ?></span></a>
                     <div class="collapse" id="Expand_<?= $datum['need_product_id'] ?>">
                         <?php foreach ($product_schedules[$datum['need_product_id']] as $item): ?>
-                            <p style="background-color: #d1c5d8;margin-bottom: 10px;padding: 10px;">
-                                订单编号：<?= $item['code'] ?><br/>
-                                订单标签：<?= $item['label'] ?><br/>
-                                需要物料数量：<?= $item['need_sum'] . ' ' . $datum['measure'] ?>
+                            <p style="padding: 10px;margin-bottom: 0">
+                                <span class="label label-primary">订单编号：<?= $item['code'] ?></span><br/>
+                                <span class="label label-primary">订单标签：<?= $item['label'] ?></span><br/>
+                                <span class="label label-primary">需要物料数量：<?= $item['need_sum'] . ' ' . $datum['measure'] ?></span>
                             </p>
 <!--                        <hr/>-->
                         <?php endforeach; ?>

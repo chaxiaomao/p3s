@@ -77,6 +77,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 // 'created_by',
                 [
                     'attribute' => 'grand_total',
+                    'value' => function ($model) {
+                        return number_format($model->grand_total, 3);
+                    },
                     // 'pageSummary' => true,
                     // 'format' => ['decimal', 2],
                 ],
@@ -93,7 +96,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                 ],
                 // 'updated_by',
-                // 'memo',
+                'memo',
                 // 'state',
                 // 'status',
                 // 'position',
@@ -212,7 +215,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]);
                         },
                         'view' => function ($url, $model, $key) {
-                            return Html::a('<span class="glyphicon glyphicon-eye-open"></span>', [
+                            return Html::a('<span class=" ">订单详情</span>', [
                                 '/p3s/order/order-item', 'OrderItemSearch[order_id]' => $model->id
                             ], [
                                 'title' => Yii::t('app.c2', 'View'),

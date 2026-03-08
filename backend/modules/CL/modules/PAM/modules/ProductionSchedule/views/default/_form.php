@@ -56,10 +56,10 @@ $form = ActiveForm::begin([
 
                     'label' => [
                         'type' => Form::INPUT_TEXT,
-                        'label' => '标签<span style="color:red">（CL订单需要标注“CL/CL-”前缀）</span>',
+                        'label' => '标签<span class="text-red">（CL订单需要标注“CL/CL-”前缀）</span>',
                         'options' => [
                             // 'placeholder' => $model->getAttributeLabel('label')
-                            'placeholder' => '如：CL-9074 -UK/SEA 线上 漆皮护理套装'
+                            'placeholder' => '如：CL-XXX'
                         ]
                     ],
                     'dept_manager_name' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('dept_manager_name')]],
@@ -67,7 +67,7 @@ $form = ActiveForm::begin([
                     'occurrence_date' => [
                         'type' => Form::INPUT_WIDGET,
                         'widgetClass' => '\kartik\widgets\DateTimePicker',
-                        'label' => '发生时间<span style="color:red">（CL订单需要填写月份）</span>',
+                        'label' => '发生时间<span class="text-red">（CL订单需要填写月份）</span>',
                         'options' => [
                             'options' => [
                                 'placeholder' => Yii::t('app.c2', 'Date Time...')

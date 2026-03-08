@@ -71,6 +71,8 @@ class InventoryReceiptNoteSearch extends InventoryReceiptNote
             return $dataProvider;
         }
 
+        $query->with('creator.profile', 'updator.profile', 'supplier');
+
         $query->andFilterWhere(['like', 'label', 'cl']);
 
         if (!empty($this->supplier_name)) {

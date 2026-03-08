@@ -28,6 +28,9 @@ class Module extends \yii\base\Module
             'p3s' => [
                 'class' => 'backend\modules\CL\modules\P3S\Module',
             ],
+            'statics' => [
+                'class' => 'backend\modules\CL\modules\Statics\Module',
+            ],
         ];
         // custom initialization code goes here
     }

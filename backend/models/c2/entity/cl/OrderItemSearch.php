@@ -66,7 +66,10 @@ class OrderItemSearch extends OrderItem
             // $query->where('0=1');
             return $dataProvider;
         }
-        $query->andFilterWhere(['like', 'product_sku', 'cl-']);
+
+        $query->with('customer', 'order', 'product.measure');
+
+        $query->andFilterWhere(['like', 'product_sku', 'cl']);
 
         if (!empty($this->order_code)) {
             $query->joinWith([

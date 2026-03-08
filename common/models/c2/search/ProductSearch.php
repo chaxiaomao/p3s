@@ -66,6 +66,9 @@ class ProductSearch extends Product
             return $dataProvider;
         }
 
+
+        $query->with('creator.profile', 'updator.profile', 'measure');
+
         $query->andFilterWhere([
             'id' => $this->id,
             'low_price' => $this->low_price,

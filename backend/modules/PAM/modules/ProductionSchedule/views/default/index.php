@@ -206,7 +206,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     'buttons' => [
                         'update1' => function ($url, $model, $key) {
-                            return Html::a('<span class="glyphicon glyphicon-pencil">修改span>', ['update', 'id' => $model->id], [
+                            return Html::a('<span class="glyphicon glyphicon-pencil">修改<span>', ['update', 'id' => $model->id], [
                                 'title' => Yii::t('app', 'Edit'),
                                 'data-pjax' => '0',
                                 'class' => 'btn btn-success btn-xs m-1',

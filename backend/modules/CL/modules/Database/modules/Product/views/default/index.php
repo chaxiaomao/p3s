@@ -102,7 +102,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
                             'dropdown' => [
                                 'items' => [
-                                    ['label' => \common\models\c2\statics\ProductType::getMaterial(), 'url' => ['/database/product/material/edit'], 'linkOptions' => ['data-pjax' => '0', 'class' => 'material']],
+                                    ['label' => \common\models\c2\statics\ProductType::getMaterial(), 'url' => ['/cl/database/product/material/edit'], 'linkOptions' => ['data-pjax' => '0', 'class' => 'material']],
                                     ['label' => \common\models\c2\statics\ProductType::getProduct(), 'url' => ['edit'], 'linkOptions' => ['data-pjax' => '0']],
                                 ],
                             ],

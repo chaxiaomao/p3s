@@ -69,6 +69,7 @@ class OrderSearch extends Order
             // $query->where('0=1');
             return $dataProvider;
         }
+        $query->with('customer', 'creator', 'updator', 'updator.profile');
 
         if (!empty($this->customer_name)) {
             $query->leftJoin('{{%fe_user}} c', 'c.id = {{%order}}.customer_id');
