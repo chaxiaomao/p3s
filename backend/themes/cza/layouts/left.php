@@ -30,10 +30,10 @@ use yii\helpers\Html;
                 'linkTemplate' => '<a href="{url}" {targetPlaceHolder}>{icon} {label}</a>',
                 'items' => [
                     ['label' => 'CL-菜单', 'options' => ['class' => 'header'],  'visible' => \Yii::$app->user->can('P_CL'),],
-                    [ 'label' => '生产产品物料预算', 'icon' => 'fa fa-circle-o', 'url' => ['/cl/product-schedule/cost-sheet'],],
+                    [ 'label' => '生产产品物料预算', 'icon' => 'fa fa-circle-o', 'url' => ['/cl/product-schedule/cost-sheet'],  'visible' => \Yii::$app->user->can('P_CL')],
                     [
                         'label' => 'CL-资料库', 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
-                        'visible' => \Yii::$app->user->can('P_PRODUCT'),
+                        'visible' => (\Yii::$app->user->can('P_PRODUCT') && \Yii::$app->user->can('P_CL')),
                         'items' => [
                             [
                                 'label' => 'CL-产品管理', 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
@@ -47,7 +47,7 @@ use yii\helpers\Html;
                     ],
                     [
                         'label' => 'CL-生产/加工', 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
-                        'visible' => \Yii::$app->user->can('P_PRODUCT'),
+                        'visible' => (\Yii::$app->user->can('P_PRODUCT') && \Yii::$app->user->can('P_CL')),
                         'items' => [
                             ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Production Schedule')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/pam/production-schedule']],
                             ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Mixture Schedule')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/pam/mixture-schedule']],
@@ -57,7 +57,7 @@ use yii\helpers\Html;
                         ]
                     ],
                     [
-                        'label' => 'CL-' . Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Finance')]), 'visible' => \Yii::$app->user->can('P_FINANCE'), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
+                        'label' => 'CL-' . Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Finance')]), 'visible' => (\Yii::$app->user->can('P_FINANCE') && \Yii::$app->user->can('P_CL')), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
                         'items' => [
                             ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Sales Order')]), 'visible' => \Yii::$app->user->can('P_ORDER'), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/p3s/order']],
                             // ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Order Item Consumption')]), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/order/order-item-consumption']],
@@ -67,7 +67,7 @@ use yii\helpers\Html;
                         ]
                     ],
                     [
-                        'label' => 'CL-' . Yii::t('app.c2', 'Statics'), 'visible' => \Yii::$app->user->can('P_STATICS'), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
+                        'label' => 'CL-' . Yii::t('app.c2', 'Statics'), 'visible' => (\Yii::$app->user->can('P_STATICS') && \Yii::$app->user->can('P_CL')), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
                         'items' => [
                             ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Sales Product Statics')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/statics/sales-product'], 'visible' => \Yii::$app->user->can('P_STATICS_SALES')],
                             // ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Warehouse Commit Note Statics')]), 'icon' => 'fa fa-circle-o', 'url' => ['/statics/warehouse-commit-note']],
