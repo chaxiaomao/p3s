@@ -107,12 +107,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 // 'dept_manager_name',
                 // 'financial_name',
                 // 'occurrence_date',
-                [
-                    'attribute' => 'occurrence_date',
-                    'value' => function ($model) {
-                        return $model->occurrence_date ? date('Y-m', strtotime($model->occurrence_date)) : '';
-                    },
-                ],
+                // [
+                //     'attribute' => 'occurrence_date',
+                //     'value' => function ($model) {
+                //         return $model->occurrence_date ? date('Y-m', strtotime($model->occurrence_date)) : '';
+                //     },
+                // ],
                 // 'occomplish_date',
                 // 'memo',
                 [
@@ -135,30 +135,51 @@ $this->params['breadcrumbs'][] = $this->title;
                 // 'created_by',
                 // 'state',
                 [
+                    'attribute' => 'occurrence_date',
+                    'label' => '下单日期',
+                    'value' => function ($model) {
+                        return $model->occurrence_date ? date('Y-m', strtotime($model->occurrence_date)) : '';
+                    },
+                ],
+                [
+                    'attribute' => 'estimated_ship_date',
+                    'label' => '预计出货日期',
+                    'value' => function ($model) {
+                        return $model->estimated_ship_date ? date('Y-m', strtotime($model->estimated_ship_date)) : '';
+                    },
+                ],
+                [
+                    'attribute' => 'actual_ship_date',
+                    'label' => '实际出货日期',
+                    'value' => function ($model) {
+                        return $model->actual_ship_date ? date('Y-m', strtotime($model->actual_ship_date)) : '';
+                    },
+
+                ],
+                [
                     'attribute' => 'state',
                     'value' => function ($model) {
                         return \common\models\c2\statics\ProductionScheduleState::getLabel($model->state);
                     },
                     'filter' => \common\models\c2\statics\ProductionScheduleState::getHashMap('id', 'label')
                 ],
-                // 'status',
                 // 'position',
                 // 'updated_at',
-                'created_at',
-                [
-                    'attribute' => 'status',
-                    'class' => '\kartik\grid\EditableColumn',
-                    'editableOptions' => [
-                        'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
-                        'formOptions' => ['action' => Url::toRoute('editColumn')],
-                        'data' => EntityModelStatus::getHashMap('id', 'label'),
-                        'displayValueConfig' => EntityModelStatus::getHashMap('id', 'label'),
-                    ],
-                    'filter' => EntityModelStatus::getHashMap('id', 'label'),
-                    'value' => function ($model) {
-                        return $model->getStatusLabel();
-                    }
-                ],
+                // 'created_at',
+                // [
+                //     'attribute' => 'status',
+                //     'class' => '\kartik\grid\EditableColumn',
+                //     'editableOptions' => [
+                //         'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
+                //         'formOptions' => ['action' => Url::toRoute('editColumn')],
+                //         'data' => EntityModelStatus::getHashMap('id', 'label'),
+                //         'displayValueConfig' => EntityModelStatus::getHashMap('id', 'label'),
+                //     ],
+                //     'filter' => EntityModelStatus::getHashMap('id', 'label'),
+                //     'value' => function ($model) {
+                //         return $model->getStatusLabel();
+                //     }
+                // ],
                 [
                     'class' => \common\widgets\grid\ActionColumn::className(),
                     'width' => '200px',

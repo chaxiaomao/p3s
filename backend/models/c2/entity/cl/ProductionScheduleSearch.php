@@ -19,7 +19,8 @@ class ProductionScheduleSearch extends ProductionSchedule
     {
         return [
             [['id', 'updated_by', 'created_by', 'position'], 'integer'],
-            [['type', 'producer', 'code', 'label', 'dept_manager_name', 'financial_name', 'occurrence_date', 'accomplish_date', 'memo', 'state', 'status', 'updated_at', 'created_at'], 'safe'],
+            [['type', 'producer', 'code', 'label', 'dept_manager_name', 'financial_name', 'occurrence_date',
+                'estimated_ship_date', 'actual_ship_date', 'accomplish_date', 'memo', 'state', 'status', 'updated_at', 'created_at'], 'safe'],
         ];
     }
 
@@ -74,24 +75,17 @@ class ProductionScheduleSearch extends ProductionSchedule
 
         $query->andFilterWhere([
             'id' => $this->id,
-            'occurrence_date' => $this->occurrence_date,
-            'accomplish_date' => $this->accomplish_date,
-            'updated_by' => $this->updated_by,
-            'created_by' => $this->created_by,
-            'position' => $this->position,
-            'updated_at' => $this->updated_at,
-            'created_at' => $this->created_at,
+            'state' => $this->state,
         ]);
 
-        $query->andFilterWhere(['like', 'type', $this->type])
+        $query
+            ->andFilterWhere(['like', 'occurrence_date', $this->occurrence_date])
+            ->andFilterWhere(['like', 'estimated_ship_date', $this->estimated_ship_date])
+            ->andFilterWhere(['like', 'actual_ship_date', $this->actual_ship_date])
             ->andFilterWhere(['like', 'code', $this->code])
             ->andFilterWhere(['like', 'producer', $this->producer])
             ->andFilterWhere(['like', 'label', $this->label])
-            ->andFilterWhere(['like', 'dept_manager_name', $this->dept_manager_name])
-            ->andFilterWhere(['like', 'financial_name', $this->financial_name])
-            ->andFilterWhere(['like', 'memo', $this->memo])
-            ->andFilterWhere(['like', 'state', $this->state])
-            ->andFilterWhere(['like', 'status', $this->status]);
+            ->andFilterWhere(['like', 'memo', $this->memo]);
 
         return $dataProvider;
     }

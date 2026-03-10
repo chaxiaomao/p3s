@@ -32,6 +32,7 @@ use Yii;
  */
 class ProductionScheduleItem extends \cza\base\models\ActiveRecord
 {
+
     /**
      * @inheritdoc
      */

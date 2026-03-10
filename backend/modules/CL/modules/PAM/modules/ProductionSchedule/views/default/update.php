@@ -92,15 +92,47 @@ $form = ActiveForm::begin([
                 'occurrence_date' => [
                     'type' => Form::INPUT_WIDGET,
                     'widgetClass' => '\kartik\widgets\DateTimePicker',
-                    'label' => '发生时间<span class="text-red">（CL订单需要填写月份）</span>',
+                    'label' => '下单时间<span class="text-red">（CL订单需要填写日期）</span>',
                     'options' => [
                         'options' => [
                             'placeholder' => Yii::t('app.c2', 'Date Time...')
                         ],
                         'pluginOptions' => [
-                            'format' => 'yyyy-mm',
-                            'minView' => 3,
-                            'startView' => 3,
+                            'format' => 'yyyy-mm-dd',
+                            'minView' => 2,
+                            'startView' => 2,
+                            'autoclose' => true
+                        ],
+                    ],
+                ],
+                'estimated_ship_date' => [
+                    'type' => Form::INPUT_WIDGET,
+                    'widgetClass' => '\kartik\widgets\DateTimePicker',
+                    'label' => '预计出货时间<span class="text-red">（CL订单需要填写日期）</span>',
+                    'options' => [
+                        'options' => [
+                            'placeholder' => Yii::t('app.c2', 'Date Time...')
+                        ],
+                        'pluginOptions' => [
+                            'format' => 'yyyy-mm-dd',
+                            'minView' => 2,
+                            'startView' => 2,
+                            'autoclose' => true
+                        ],
+                    ],
+                ],
+                'actual_ship_date' => [
+                    'type' => Form::INPUT_WIDGET,
+                    'widgetClass' => '\kartik\widgets\DateTimePicker',
+                    'label' => '实际出货时间<span class="text-red">（CL订单需要填写日期）</span>',
+                    'options' => [
+                        'options' => [
+                            'placeholder' => Yii::t('app.c2', 'Date Time...')
+                        ],
+                        'pluginOptions' => [
+                            'format' => 'yyyy-mm-dd',
+                            'minView' => 2,
+                            'startView' => 2,
                             'autoclose' => true
                         ],
                     ],

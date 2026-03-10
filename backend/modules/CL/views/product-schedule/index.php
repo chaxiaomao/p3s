@@ -1,198 +1,287 @@
 <?php
 
-use common\models\c2\entity\ProductionConsumption;
+use cza\base\widgets\ui\common\grid\GridView;
+use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use cza\base\models\statics\EntityModelStatus;
+use cza\base\models\statics\OperationEvent;
 
+/* @var $this yii\web\View */
+/* @var $searchModel \backend\models\c2\entity\cl\ProductionScheduleItemSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
+$this->title = '生产预算';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
+    <div class="well inventory-delivery-note-index">
 
-<?php $y = date('Y', time()) ?>
+        <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
-<!--<nav class="alert" style="background-color: #d1c5d8">-->
-<nav class="alert" style="background-color: #899fc1">
-    <div class="container-fluid">
-
-
-        <form class="" method="get">
-            <fieldset>
-                <div class="row">
-                    <div class="col-xs-2">
-                        <div class="form-group">
-                            <label for="datetime"><?= $y ?>年</label>
-                            <select id="datetime" name="datetime" class="form-control">
-                                <option></option>
-                                <?php for ($i = 1; $i <= 12; $i++): ?>
-                                    <?php $v = $y . '-' . ($i < 10 ? '0' . $i : $i) ?>
-                                    <option value="<?= $v ?>" <?= $v == $datetime ? 'selected' : '' ?>>
-                                        <?= $i ?>月
-                                    </option>
-                                <?php endfor; ?>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-xs-2">
-                        <div class="form-group">
-                            <label for="">&nbsp;</label>
-                            <div>
-                                <button type="submit" class="btn btn-success">查&nbsp;&nbsp;看</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </fieldset>
-        </form>
-    </div>
-</nav>
-
-<?php
-
-$data = [];
-$product_schedules = [];
-
-/** @var $models ProductionConsumption */
-if ($models) {
-    foreach ($models as $model) {
-        $cost_amount = $model['need_sum'];
-
-        if (isset($data[$model['need_product_id']])) {
-            $cost_amount = $model['need_sum'] + $data[$model['need_product_id']]['cost_amount'];
-        }
-
-        $data[$model['need_product_id']] = [
-            'need_product_id' => $model['need_product_id'],
-            'need_product_sku' => $model['need_product_sku'],
-            'need_product_name' => $model['need_product_name'],
-            'need_product_label' => $model['need_product_label'],
-            'need_product_value' => $model['need_product_value'],
-            'measure' => $model['product']['measure']['name'],
-            'cost_amount' => $cost_amount,
-            'current_stock' => $model['product']['stock'],
-            // 'diff_amount' => '',
-        ];
-
-        $product_schedules[$model['need_product_id']][] = [
-            'code' => $model['code'],
-            'label' => $model['label'],
-            'need_sum' => $model['need_sum'],
-            'measure' => $model['product']['measure']['name'],
-        ];
-    }
-}
-
-
-?>
-
-<div class="table-responsive" style="background-color: #fff;">
-
-    <table class="table table-bordered table-hover">
-
-        <tr class="tc">
-            <td class="box60">物料编号</td>
-            <td class="box60">物料名称</td>
-            <td class="box60">标签</td>
-            <td class="box60">值</td>
-            <!--            <td class="box120">使用数量/单位</td>-->
-            <!--            <td class="box120">单位</td>-->
-            <!--        <td class="box120">当前物料库存</td>-->
-            <td style="width: 112px">需要物料总量</td>
-            <td style="width: 112px">现有库存</td>
-            <td style="width: 112px">差值</td>
-            <td style="width: 200px">关联订单</td>
-        </tr>
-
-        <?php
-
-        foreach ($data as $productid => $datum): ?>
-            <tr class="tc">
-                <td class="success"><?= $datum['need_product_sku'] ?></td>
-                <td class="success"><?= $datum['need_product_name'] ?></td>
-                <td class="success"><?= $datum['need_product_label'] ?></td>
-                <td class="success"><?= $datum['need_product_value'] ?></td>
-                <!--                <td class="success">--><? //= $datum['need_number'] ?><!--</td>-->
-                <!--                <td class="success">--><?php //= $datum['product']['measure']['name'] ?><!--</td>-->
-                <td class="success"><?= $datum['cost_amount'] . ' ' . $datum['measure'] ?></td>
-                <!--            <td class="success">--><? //= $datum['product']['stock'] ?><!--</td>-->
-                <td class="success"><?= $datum['current_stock'] . ' ' . $datum['measure'] ?></td>
-                <!--                <td class="success">-->
-                <?php //= $datum['product']['stock'] - $datum['cost_amount'] ?><!--</td>-->
-                <td class="success">
-                    <?php
-
-                    if ($datum['current_stock'] < $datum['cost_amount']) {
-                        echo "<span class='text-red'>" . ($datum['current_stock'] - $datum['cost_amount']) . $datum['measure'] . "</span>";
+        <?php echo GridView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'id' => $model->getPrefixName('grid'),
+            'pjax' => true,
+            'hover' => true,
+            'showPageSummary' => true,
+            'panel' => ['type' => GridView::TYPE_PRIMARY, 'heading' => Yii::t('app.c2', 'Items')],
+            'toolbar' => [
+                [
+                    'content' =>
+                        Html::a('<i class="glyphicon glyphicon-plus"></i>', ['edit'], [
+                            'class' => 'btn btn-success',
+                            'title' => Yii::t('app.c2', 'Add'),
+                            'data-pjax' => '0',
+                        ]) . ' ' .
+                        // Html::button('<i class="glyphicon glyphicon-remove"></i>', [
+                        //     'class' => 'btn btn-danger',
+                        //     'title' => Yii::t('app.c2', 'Delete Selected Items'),
+                        //     'onClick' => "jQuery(this).trigger('" . OperationEvent::DELETE_BY_IDS . "', {url:'" . Url::toRoute('multiple-delete') . "'});",
+                        // ]) . ' ' .
+                        Html::a('<i class="glyphicon glyphicon-repeat"></i>', Url::current(), [
+                            'class' => 'btn btn-default',
+                            'title' => Yii::t('app.c2', 'Reset Grid')
+                        ]),
+                ],
+                '{export}',
+                '{toggleData}',
+            ],
+            'exportConfig' => [],
+            'columns' => [
+                ['class' => 'kartik\grid\CheckboxColumn'],
+                ['class' => 'kartik\grid\SerialColumn'],
+                [
+                    'class' => 'kartik\grid\ExpandRowColumn',
+                    'expandIcon' => '<span class="fa fa-plus-square-o"></span>',
+                    'collapseIcon' => '<span class="fa fa-minus-square-o"></span>',
+                    'detailUrl' => Url::toRoute(['detail']),
+                    'value' => function ($model, $key, $index, $column) {
+                        return GridView::ROW_COLLAPSED;
+                    },
+                ],
+                'id',
+                'product_sku',
+                'product_name',
+                'product_label',
+                'product_value',
+                // 'total_production',
+                [
+                    'attribute' => 'total_production',
+                    'label' => '生产总量',
+                    'value' => function ($model) {
+                        // return $model['total_production'] . $model['product']['measure']['name'];
+                        return $model['total_production'];
                     }
-                    echo '';
-                    ?>
-                </td>
-                <td class="success">
+                ],
+                [
+                    'attribute' => 'memo',
+                    'format' => 'html',
+                ],
+                // [
+                //     'attribute' => 'occurrence_date',
+                //     'label' => '下单时间',
+                //     'format' => 'html',
+                //      'value' => function ($model) {
+                //         $html = '';
+                //         if ($model->occurrence_date) {
+                //             $date = date('Y-m-d', strtotime($model->occurrence_date));
+                //             $html .= "<p>{$date}</p>";
+                //         }
+                //         if ($model->estimated_ship_date) {
+                //             $date = date('Y-m-d', strtotime($model->estimated_ship_date));
+                //             $html .= "<p>{$date}</p>";
+                //         }
+                //         if ($model->actual_ship_date) {
+                //             $date = date('Y-m-d', strtotime($model->actual_ship_date));
+                //             $html .= "<p>{$date}</p>";
+                //         }
+                //         return $html;
+                //          // return $model['total_production'] . $model['product']['measure']['name'];
+                //          // return $model->occurrence_date ? date('Y-m-d', strtotime($model->occurrence_date)) : '';
+                //      }
+                // ],
+                'created_at',
+                [
+                    'class' => \common\widgets\grid\ActionColumn::className(),
+                    'width' => '200px',
+                    'template' => '',
+                    // 'template' => '{send_log}',
+                    'visibleButtons' => [
 
-<!--                    <a role="button" data-toggle="collapse" href="#Expand_--><?php //= $datum['need_product_id'] ?><!--" aria-expanded="false"-->
-<!--                       aria-controls="collapseExample">-->
-<!--                        <i class="glyphicon glyphicon-eye-open">查看</i>-->
-<!--                    </a>-->
-                    <a class="btn btn-link" role="button" data-toggle="collapse" href="#Expand_<?= $datum['need_product_id'] ?>" aria-expanded="false"
-                       aria-controls="collapseExample">查看 <span class="badge"><?= count($product_schedules[$datum['need_product_id']]) ?></span></a>
-                    <div class="collapse" id="Expand_<?= $datum['need_product_id'] ?>">
-                        <?php foreach ($product_schedules[$datum['need_product_id']] as $item): ?>
-                            <p style="padding: 10px;margin-bottom: 0">
-                                <span class="label label-primary">订单编号：<?= $item['code'] ?></span><br/>
-                                <span class="label label-primary">订单标签：<?= $item['label'] ?></span><br/>
-                                <span class="label label-primary">需要物料数量：<?= $item['need_sum'] . ' ' . $datum['measure'] ?></span>
-                            </p>
-<!--                        <hr/>-->
-                        <?php endforeach; ?>
-                    </div>
-                </td>
-            </tr>
+                        'send_log' => function ($model) {
+                            return true;
+                        },
+                    ],
+                    'buttons' => [
+                        'send_log' => function ($url, $model, $key) {
+                            return Html::a(Yii::t('app.c2', 'Send Log'), [
+                                '/p3s/warehouse-note/delivery/log',
+                                'id' => $model->id
+                            ], [
+                                'title' => Yii::t('app.c2', 'Send Log'),
+                                'data-pjax' => '0',
+                                'class' => 'btn btn-info btn-xs',
+                            ]);
+                        },
+                    ]
+                ],
 
-        <?php endforeach; ?>
+            ],
+        ]); ?>
 
-
-    </table>
-    <?php if (!empty($datetime) && empty($data)): ?>
-        <div class="alert">如找不到该月份订单数据，可能需操作一次计算物料。
-            <a class="text-red" href="/cl/pam/production-schedule">点击</a>
-        </div>
-    <?php endif; ?>
-</div>
-
-
-<?php
-
-
-echo Html::beginTag('div', ['class' => 'box-footer']);
-echo Html::a('<i class="fa fa-arrow-left"></i> ' . Yii::t('app.c2', 'Go Back'), '/pam/production-schedule', ['data-pjax' => '0', 'class' => 'btn btn-default pull-right', 'title' => Yii::t('app.c2', 'Go Back'),]);
-echo Html::a('<i class="glyphicon glyphicon-repeat"></i>', Url::current(), [
-    'class' => 'btn btn-default pull-right',
-    'title' => Yii::t('app.c2', 'Reset Grid')
-]);
-// echo Html::a('<i class="fa fa-window-close-o"></i> ' . Yii::t('app.c2', 'Close'), ['index'], ['data-pjax' => '0', 'data-dismiss' => 'modal', 'class' => 'btn btn-default pull-right', 'title' => Yii::t('app.c2', 'Close'),]);
-echo Html::endTag('div');
-
-
-?>
-
-<?php
-
-
-?>
-
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
     </div>
-</div>
+
+
+<?php
+
+\yii\bootstrap\Modal::begin([
+    'id' => 'content-edit',
+    'size' => 'modal-lg',
+    'options' => [
+        'tabindex' => false
+    ],
+]);
+
+\yii\bootstrap\Modal::end();
+
+
+$js = "";
+
+$js .= "jQuery(document).off('click', 'a.view').on('click', 'a.view', function(e) {
+            e.preventDefault();
+            jQuery('#content-edit').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
+        });";
+
+$js .= "jQuery(document).off('click', 'a.init').on('click', 'a.init', function(e) {
+                e.preventDefault();
+                var lib = window['krajeeDialog'];
+                var url = jQuery(e.currentTarget).attr('href');
+                lib.confirm('" . Yii::t('app.c2', 'Are you sure?') . "', function (result) {
+                    if (!result) {
+                        return;
+                    }
+                    jQuery.ajax({
+                            url: url,
+                            success: function(data) {
+                                var lifetime = 6500;
+                                if(data._meta.result == '" . cza\base\models\statics\OperationResult::SUCCESS . "'){
+                                    jQuery('#{$model->getPrefixName('grid')}').trigger('" . OperationEvent::REFRESH . "');
+                                }
+                                else{
+                                  lifetime = 16500;
+                                }
+                                jQuery.msgGrowl ({
+                                        type: data._meta.type, 
+                                        title: '" . Yii::t('cza', 'Tips') . "',
+                                        text: data._meta.message,
+                                        position: 'top-center',
+                                        lifetime: lifetime,
+                                });
+                            },
+                            error :function(data){alert(data._meta.message);}
+                    });
+                });
+            });";
+
+$js .= "jQuery(document).off('click', 'a.cancel').on('click', 'a.cancel', function(e) {
+                e.preventDefault();
+                var lib = window['krajeeDialog'];
+                var url = jQuery(e.currentTarget).attr('href');
+                lib.confirm('" . Yii::t('app.c2', 'Are you sure cancel delivery note?') . "', function (result) {
+                    if (!result) {
+                        return;
+                    }
+                    
+                    jQuery.ajax({
+                            url: url,
+                            success: function(data) {
+                                var lifetime = 6500;
+                                if(data._meta.result == '" . cza\base\models\statics\OperationResult::SUCCESS . "'){
+                                    jQuery('#{$model->getPrefixName('grid')}').trigger('" . OperationEvent::REFRESH . "');
+                                }
+                                else{
+                                  lifetime = 16500;
+                                }
+                                jQuery.msgGrowl ({
+                                        type: data._meta.type, 
+                                        title: '" . Yii::t('cza', 'Tips') . "',
+                                        text: data._meta.message,
+                                        position: 'top-center',
+                                        lifetime: lifetime,
+                                });
+                            },
+                            error :function(data){alert(data._meta.message);}
+                    });
+                });
+            });";
+
+$js .= "jQuery(document).off('click', 'a.processing').on('click', 'a.processing', function(e) {
+                e.preventDefault();
+                var lib = window['krajeeDialog'];
+                var url = jQuery(e.currentTarget).attr('href');
+                lib.confirm('" . Yii::t('app.c2', 'Are you sure commit delivery note?') . "', function (result) {
+                    if (!result) {
+                        return;
+                    }
+                    
+                    jQuery.ajax({
+                            url: url,
+                            success: function(data) {
+                                var lifetime = 6500;
+                                if(data._meta.result == '" . cza\base\models\statics\OperationResult::SUCCESS . "'){
+                                    jQuery('#{$model->getPrefixName('grid')}').trigger('" . OperationEvent::REFRESH . "');
+                                }
+                                else{
+                                  lifetime = 16500;
+                                }
+                                jQuery.msgGrowl ({
+                                        type: data._meta.type, 
+                                        title: '" . Yii::t('cza', 'Tips') . "',
+                                        text: data._meta.message,
+                                        position: 'top-center',
+                                        lifetime: lifetime,
+                                });
+                            },
+                            error :function(data){alert(data._meta.message);}
+                    });
+                });
+            });";
+
+$js .= "jQuery(document).off('click', 'a.solved').on('click', 'a.solved', function(e) {
+                e.preventDefault();
+                var lib = window['krajeeDialog'];
+                var url = jQuery(e.currentTarget).attr('href');
+                lib.confirm('" . Yii::t('app.c2', 'Are you sure finish delivery note?') . "', function (result) {
+                    if (!result) {
+                        return;
+                    }
+                    
+                    jQuery.ajax({
+                            url: url,
+                            success: function(data) {
+                                var lifetime = 6500;
+                                if(data._meta.result == '" . cza\base\models\statics\OperationResult::SUCCESS . "'){
+                                    jQuery('#{$model->getPrefixName('grid')}').trigger('" . OperationEvent::REFRESH . "');
+                                }
+                                else{
+                                  lifetime = 16500;
+                                }
+                                jQuery.msgGrowl ({
+                                        type: data._meta.type, 
+                                        title: '" . Yii::t('cza', 'Tips') . "',
+                                        text: data._meta.message,
+                                        position: 'top-center',
+                                        lifetime: lifetime,
+                                });
+                            },
+                            error :function(data){alert(data._meta.message);}
+                    });
+                });
+            });";
+
+
+$js .= "$.fn.modal.Constructor.prototype.enforceFocus = function(){};";   // fix select2 widget input-bug in popup
+
+$this->registerJs($js);
+?>

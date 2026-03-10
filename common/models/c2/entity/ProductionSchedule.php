@@ -26,6 +26,8 @@ use yii\validators\RequiredValidator;
  * @property string $dept_manager_name
  * @property string $financial_name
  * @property string $occurrence_date
+ * @property string $estimated_ship_date
+ * @property string $actual_ship_date
  * @property string $accomplish_date
  * @property string $memo
  * @property string $updated_by
@@ -53,7 +55,7 @@ class ProductionSchedule extends \cza\base\models\ActiveRecord
     public function rules()
     {
         return [
-            [['occurrence_date', 'accomplish_date', 'updated_at', 'created_at',], 'safe'],
+            [['occurrence_date', 'accomplish_date', 'updated_at', 'created_at', 'estimated_ship_date', 'actual_ship_date'], 'safe'],
             [['updated_by', 'created_by', 'position'], 'integer'],
             [['memo',], 'string'],
             [['type', 'state', 'status'], 'integer', 'max' => 4],

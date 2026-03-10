@@ -64,7 +64,7 @@ class DefaultController extends Controller
         $query->select(['*', new Expression('SUM(need_sum) as sum')]);
         $query->with('product.measure');
         $query->groupBy(['need_product_id']);
-        $model = $model = $this->retrieveModel($id);
+        $model = $this->retrieveModel($id);
         $model->loadItems();
         return $this->render('print', ['data' => $query->asArray()->all(), 'model' => $model]);
     }

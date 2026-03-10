@@ -30,7 +30,7 @@ use yii\helpers\Html;
                 'linkTemplate' => '<a href="{url}" {targetPlaceHolder}>{icon} {label}</a>',
                 'items' => [
                     ['label' => 'CL-菜单', 'options' => ['class' => 'header'],  'visible' => \Yii::$app->user->can('P_CL'),],
-                    [ 'label' => '生产产品物料预算', 'icon' => 'fa fa-circle-o', 'url' => ['/cl/product-schedule/cost-sheet'],  'visible' => \Yii::$app->user->can('P_CL')],
+                    [ 'label' => '生产物料预算', 'icon' => 'fa fa-circle-o', 'url' => ['/cl/product-schedule/cost-sheet'],  'visible' => \Yii::$app->user->can('P_CL')],
                     [
                         'label' => 'CL-资料库', 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
                         'visible' => (\Yii::$app->user->can('P_PRODUCT') && \Yii::$app->user->can('P_CL')),

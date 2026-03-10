@@ -155,6 +155,7 @@ $form = ActiveForm::begin([
                                 'type' => \kartik\select2\Select2::className(),
                                 'options' => [
                                     'data' => \backend\models\c2\entity\Material::getMixedOptions('id', 'sku', [
+                                        'type' => \common\models\c2\statics\ProductType::TYPE_MATERIAL,
                                         'status' => EntityModelStatus::STATUS_ACTIVE
                                     ]),
                                 ],
