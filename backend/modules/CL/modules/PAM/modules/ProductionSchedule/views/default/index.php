@@ -82,7 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'exportConfig' => [],
             'columns' => [
                 // ['class' => 'kartik\grid\CheckboxColumn'],
-                ['class' => 'kartik\grid\SerialColumn'],
+                // ['class' => 'kartik\grid\SerialColumn'],
                 [
                     'class' => 'kartik\grid\ExpandRowColumn',
                     'expandIcon' => '<span class="fa fa-plus-square-o"></span>',
@@ -138,21 +138,21 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'occurrence_date',
                     'label' => '下单日期',
                     'value' => function ($model) {
-                        return $model->occurrence_date ? date('Y-m', strtotime($model->occurrence_date)) : '';
+                        return $model->occurrence_date ? date('Y-m-d', strtotime($model->occurrence_date)) : '';
                     },
                 ],
                 [
                     'attribute' => 'estimated_ship_date',
                     'label' => '预计出货日期',
                     'value' => function ($model) {
-                        return $model->estimated_ship_date ? date('Y-m', strtotime($model->estimated_ship_date)) : '';
+                        return $model->estimated_ship_date ? date('Y-m-d', strtotime($model->estimated_ship_date)) : '';
                     },
                 ],
                 [
                     'attribute' => 'actual_ship_date',
                     'label' => '实际出货日期',
                     'value' => function ($model) {
-                        return $model->actual_ship_date ? date('Y-m', strtotime($model->actual_ship_date)) : '';
+                        return $model->actual_ship_date ? date('Y-m-d', strtotime($model->actual_ship_date)) : '';
                     },
 
                 ],

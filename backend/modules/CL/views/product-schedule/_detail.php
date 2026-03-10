@@ -55,7 +55,7 @@ if ($models) {
 
         <table class="table table-bordered table-hover" style="min-width:1400px;table-layout:fixed;">
 
-            <tr class="tc">
+            <tr class="">
                 <td class="box60">物料编号</td>
                 <td class="box60">物料名称</td>
                 <td class="box60">标签</td>
@@ -72,19 +72,14 @@ if ($models) {
             <?php
 
             foreach ($data as $productid => $datum): ?>
-                <tr class="tc">
-                    <td class="success"><?= $datum['need_product_sku'] ?></td>
-                    <td class="success"><?= $datum['need_product_name'] ?></td>
-                    <td class="success"><?= $datum['need_product_label'] ?></td>
-                    <td class="success"><?= $datum['need_product_value'] ?></td>
-                    <!--                <td class="success">--><? //= $datum['need_number'] ?><!--</td>-->
-                    <!--                <td class="success">--><?php //= $datum['product']['measure']['name'] ?><!--</td>-->
-                    <td class="success"><?= $datum['cost_amount'] . ' ' . $datum['measure'] ?></td>
-                    <!--            <td class="success">--><? //= $datum['product']['stock'] ?><!--</td>-->
-                    <td class="success"><?= $datum['current_stock'] . ' ' . $datum['measure'] ?></td>
-                    <!--                <td class="success">-->
-                    <?php //= $datum['product']['stock'] - $datum['cost_amount'] ?><!--</td>-->
-                    <td class="success">
+                <tr class="success">
+                    <td><?= $datum['need_product_sku'] ?></td>
+                    <td><?= $datum['need_product_name'] ?></td>
+                    <td><?= $datum['need_product_label'] ?></td>
+                    <td><?= $datum['need_product_value'] ?></td>
+                    <td><?= $datum['cost_amount'] . ' ' . $datum['measure'] ?></td>
+                    <td><?= $datum['current_stock'] . ' ' . $datum['measure'] ?></td>
+                    <td>
                         <?php
 
                         if ($datum['current_stock'] < $datum['cost_amount']) {
@@ -94,17 +89,13 @@ if ($models) {
                         }
                         ?>
                     </td>
-                    <td class="success">
+                    <td>
 
-                        <!--                    <a role="button" data-toggle="collapse" href="#Expand_-->
-                        <?php //= $datum['need_product_id'] ?><!--" aria-expanded="false"-->
-                        <!--                       aria-controls="collapseExample">-->
-                        <!--                        <i class="glyphicon glyphicon-eye-open">查看</i>-->
-                        <!--                    </a>-->
                         <a class="btn btn-link" role="button" data-toggle="collapse"
                            href="#Expand_<?= $datum['need_product_id'] ?>" aria-expanded="false"
-                           aria-controls="collapseExample">查看 <span
-                                    class="badge"><?= count($product_schedules[$datum['need_product_id']]) ?></span></a>
+                           aria-controls="collapseExample">
+                            查看
+                            <span class="badge"><?= count($product_schedules[$datum['need_product_id']]) ?></span></a>
 
                     </td>
                 </tr>
@@ -114,7 +105,7 @@ if ($models) {
 
                             <table class="table table-bordered table-hover">
 
-                                <tr class="tc">
+                                <tr class="warning">
                                     <td class="box60">订单编号</td>
                                     <td class="box60">订单标签</td>
                                     <td class="box60">下单日期</td>
@@ -126,12 +117,12 @@ if ($models) {
                                 </tr>
 
                                 <?php foreach ($product_schedules[$datum['need_product_id']] as $item): ?>
-                                    <tr class="tc">
+                                    <tr class="warning">
                                         <td><?= $item['code'] ?></td>
                                         <td><?= $item['label'] ?></td>
-                                        <td><?= $item['occurrence_date'] ? date('Y-m', strtotime($item['occurrence_date'])) : '' ?></td>
-                                        <td><?= $item['estimated_ship_date'] ? date('Y-m', strtotime($item['estimated_ship_date'])) : '' ?></td>
-                                        <td><?= $item['actual_ship_date'] ? date('Y-m', strtotime($item['actual_ship_date'])) : '' ?></td>
+                                        <td><?= $item['occurrence_date'] ? date('Y-m-d', strtotime($item['occurrence_date'])) : '' ?></td>
+                                        <td><?= $item['estimated_ship_date'] ? date('Y-m-d', strtotime($item['estimated_ship_date'])) : '' ?></td>
+                                        <td><?= $item['actual_ship_date'] ? date('Y-m-d', strtotime($item['actual_ship_date'])) : '' ?></td>
                                         <td><?= \common\models\c2\statics\ProductionScheduleState::getLabel($item['state']) ?></td>
                                         <td><?= $item['memo'] ?></td>
                                         <td><?= $item['need_sum'] . $datum['measure'] ?></td>
