@@ -78,37 +78,57 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'memo',
                     'format' => 'html',
                 ],
+                [
+                    'attribute' => 'occurrence_date',
+                    'label' => '下单时间',
+                    'value' => function ($model) {
+                        return $model['occurrence_date'] ? date('Y-m-d', strtotime($model['occurrence_date'])) : '';
+                    }
+                ],
+                [
+                    'attribute' => 'estimated_ship_date',
+                    'label' => '预计出货时间',
+                    'value' => function ($model) {
+                        return $model['estimated_ship_date'] ? date('Y-m-d', strtotime($model['estimated_ship_date'])) : '';
+                    }
+                ],
                 // [
-                //     'attribute' => 'occurrence_date',
+                //     'attribute' => 'actual_ship_date',
+                //     'label' => '实际时间',
+                //     'value' => function ($model) {
+                //         return $model['actual_ship_date'] ? date('Y-m-d', strtotime($model['actual_ship_date'])) : '';
+                //     }
+                // ],
+                // [
+                //     // 'attribute' => 'occurrence_date',
                 //     'label' => '下单时间',
                 //     'format' => 'html',
                 //      'value' => function ($model) {
                 //         $html = '';
-                //         if ($model->occurrence_date) {
-                //             $date = date('Y-m-d', strtotime($model->occurrence_date));
-                //             $html .= "<p>{$date}</p>";
+                //         if ($model['occurrence_date']) {
+                //             $date = date('Y-m-d', strtotime($model['occurrence_date']));
+                //             $html .= "<p>1{$date}</p>";
                 //         }
-                //         if ($model->estimated_ship_date) {
-                //             $date = date('Y-m-d', strtotime($model->estimated_ship_date));
-                //             $html .= "<p>{$date}</p>";
+                //         if ($model['estimated_ship_date']) {
+                //             $date = date('Y-m-d', strtotime($model['estimated_ship_date']));
+                //             $html .= "<p>2{$date}</p>";
                 //         }
-                //         if ($model->actual_ship_date) {
-                //             $date = date('Y-m-d', strtotime($model->actual_ship_date));
-                //             $html .= "<p>{$date}</p>";
+                //         if ($model['actual_ship_date']) {
+                //             $date = date('Y-m-d', strtotime($model['actual_ship_date']));
+                //             $html .= "<p>3{$date}</p>";
                 //         }
                 //         return $html;
                 //          // return $model['total_production'] . $model['product']['measure']['name'];
                 //          // return $model->occurrence_date ? date('Y-m-d', strtotime($model->occurrence_date)) : '';
                 //      }
                 // ],
-                'created_at',
+                // 'created_at',
                 [
                     'class' => \common\widgets\grid\ActionColumn::className(),
-                    'width' => '200px',
+                    // 'width' => '200px',
                     'template' => '',
                     // 'template' => '{send_log}',
                     'visibleButtons' => [
-
                         'send_log' => function ($model) {
                             return true;
                         },

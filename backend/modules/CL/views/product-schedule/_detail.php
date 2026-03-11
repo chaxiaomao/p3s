@@ -53,7 +53,8 @@ if ($models) {
 <div class="order-item-detail">
     <div class="table-responsive" style="background-color: #fff;width: 100%;">
 
-        <table class="table table-bordered table-hover" style="min-width:1400px;table-layout:fixed;">
+<!--        <table class="table table-bordered table-hover" style="min-width:1400px;table-layout:fixed;">-->
+        <table class="table table-bordered table-hover" style="">
 
             <tr class="">
                 <td class="box60">物料编号</td>
@@ -108,9 +109,9 @@ if ($models) {
                                 <tr class="warning">
                                     <td class="box60">订单编号</td>
                                     <td class="box60">订单标签</td>
-                                    <td class="box60">下单日期</td>
-                                    <td class="box60">预计出货日期</td>
-                                    <td class="box60">实际出货日期</td>
+<!--                                    <td class="box60">下单日期</td>-->
+<!--                                    <td class="box60">预计出货日期</td>-->
+<!--                                    <td class="box60">实际出货日期</td>-->
                                     <td class="box60">流程状态</td>
                                     <td class="box60">备注</td>
                                     <td class="box60">需要物料数量</td>
@@ -120,9 +121,9 @@ if ($models) {
                                     <tr class="warning">
                                         <td><?= $item['code'] ?></td>
                                         <td><?= $item['label'] ?></td>
-                                        <td><?= $item['occurrence_date'] ? date('Y-m-d', strtotime($item['occurrence_date'])) : '' ?></td>
-                                        <td><?= $item['estimated_ship_date'] ? date('Y-m-d', strtotime($item['estimated_ship_date'])) : '' ?></td>
-                                        <td><?= $item['actual_ship_date'] ? date('Y-m-d', strtotime($item['actual_ship_date'])) : '' ?></td>
+<!--                                        <td>--><?php //= $item['occurrence_date'] ? date('Y-m-d', strtotime($item['occurrence_date'])) : '' ?><!--</td>-->
+<!--                                        <td>--><?php //= $item['estimated_ship_date'] ? date('Y-m-d', strtotime($item['estimated_ship_date'])) : '' ?><!--</td>-->
+<!--                                        <td>--><?php //= $item['actual_ship_date'] ? date('Y-m-d', strtotime($item['actual_ship_date'])) : '' ?><!--</td>-->
                                         <td><?= \common\models\c2\statics\ProductionScheduleState::getLabel($item['state']) ?></td>
                                         <td><?= $item['memo'] ?></td>
                                         <td><?= $item['need_sum'] . $datum['measure'] ?></td>
