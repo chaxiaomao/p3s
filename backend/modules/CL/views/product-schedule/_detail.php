@@ -53,8 +53,8 @@ if ($models) {
 <div class="order-item-detail">
     <div class="table-responsive" style="background-color: #fff;width: 100%;">
 
-<!--        <table class="table table-bordered table-hover" style="min-width:1400px;table-layout:fixed;">-->
-        <table class="table table-bordered table-hover" style="">
+        <table class="table table-bordered table-hover" style="min-width:1200px;table-layout:fixed;">
+<!--        <table class="table table-bordered table-hover" style="">-->
 
             <tr class="">
                 <td class="box60">物料编号</td>
@@ -67,7 +67,7 @@ if ($models) {
                 <td style="width: 112px">需要物料总量</td>
                 <td style="width: 112px">现有库存</td>
                 <td style="width: 112px">差值</td>
-                <td style="width: 200px">关联订单</td>
+                <td style="width: 80px">关联订单</td>
             </tr>
 
             <?php
@@ -104,12 +104,12 @@ if ($models) {
                     <td class="no-padding" colspan="8">
                         <div class="collapse bg-warning" id="Expand_<?= $datum['need_product_id'] ?>">
 
-                            <table class="table table-bordered table-hover">
+                            <table class="table table-bordered table-hover margin-bottom-none">
 
-                                <tr class="warning">
+                                <tr class="">
                                     <td class="box60">订单编号</td>
                                     <td class="box60">订单标签</td>
-<!--                                    <td class="box60">下单日期</td>-->
+                                    <td class="box60">下单日期</td>
 <!--                                    <td class="box60">预计出货日期</td>-->
 <!--                                    <td class="box60">实际出货日期</td>-->
                                     <td class="box60">流程状态</td>
@@ -121,7 +121,7 @@ if ($models) {
                                     <tr class="warning">
                                         <td><?= $item['code'] ?></td>
                                         <td><?= $item['label'] ?></td>
-<!--                                        <td>--><?php //= $item['occurrence_date'] ? date('Y-m-d', strtotime($item['occurrence_date'])) : '' ?><!--</td>-->
+                                        <td><?= $item['occurrence_date'] ? date('Y-m-d', strtotime($item['occurrence_date'])) : '' ?></td>
 <!--                                        <td>--><?php //= $item['estimated_ship_date'] ? date('Y-m-d', strtotime($item['estimated_ship_date'])) : '' ?><!--</td>-->
 <!--                                        <td>--><?php //= $item['actual_ship_date'] ? date('Y-m-d', strtotime($item['actual_ship_date'])) : '' ?><!--</td>-->
                                         <td><?= \common\models\c2\statics\ProductionScheduleState::getLabel($item['state']) ?></td>

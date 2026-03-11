@@ -40,9 +40,10 @@ class ProductScheduleController extends Controller
         if (!is_null($id = $request->post('id', $request->post('expandRowKey')))) {
             $model = ProductionScheduleItem::findOne($id);
             $product_id = $model->product_id;
-            $scheduleIds =ProductionScheduleItem::find()
+            $ids =ProductionScheduleItem::find()
                 ->alias('a')
                 ->select([
+                    'a.id',
                     'a.schedule_id',
                     'a.product_id',
                 ])
@@ -54,6 +55,7 @@ class ProductScheduleController extends Controller
                 ->andWhere(['in', 'ps.state', [ProductionScheduleState::COMMIT, ProductionScheduleState::CALCULATION]])
                 ->column();
             // print_r($scheduleIds->createCommand()->getRawSql());
+            // print_r($ids);
 
             $models = ProductionConsumption::find()
                 ->alias('pc')
@@ -69,7 +71,7 @@ class ProductScheduleController extends Controller
                 ])
                 ->leftJoin('{{%production_schedule}} ps', 'ps.id=pc.schedule_id')
                 ->with('product.measure')
-                ->where(['in', 'schedule_id', $scheduleIds])
+                ->where(['in', 'schedule_item_id', $ids])
                 ->asArray()->all();
 
             return $this->renderPartial('_detail', ['models' => $models]);
