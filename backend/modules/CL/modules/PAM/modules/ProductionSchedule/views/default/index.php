@@ -2,6 +2,7 @@
 
 use cza\base\models\statics\OperationResult;
 use cza\base\widgets\ui\common\grid\GridView;
+use kartik\export\ExportMenu;
 use yii\bootstrap\ButtonDropdown;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -17,6 +18,65 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
     <div class="well production-schedule-index">
 
+    <div class="well">
+
+        <?php
+
+        echo Html::a('进行中订单', ['index'], [
+            'title' => Yii::t('app', 'Edit'),
+            'data-pjax' => '0',
+            'class' => 'btn btn-primary ',
+            'style' => 'height: 6rem;line-height:5rem'
+        ])
+        ?>
+        <?php
+
+        echo Html::a('已完成订单', ['index', 'ProductionScheduleSearch[order_state]' => 'show_finished'], [
+            'title' => Yii::t('app', 'Edit'),
+            'data-pjax' => '0',
+            'class' => 'btn btn-success ',
+            'style' => 'height: 6rem;line-height:5rem'
+        ])
+        ?>
+    </div>
+
+        <?php
+
+        $exportColumns = [
+            [
+                'attribute' => 'code',
+            ],
+            // 'product_id',
+            'label',
+            'created_at',
+        ];
+
+        $fullExportMenu = ExportMenu::widget([
+            'dataProvider' => $dataProvider,
+            // 'groupByColIndex' => 2, // group by column's index (order id)
+            'columns' => $exportColumns,
+            'showColumnSelector' => false,
+            'target' => ExportMenu::TARGET_BLANK,
+            'fontAwesome' => true,
+            'pjaxContainerId' => 'kv-pjax-container',
+            'dropdownOptions' => [
+                'label' => Yii::t('app.c2', 'Export Data'),
+                'class' => 'btn btn-default',
+                'itemsBefore' => [
+                    '<li class="dropdown-header">' . Yii::t('app.c2', 'Export Current Data') . '</li>',
+                ],
+            ],
+            'exportConfig' => [
+                // ExportMenu::FORMAT_TEXT => false,
+                // ExportMenu::FORMAT_CSV => false,
+                // ExportMenu::FORMAT_PDF => false,
+            ],
+            //                'filename' => utf8_encode(Yii::$app->formatter->asDate(time(), 'long') . "test"),
+            'filename' => "Delivery Items_" . time(),
+        ]);
+
+        ?>
+
         <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
         <?php echo GridView::widget([
@@ -30,36 +90,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'toolbar' => [
                 [
                     'content' =>
-                    // yii\bootstrap\ButtonDropdown::widget([
-                    //     'label' => "<i class='glyphicon glyphicon-plus'></i> " . Yii::t("app.c2", "Create"),
-                    //     'encodeLabel' => false,
-                    //     'options' => [
-                    //         'class' => 'btn btn-success',
-                    //     ],
-                    //     'dropdown' => [
-                    //         'items' => [
-                    //             [
-                    //                 'label' => \common\models\c2\statics\ProductionScheduleType::getProductProcessingLabel(),
-                    //                 'url' => [
-                    //                     'edit',
-                    //                 ],
-                    //                 'linkOptions' => [
-                    //                     'data-pjax' => '0',
-                    //                     'class' => 'material'
-                    //                 ]
-                    //             ],
-                    //             [
-                    //                 'label' => \common\models\c2\statics\ProductionScheduleType::getMixtureProcessingLabel(),
-                    //                 'url' => [
-                    //                     '/cl/pam/production-schedule/mixture/edit',
-                    //                 ],
-                    //                 'linkOptions' => [
-                    //                     'data-pjax' => '0'
-                    //                 ]
-                    //             ],
-                    //         ],
-                    //     ],
-                    // ]) .
                         Html::a('<i class="glyphicon glyphicon-plus"></i>', ['edit'], [
                             'class' => 'btn btn-success',
                             'title' => Yii::t('app.c2', 'Add'),
@@ -76,7 +106,8 @@ $this->params['breadcrumbs'][] = $this->title;
                             'title' => Yii::t('app.c2', 'Reset Grid')
                         ]),
                 ],
-                '{export}',
+                $fullExportMenu,
+                // '{export}',
                 '{toggleData}',
             ],
             'exportConfig' => [],
@@ -94,14 +125,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'id',
                 // 'type',
-                [
-                    // 'attribute' => 'type',
-                    'label' => Yii::t('app.c2', 'Type'),
-                    'value' => function ($model) {
-                        return \common\models\c2\statics\ProductionScheduleType::getLabel($model->type);
-                    },
-                    'filter' => \common\models\c2\statics\ProductionScheduleType::getHashMap('id', 'label')
-                ],
+                // [
+                //     // 'attribute' => 'type',
+                //     'label' => Yii::t('app.c2', 'Type'),
+                //     'value' => function ($model) {
+                //         return \common\models\c2\statics\ProductionScheduleType::getLabel($model->type);
+                //     },
+                //     'filter' => \common\models\c2\statics\ProductionScheduleType::getHashMap('id', 'label')
+                // ],
                 'code',
                 'label',
                 // 'dept_manager_name',
@@ -156,14 +187,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
 
                 ],
-                [
-                    'attribute' => 'state',
-                    'value' => function ($model) {
-                        return \common\models\c2\statics\ProductionScheduleState::getLabel($model->state);
-                    },
-                    'filter' => \common\models\c2\statics\ProductionScheduleState::getHashMap('id', 'label')
-                ],
-                // 'position',
+                // [
+                //     'attribute' => 'state',
+                //     'value' => function ($model) {
+                //         return \common\models\c2\statics\ProductionScheduleState::getLabel($model->state);
+                //     },
+                //     'filter' => \common\models\c2\statics\ProductionScheduleState::getHashMap('id', 'label')
+                // ],
+                'position',
                 // 'updated_at',
                 // 'created_at',
                 // [
@@ -184,7 +215,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'class' => \common\widgets\grid\ActionColumn::className(),
                     'width' => '200px',
                     'template' => '{update1} {update} {commit} {calculation} {termination} {entrance} 
-                    {finish} {send} {check} {checkv2} {print} {delivery-record} {delete}',
+                    {finish} {send} {checkv2} {print} {delivery-record} {delete}',
                     'visibleButtons' => [
                         'update1' => function ($model) {
                             if ($model->state == \common\models\c2\statics\ProductionScheduleState::INIT) {
@@ -269,7 +300,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'entrance' => function ($url, $model, $key) {
                             return Html::a(Yii::t('app.c2', 'Enter'), [
-                                '/p3s/warehouse-note/production',
+                                '/cl/p3s/warehouse-note/production',
                                 'id' => $model->id,
                             ], [
                                 'title' => Yii::t('app.c2', 'Enter'),
@@ -279,7 +310,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'send' => function ($url, $model, $key) {
                             return Html::a(Yii::t('app.c2', 'Send Production Consumption'), [
-                                '/p3s/warehouse-note/mixture-send',
+                                '/cl/p3s/warehouse-note/mixture-send',
                                 'id' => $model->id,
                                 'from' => 'pam-send',
                             ], [
@@ -295,16 +326,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'class' => 'delete m-1',
                             ]);
                         },
-                        // 'check' => function ($url, $model, $key) {
-                        //     return Html::a(Yii::t('app.c2', 'Production Consumption Check'), [
-                        //         '/cl/pam/production-consumption/default/check',
-                        //         'id' => $model->id
-                        //     ], [
-                        //         'title' => Yii::t('app.c2', 'Production Consumption Check'),
-                        //         'data-pjax' => '0',
-                        //         'class' => 'btn btn-info btn-xs',
-                        //     ]);
-                        // },
                         'check' => function ($url, $model, $key) {
                             return Html::a(Yii::t('app.c2', 'Production Consumption Check'), [
                                 '/cl/pam/production-consumption/default/check',

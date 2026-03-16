@@ -16,6 +16,7 @@ use yii\db\Expression;
 class ProductionScheduleItemSearch extends ProductionScheduleItem
 {
     public $total_production;
+    public $total_enter_sum;
     public $estimated_ship_date;
     public $actual_ship_date;
     public $occurrence_date;
@@ -27,7 +28,7 @@ class ProductionScheduleItemSearch extends ProductionScheduleItem
     {
         return [
             [['id', 'schedule_id', 'product_id', 'combination_id', 'measure_id', 'package_id', 'enter_product_id', 'position'], 'integer'],
-            [['created_at', 'updated_at', 'status', 'total_production', 'estimated_ship_date', 'actual_ship_date', 'occurrence_date'], 'safe'],
+            [['created_at', 'updated_at', 'status', 'total_production', 'total_enter_sum', 'estimated_ship_date', 'actual_ship_date', 'occurrence_date'], 'safe'],
             [['product_name', 'product_sku', 'product_label', 'product_value', 'combination_name', 'package_name', 'memo'], 'safe',],
         ];
     }
@@ -75,20 +76,16 @@ class ProductionScheduleItemSearch extends ProductionScheduleItem
         $query->alias('a');
 
         $query->select([
-            'a.id',
-            'a.product_id',
-            'a.product_sku',
-            'a.product_name',
-            'a.product_label',
-            'a.product_value',
-            'a.production_sum',
-            'a.memo',
-            'ps.occurrence_date',
-            'ps.estimated_ship_date',
-            'ps.actual_ship_date',
+            'a.*',
+            // 'ps.occurrence_date',
+            // 'ps.estimated_ship_date',
+            // 'ps.actual_ship_date',
+            new Expression('MAX(ps.occurrence_date) as estimated_ship_date'),
             new Expression('MAX(ps.estimated_ship_date) as estimated_ship_date'),
+            new Expression('MAX(ps.actual_ship_date) as estimated_ship_date'),
             // new Expression('ANY_VALUE(a.product_sku) as product_sku'),
             // new Expression('ANY_VALUE(a.product_name) as product_name'),
+            new Expression('SUM(a.enter_sum) as total_enter_sum'),
             new Expression('SUM(a.production_sum) as total_production'),
         ]);
 
@@ -97,11 +94,14 @@ class ProductionScheduleItemSearch extends ProductionScheduleItem
         $query->with('product.measure');
 
         $query->where(['like', 'ps.label', 'cl'])
-            ->andWhere(['in', 'ps.state', [ProductionScheduleState::COMMIT, ProductionScheduleState::CALCULATION]]);
+            ->andWhere(['in', 'ps.state', [
+                ProductionScheduleState::COMMIT,
+                ProductionScheduleState::CALCULATION
+            ]]);
 
-        $query->groupBy('a.product_sku');
+        $query->groupBy('a.combination_id');
 
-        $query->orderBy(['estimated_ship_date' => SORT_DESC]);
+        $query->orderBy(['ps.position' => SORT_DESC]);
 
         $query
             ->andFilterWhere(['like', 'product_sku', $this->product_sku])

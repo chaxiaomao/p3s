@@ -58,8 +58,6 @@ class ProductionConsumptionSearch extends ProductionConsumption
 
         $this->load($params);
 
-        Yii::info('xxxx');
-        Yii::info($this->schedule_id);
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');

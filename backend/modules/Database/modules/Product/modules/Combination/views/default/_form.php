@@ -176,6 +176,7 @@ $js .= "jQuery('.btn.multiple-input-list__btn.js-input-remove').off('click').on(
        $.ajax({url:'" . Url::toRoute('delete-subitem') . "',data:{id:itemId}}).done(function(result){;}).fail(function(result){alert(result);});
     }
 });\n";
+$js .= "$.fn.modal.Constructor.prototype.enforceFocus = function(){};";   // fix select2 widget input-bug in popup
 
 $this->registerJs($js);
 ?>

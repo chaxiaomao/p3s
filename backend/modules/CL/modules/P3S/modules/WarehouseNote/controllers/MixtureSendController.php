@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\P3S\modules\WarehouseNote\controllers;
+namespace backend\modules\CL\modules\P3S\modules\WarehouseNote\controllers;
 
 use common\models\c2\entity\InventoryReceiptNote;
 use common\models\c2\entity\ProductionSchedule;

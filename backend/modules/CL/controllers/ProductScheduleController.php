@@ -39,7 +39,7 @@ class ProductScheduleController extends Controller
         $request = Yii::$app->request;
         if (!is_null($id = $request->post('id', $request->post('expandRowKey')))) {
             $model = ProductionScheduleItem::findOne($id);
-            $product_id = $model->product_id;
+            $combination_id = $model->combination_id;
             $ids =ProductionScheduleItem::find()
                 ->alias('a')
                 ->select([
@@ -49,32 +49,61 @@ class ProductScheduleController extends Controller
                 ])
                 ->leftJoin('{{%production_schedule}} ps', 'ps.id=a.schedule_id')
                 ->where([
-                    'a.product_id' => $product_id,
+                    'a.combination_id' => $combination_id,
                 ])
                 ->andWhere(['like', 'ps.label', 'cl'])
                 ->andWhere(['in', 'ps.state', [ProductionScheduleState::COMMIT, ProductionScheduleState::CALCULATION]])
                 ->column();
-            // print_r($scheduleIds->createCommand()->getRawSql());
-            // print_r($ids);
 
-            $models = ProductionConsumption::find()
+            $query = ProductionConsumption::find()
                 ->alias('pc')
                 ->select([
                     'pc.*',
                     'ps.code',
                     'ps.label',
-                    'ps.memo',
-                    'ps.state',
-                    'ps.occurrence_date',
-                    'ps.estimated_ship_date',
-                    'ps.actual_ship_date',
                 ])
                 ->leftJoin('{{%production_schedule}} ps', 'ps.id=pc.schedule_id')
                 ->with('product.measure')
-                ->where(['in', 'schedule_item_id', $ids])
-                ->asArray()->all();
+                ->where(['in', 'pc.schedule_item_id', $ids])
+                ->with('product')
+                ->with('product.measure');
 
-            return $this->renderPartial('_detail', ['models' => $models]);
+            $models = $query->asArray()->all();
+
+            $need_sum = [];
+            $send_sum = [];
+            $products = [];
+            $need_products = [];
+
+            foreach ($models as $model) {
+                $num = $model['need_sum'];
+                $num2 = $model['send_sum'];
+                if (isset($need_sum[$model['need_product_id']])) {
+                    $num = $need_sum[$model['need_product_id']] + $num;
+                }
+                if (isset($send_sum[$model['need_product_id']])) {
+                    $num2 = $send_sum[$model['need_product_id']] + $num2;
+                }
+
+                $need_sum[$model['need_product_id']] = $num;
+                $send_sum[$model['need_product_id']] = $num2;
+
+                if ($model['schedule_item_id'] == $id) {
+                    $products[$model['need_product_id']] = $model;
+                }
+
+                $need_products[$model['need_product_id']][] = $model;
+
+            }
+
+            return $this->renderPartial('_detail', [
+                'need_sum' => $need_sum,
+                'send_sum' => $send_sum,
+                'products' => $products,
+                'need_products' => $need_products,
+            ]);
+
+            // return $this->renderPartial('_detail', ['models' => $models]);
         } else {
             return '<div class="alert alert-danger">No data found</div>';
         }

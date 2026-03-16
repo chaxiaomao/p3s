@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\P3S\modules\WarehouseNote;
+namespace backend\modules\CL\modules\P3S\modules\WarehouseNote;
 
 /**
  * warehouse-note module definition class
@@ -10,7 +10,7 @@ class Module extends \yii\base\Module
     /**
      * {@inheritdoc}
      */
-    public $controllerNamespace = 'backend\modules\P3S\modules\WarehouseNote\controllers';
+    public $controllerNamespace = 'backend\modules\CL\modules\P3S\modules\WarehouseNote\controllers';
 
     /**
      * {@inheritdoc}

@@ -2,6 +2,7 @@
 
 namespace backend\models\c2\entity\cl;
 
+use common\models\c2\statics\ProductionScheduleState;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -12,6 +13,9 @@ use common\models\c2\entity\ProductionSchedule;
  */
 class ProductionScheduleSearch extends ProductionSchedule
 {
+
+    public $order_state;
+
     /**
      * @inheritdoc
      */
@@ -20,7 +24,8 @@ class ProductionScheduleSearch extends ProductionSchedule
         return [
             [['id', 'updated_by', 'created_by', 'position'], 'integer'],
             [['type', 'producer', 'code', 'label', 'dept_manager_name', 'financial_name', 'occurrence_date',
-                'estimated_ship_date', 'actual_ship_date', 'accomplish_date', 'memo', 'state', 'status', 'updated_at', 'created_at'], 'safe'],
+                'estimated_ship_date', 'actual_ship_date', 'accomplish_date',
+                'memo', 'state', 'status', 'updated_at', 'created_at', 'order_state'], 'safe'],
         ];
     }
 
@@ -42,7 +47,7 @@ class ProductionScheduleSearch extends ProductionSchedule
      */
     public function search($params)
     {
-        $query = ProductionSchedule::find();
+        $query = self::find();
 
         $query->with('creator');
 
@@ -51,15 +56,17 @@ class ProductionScheduleSearch extends ProductionSchedule
             'sort' => [
                 'sortParam' => $this->getSortParamName(),
             ],
-            'pagination' => [
-                'pageParam' => $this->getPageParamName(),
-                'pageSize' => 20,
-            ],
+            'pagination' => false,
+            // 'pagination' => [
+            //     'pageParam' => $this->getPageParamName(),
+            //     'pageSize' => 20,
+            // ],
         ]);
 
         $dataProvider->setSort([
             'defaultOrder' => [
-                'created_at' => SORT_DESC
+                'position' => SORT_DESC,
+                'created_at' => SORT_DESC,
             ],
         ]);
 
@@ -73,9 +80,19 @@ class ProductionScheduleSearch extends ProductionSchedule
         $query->with('creator.profile', 'updator.profile');
         $query->where(['like', 'label', 'cl']);
 
+        if ($this->order_state == 'show_finished') {
+            $query->andWhere(['state' => ProductionScheduleState::FINISH]);
+        } else {
+            $query->andWhere(['not', ['in', 'state', [
+                ProductionScheduleState::FINISH,
+                ProductionScheduleState::TERMINATION,
+            ]]]);
+        }
+
+
         $query->andFilterWhere([
             'id' => $this->id,
-            'state' => $this->state,
+            // 'state' => $this->state,
         ]);
 
         $query
@@ -89,13 +106,15 @@ class ProductionScheduleSearch extends ProductionSchedule
 
         return $dataProvider;
     }
-    
-    public function getPageParamName($splitor = '-'){
+
+    public function getPageParamName($splitor = '-')
+    {
         $name = "ProductionSchedulePage";
         return \Yii::$app->czaHelper->naming->toSplit($name);
     }
-    
-    public function getSortParamName($splitor = '-'){
+
+    public function getSortParamName($splitor = '-')
+    {
         $name = "ProductionScheduleSort";
         return \Yii::$app->czaHelper->naming->toSplit($name);
     }

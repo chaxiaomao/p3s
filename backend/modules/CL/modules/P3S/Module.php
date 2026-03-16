@@ -35,7 +35,7 @@ class Module extends \yii\base\Module
                 'class' => 'backend\modules\P3S\modules\Warehouse\Module',
             ],
             'warehouse-note' => [
-                'class' => 'backend\modules\P3S\modules\WarehouseNote\Module',
+                'class' => 'backend\modules\CL\modules\P3S\modules\WarehouseNote\Module',
             ],
             'warehouse-note-item' => [
                 'class' => 'backend\modules\P3S\modules\WarehouseNoteItem\Module',

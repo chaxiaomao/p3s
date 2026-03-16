@@ -1,157 +1,116 @@
 <?php
-
-use common\models\c2\entity\ProductionConsumption;
-use yii\helpers\Html;
-use yii\widgets\DetailView;
-
-
 ?>
 
 
-<?php
+<table class="table table-bordered table-hover" style="background-color: #d9edf7;">
 
-$data = [];
-$product_schedules = [];
+    <tr class="tc">
+        <!--        <td class="box60">产品编号</td>-->
+        <td class="box60">名称</td>
+        <td class="box60">标签</td>
+        <td class="box60">值</td>
+        <td class="box60">备注</td>
+        <td class="box60">需送料数</td>
+        <td class="box60">已送料数</td>
+        <td class="box60">未送料数</td>
+        <td class="box60">物料库存数</td>
+        <td class="box60">合单后物料总数</td>
+        <td class="box60">合单后库存情况</td>
+    </tr>
 
-/** @var $models ProductionConsumption */
-if ($models) {
-    foreach ($models as $model) {
-        $cost_amount = $model['need_sum'];
+    <?php foreach ($products as $item): ?>
+        <?php
+        $unit = isset($item['product']['measure']) ? $item['product']['measure']['name'] : '';
+        ?>
 
-        if (isset($data[$model['need_product_id']])) {
-            $cost_amount = $model['need_sum'] + $data[$model['need_product_id']]['cost_amount'];
-        }
+        <tr>
+            <!--            <td class="">--><?php //= $item['need_product_sku'] ?><!--</td>-->
+            <td class=""><?= $item['need_product_name'] ?></td>
+            <td class=""><?= $item['need_product_label'] ?></td>
+            <td class=""><?= $item['need_product_value'] ?></td>
+            <td class=""><?= $item['memo'] ?></td>
+            <td class=""><?= $item['need_sum'] ?><?= $unit ?></td>
+            <td class=""><?= $item['send_sum'] ?><?= $unit ?></td>
+            <td class=""><?= $item['need_sum'] - $item['send_sum'] ?><?= $unit ?></td>
+            <td class="">
+                <?php
+                $num = $item['product']['stock'];
+                if ($item['product']['stock'] > 0) {
+                    echo "<span class='text-green'>{$num}{$unit}</span>";
+                } else {
+                    echo "<span class='text-red'>{$num}{$unit}</span>";
+                }
+                ?>
+            </td>
+            <!--            <td class="">--><?php //= $send_sum[$item['need_product_id']] ?><!----><?php //= $unit ?><!--</td>-->
+            <td class=""><?= $need_sum[$item['need_product_id']] ?><?= $unit ?></td>
+            <td class="">
+                <?php
 
-        $data[$model['need_product_id']] = [
-            'need_product_id' => $model['need_product_id'],
-            'need_product_sku' => $model['need_product_sku'],
-            'need_product_name' => $model['need_product_name'],
-            'need_product_label' => $model['need_product_label'],
-            'need_product_value' => $model['need_product_value'],
-            'measure' => $model['product']['measure']['name'],
-            'cost_amount' => $cost_amount,
-            'current_stock' => $model['product']['stock'],
-            // 'diff_amount' => '',
-        ];
+                $prod_stock = $item['product']['stock'];
 
-        // $product_schedules[$model['need_product_id']][] = [
-        //     'code' => $model['code'],
-        //     'label' => $model['label'],
-        //     'need_sum' => $model['need_sum'],
-        //     'measure' => $model['product']['measure']['name'],
-        // ];
-        $product_schedules[$model['need_product_id']][] = array_merge($model, [
-            'need_sum' => $model['need_sum'],
-            'measure' => $model['product']['measure']['name'],
-        ]);
-    }
-}
+                $need_items = $need_products[$item['need_product_id']];
+                $remain_total = 0;
+                foreach ($need_items as $need_item) {
+                    if ($need_item['send_sum'] < $need_item['need_sum']) {
+                        $remain_total += $need_item['need_sum'] - $need_item['send_sum'];
+                    }
+                }
 
+                $num = $prod_stock - $remain_total;
+                if ($num > 0) {
+                    echo "<span class='text-green'>{$num}{$unit}</span>";
+                } else {
+                    echo "<span class='text-red'>{$num}{$unit}</span>";
+                }
+                ?>
+                <a class="btn btn-link" role="button" data-toggle="collapse" href="#Expand_<?= $item['need_product_id'] ?>"
+                   aria-expanded="false"
+                   aria-controls="collapseExample">查看
+                    <!--                    <span class="badge">-->
+                    <!--                        --><?php //= count($need_products[$item['need_product_id']]) ?>
+                    <!--                    </span>-->
+                </a>
+            </td>
+        </tr>
 
-?>
+        <tr>
+            <td class="no-padding" colspan="11">
+                <div class="collapse " id="Expand_<?= $item['need_product_id'] ?>">
 
-<div class="order-item-detail">
-    <div class="table-responsive" style="background-color: #fff;width: 100%;">
+                    <table class="table table-bordered margin-bottom-none bg-gray">
 
-        <table class="table table-bordered table-hover" style="min-width:1200px;table-layout:fixed;">
-<!--        <table class="table table-bordered table-hover" style="">-->
+                        <tr class="">
+                            <td class="box60">订单编号</td>
+                            <td class="box60">名称</td>
+                            <td class="box60">标签</td>
+                            <td class="box60">值</td>
+                            <td class="box60">备注</td>
+                            <td class="box60">需要物料数量</td>
+                            <td class="box60">已送料数</td>
+                            <td class="box60">未送料数</td>
+                        </tr>
 
-            <tr class="">
-                <td class="box60">物料编号</td>
-                <td class="box60">物料名称</td>
-                <td class="box60">标签</td>
-                <td class="box60">值</td>
-                <!--            <td class="box120">使用数量/单位</td>-->
-                <!--            <td class="box120">单位</td>-->
-                <!--        <td class="box120">当前物料库存</td>-->
-                <td style="width: 112px">需要物料总量</td>
-                <td style="width: 112px">现有库存</td>
-                <td style="width: 112px">差值</td>
-                <td style="width: 80px">关联订单</td>
-            </tr>
+                        <?php foreach ($need_products[$item['need_product_id']] as $item1): ?>
+                            <tr class="">
+                                <td><?= $item1['code'] ?></td>
+                                <td><?= $item1['need_product_name'] ?></td>
+                                <td><?= $item1['need_product_label'] ?></td>
+                                <td><?= $item1['need_product_value'] ?></td>
+                                <td><?= $item1['memo'] ?></td>
+                                <td><?= $item1['need_sum'] . $unit ?></td>
+                                <td class=""><?= $item1['send_sum'] ?><?= $unit ?></td>
+                                <td class=""><?= $item1['need_sum'] - $item1['send_sum'] ?><?= $unit ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </table>
 
-            <?php
+                </div>
+            </td>
 
-            foreach ($data as $productid => $datum): ?>
-                <tr class="success">
-                    <td><?= $datum['need_product_sku'] ?></td>
-                    <td><?= $datum['need_product_name'] ?></td>
-                    <td><?= $datum['need_product_label'] ?></td>
-                    <td><?= $datum['need_product_value'] ?></td>
-                    <td><?= $datum['cost_amount'] . ' ' . $datum['measure'] ?></td>
-                    <td><?= $datum['current_stock'] . ' ' . $datum['measure'] ?></td>
-                    <td>
-                        <?php
+        </tr>
 
-                        if ($datum['current_stock'] < $datum['cost_amount']) {
-                            echo "<span class='text-red'>" . ($datum['current_stock'] - $datum['cost_amount']) . $datum['measure'] . "</span>";
-                        } else {
-                            echo "<span class='text-green'>剩余" . ($datum['current_stock'] - $datum['cost_amount']) . $datum['measure'] . "</span>";
-                        }
-                        ?>
-                    </td>
-                    <td>
-
-                        <a class="btn btn-link" role="button" data-toggle="collapse"
-                           href="#Expand_<?= $datum['need_product_id'] ?>" aria-expanded="false"
-                           aria-controls="collapseExample">
-                            查看
-                            <span class="badge"><?= count($product_schedules[$datum['need_product_id']]) ?></span></a>
-
-                    </td>
-                </tr>
-                <tr>
-                    <td class="no-padding" colspan="8">
-                        <div class="collapse bg-warning" id="Expand_<?= $datum['need_product_id'] ?>">
-
-                            <table class="table table-bordered table-hover margin-bottom-none">
-
-                                <tr class="">
-                                    <td class="box60">订单编号</td>
-                                    <td class="box60">订单标签</td>
-                                    <td class="box60">下单日期</td>
-<!--                                    <td class="box60">预计出货日期</td>-->
-<!--                                    <td class="box60">实际出货日期</td>-->
-                                    <td class="box60">流程状态</td>
-                                    <td class="box60">备注</td>
-                                    <td class="box60">需要物料数量</td>
-                                </tr>
-
-                                <?php foreach ($product_schedules[$datum['need_product_id']] as $item): ?>
-                                    <tr class="warning">
-                                        <td><?= $item['code'] ?></td>
-                                        <td><?= $item['label'] ?></td>
-                                        <td><?= $item['occurrence_date'] ? date('Y-m-d', strtotime($item['occurrence_date'])) : '' ?></td>
-<!--                                        <td>--><?php //= $item['estimated_ship_date'] ? date('Y-m-d', strtotime($item['estimated_ship_date'])) : '' ?><!--</td>-->
-<!--                                        <td>--><?php //= $item['actual_ship_date'] ? date('Y-m-d', strtotime($item['actual_ship_date'])) : '' ?><!--</td>-->
-                                        <td><?= \common\models\c2\statics\ProductionScheduleState::getLabel($item['state']) ?></td>
-                                        <td><?= $item['memo'] ?></td>
-                                        <td><?= $item['need_sum'] . $datum['measure'] ?></td>
-                                    </tr>
-                                    <!--                                <p>-->
-                                    <!--                                    <span>订单编号：--><?php //= $item['code'] ?><!--</span><br/>-->
-                                    <!--                                    <span>订单标签：--><?php //= $item['label'] ?><!--</span><br/>-->
-                                    <!--                                    <span>需要物料数量：--><?php //= $item['need_sum'] . ' ' . $datum['measure'] ?><!--</span>-->
-                                    <!--                                </p>-->
-                                    <!--                                <hr/>-->
-                                <?php endforeach; ?>
-                            </table>
-
-                        </div>
-                    </td>
-
-                </tr>
-
-            <?php endforeach; ?>
+    <?php endforeach; ?>
 
 
-        </table>
-        <?php if (!empty($datetime) && empty($data)): ?>
-            <div class="alert">如找不到该月份订单数据，可能需操作一次计算物料。
-                <a class="text-red" href="/cl/pam/production-schedule">点击</a>
-            </div>
-        <?php endif; ?>
-    </div>
-
-</div>
-
+</table>

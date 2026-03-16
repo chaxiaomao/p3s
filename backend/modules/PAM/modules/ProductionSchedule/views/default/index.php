@@ -198,7 +198,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'finish' => function ($model) {
                             return ($model->state == \common\models\c2\statics\ProductionScheduleState::COMMIT
-                            || $model->state == \common\models\c2\statics\ProductionScheduleState::ALL_SEND);
+                                || $model->state == \common\models\c2\statics\ProductionScheduleState::ALL_SEND);
                         },
                         // 'delivery-record' => function ($model) {
                         //     return ($model->state != \common\models\c2\statics\ProductionScheduleState::FINISH);

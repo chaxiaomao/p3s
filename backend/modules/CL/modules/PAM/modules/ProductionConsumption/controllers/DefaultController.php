@@ -4,6 +4,8 @@ namespace backend\modules\CL\modules\PAM\modules\ProductionConsumption\controlle
 
 use backend\models\c2\form\SabMixtureForm;
 use common\models\c2\entity\Measure;
+use common\models\c2\entity\ProductionSchedule;
+use common\models\c2\entity\ProductionScheduleItem;
 use common\models\c2\statics\ProductionScheduleState;
 use cza\base\models\statics\ResponseDatum;
 use Yii;
@@ -11,6 +13,7 @@ use common\models\c2\entity\ProductionConsumption;
 use common\models\c2\search\ProductionConsumptionSearch;
 
 use cza\base\components\controllers\backend\ModelController as Controller;
+use yii\data\ActiveDataProvider;
 use yii\db\Expression;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -21,7 +24,7 @@ use yii\filters\VerbFilter;
 class DefaultController extends Controller
 {
     public $modelClass = 'common\models\c2\entity\ProductionConsumption';
-    
+
     /**
      * Lists all ProductionConsumption models.
      * @return mixed
@@ -107,10 +110,10 @@ class DefaultController extends Controller
      * fit to pajax call
      * @return mixed
      */
-    public function actionEdit($id = null) 
+    public function actionEdit($id = null)
     {
         $model = $this->retrieveModel($id);
-        
+
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
                 Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);
@@ -118,10 +121,10 @@ class DefaultController extends Controller
                 Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
             }
         }
-        
-        return (Yii::$app->request->isAjax) ? $this->renderAjax('edit', [ 'model' => $model,]) : $this->render('edit', [ 'model' => $model,]);
+
+        return (Yii::$app->request->isAjax) ? $this->renderAjax('edit', ['model' => $model,]) : $this->render('edit', ['model' => $model,]);
     }
-    
+
     /**
      * Finds the ProductionConsumption model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
@@ -151,7 +154,7 @@ class DefaultController extends Controller
             }
         }
 
-        return (Yii::$app->request->isAjax) ? $this->renderAjax('send_mixture_form', [ 'model' => $model,]) : $this->render('send_mixture_form', [ 'model' => $model,]);
+        return (Yii::$app->request->isAjax) ? $this->renderAjax('send_mixture_form', ['model' => $model,]) : $this->render('send_mixture_form', ['model' => $model,]);
     }
 
     public function actionBackMixture($id = null, $product_id = null)
@@ -167,7 +170,7 @@ class DefaultController extends Controller
             }
         }
 
-        return (Yii::$app->request->isAjax) ? $this->renderAjax('back_mixture_form', [ 'model' => $model,]) : $this->render('send_mixture_form', [ 'model' => $model,]);
+        return (Yii::$app->request->isAjax) ? $this->renderAjax('back_mixture_form', ['model' => $model,]) : $this->render('send_mixture_form', ['model' => $model,]);
     }
 
     public function actionAllSend($id)

@@ -49,8 +49,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'exportConfig' => [],
             'columns' => [
-                ['class' => 'kartik\grid\CheckboxColumn'],
-                ['class' => 'kartik\grid\SerialColumn'],
+                // ['class' => 'kartik\grid\CheckboxColumn'],
+                // ['class' => 'kartik\grid\SerialColumn'],
                 [
                     'class' => 'kartik\grid\ExpandRowColumn',
                     'expandIcon' => '<span class="fa fa-plus-square-o"></span>',
@@ -63,35 +63,52 @@ $this->params['breadcrumbs'][] = $this->title;
                 'id',
                 'product_sku',
                 'product_name',
-                'product_label',
-                'product_value',
+                'combination_name',
+                // 'product_label',
+                // 'product_value',
                 // 'total_production',
                 [
                     'attribute' => 'total_production',
-                    'label' => '生产总量',
+                    'label' => '总生产数量',
                     'value' => function ($model) {
                         // return $model['total_production'] . $model['product']['measure']['name'];
                         return $model['total_production'];
                     }
                 ],
                 [
+                    'attribute' => 'total_enter_sum',
+                    'label' => '总入仓数量',
+                    'value' => function ($model) {
+                        // return $model['total_production'] . $model['product']['measure']['name'];
+                        return $model['total_enter_sum'];
+                    }
+                ],
+                [
+                    'attribute' => 'total_enter_sum',
+                    'label' => '总未仓数量',
+                    'value' => function ($model) {
+                        // return $model['total_production'] . $model['product']['measure']['name'];
+                        return $model['total_production'] - $model['total_enter_sum'];
+                    }
+                ],
+                [
                     'attribute' => 'memo',
                     'format' => 'html',
                 ],
-                [
-                    'attribute' => 'occurrence_date',
-                    'label' => '下单时间',
-                    'value' => function ($model) {
-                        return $model['occurrence_date'] ? date('Y-m-d', strtotime($model['occurrence_date'])) : '';
-                    }
-                ],
-                [
-                    'attribute' => 'estimated_ship_date',
-                    'label' => '预计出货时间',
-                    'value' => function ($model) {
-                        return $model['estimated_ship_date'] ? date('Y-m-d', strtotime($model['estimated_ship_date'])) : '';
-                    }
-                ],
+                // [
+                //     'attribute' => 'occurrence_date',
+                //     'label' => '下单时间',
+                //     'value' => function ($model) {
+                //         return $model['occurrence_date'] ? date('Y-m-d', strtotime($model['occurrence_date'])) : '';
+                //     }
+                // ],
+                // [
+                //     'attribute' => 'estimated_ship_date',
+                //     'label' => '预计出货时间',
+                //     'value' => function ($model) {
+                //         return $model['estimated_ship_date'] ? date('Y-m-d', strtotime($model['estimated_ship_date'])) : '';
+                //     }
+                // ],
                 // [
                 //     'attribute' => 'actual_ship_date',
                 //     'label' => '实际时间',

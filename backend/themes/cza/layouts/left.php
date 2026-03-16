@@ -73,7 +73,7 @@ use yii\helpers\Html;
                             // ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Warehouse Commit Note Statics')]), 'icon' => 'fa fa-circle-o', 'url' => ['/statics/warehouse-commit-note']],
                             ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Receipt Items Statics')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/statics/receipt-items'], 'visible' => \Yii::$app->user->can('P_STATICS_PURCHASE')],
                             ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Delivery Items Statics')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/statics/delivery-items'], 'visible' => \Yii::$app->user->can('P_STATICS_DELIVERY')],
-                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Warehouse Commit Log')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/p3s/warehouse-note/default/log']],
+                            // ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Warehouse Commit Log')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/p3s/warehouse-note/default/log']],
                         ]
                     ],
                     // ['label' => Yii::t('app.c2', 'Resume'), 'icon' => 'fa fa-circle-o', 'url' => ['/resume']],
