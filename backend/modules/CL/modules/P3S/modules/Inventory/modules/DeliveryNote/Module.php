@@ -2,15 +2,19 @@
 
 namespace backend\modules\CL\modules\P3S\modules\Inventory\modules\DeliveryNote;
 
+use Yii;
+
 /**
  * delivery-note module definition class
  */
-class Module extends \yii\base\Module
+class Module extends \backend\components\Module
 {
     /**
      * {@inheritdoc}
      */
     public $controllerNamespace = 'backend\modules\CL\modules\P3S\modules\Inventory\modules\DeliveryNote\controllers';
+
+    public $permission = "P_DELIVERY";
 
     /**
      * {@inheritdoc}

@@ -2,7 +2,7 @@
 
 namespace backend\modules\CL\modules\PAM\modules\MixtureSchedule\controllers;
 
-use backend\models\c2\entity\cl\ProductionScheduleSearch;
+use backend\models\c2\entity\cl\ProductionScheduleSearch1;
 use backend\models\c2\entity\MixtureScheduleTermination;
 use common\models\c2\entity\OrderItem;
 use common\models\c2\entity\ProductionScheduleItem;
@@ -29,7 +29,7 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new ProductionScheduleSearch();
+        $searchModel = new ProductionScheduleSearch1();
         $searchModel->type = ProductionScheduleType::MIXTURE;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 

@@ -5,12 +5,14 @@ namespace backend\modules\CL\modules\Statics\modules\SalesProduct;
 /**
  * sales-product module definition class
  */
-class Module extends \yii\base\Module
+class Module extends \backend\components\Module
 {
     /**
      * {@inheritdoc}
      */
     public $controllerNamespace = 'backend\modules\CL\modules\Statics\modules\SalesProduct\controllers';
+
+    public $permission = "P_STATICS_SALES";
 
     /**
      * {@inheritdoc}

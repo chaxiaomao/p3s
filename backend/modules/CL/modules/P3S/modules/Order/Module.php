@@ -2,15 +2,20 @@
 
 namespace backend\modules\CL\modules\P3S\modules\Order;
 
+use Yii;
+
 /**
  * order module definition class
  */
-class Module extends \yii\base\Module
+class Module extends \backend\components\Module
 {
     /**
      * {@inheritdoc}
      */
     public $controllerNamespace = 'backend\modules\CL\modules\P3S\modules\Order\controllers';
+
+    public $permission = "P_ORDER";
+
 
     /**
      * {@inheritdoc}

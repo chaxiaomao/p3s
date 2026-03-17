@@ -11,10 +11,8 @@ use common\models\c2\entity\ProductionSchedule;
 /**
  * ProductionScheduleSearch represents the model behind the search form about `common\models\c2\entity\ProductionSchedule`.
  */
-class ProductionScheduleSearch extends ProductionSchedule
+class ProductionScheduleSearch1 extends ProductionSchedule
 {
-
-    public $order_state;
 
     /**
      * @inheritdoc
@@ -55,11 +53,10 @@ class ProductionScheduleSearch extends ProductionSchedule
             'sort' => [
                 'sortParam' => $this->getSortParamName(),
             ],
-            'pagination' => false,
-            // 'pagination' => [
-            //     'pageParam' => $this->getPageParamName(),
-            //     'pageSize' => 20,
-            // ],
+            'pagination' => [
+                'pageParam' => $this->getPageParamName(),
+                'pageSize' => 20,
+            ],
         ]);
 
         $dataProvider->setSort([
@@ -78,15 +75,6 @@ class ProductionScheduleSearch extends ProductionSchedule
         }
         $query->with('creator.profile', 'updator.profile');
         $query->where(['like', 'label', 'cl']);
-
-        if ($this->order_state == 'show_finished') {
-            $query->andWhere(['state' => ProductionScheduleState::FINISH]);
-        } else {
-            $query->andWhere(['not', ['in', 'state', [
-                ProductionScheduleState::FINISH,
-                ProductionScheduleState::TERMINATION,
-            ]]]);
-        }
 
 
         $query->andFilterWhere([
