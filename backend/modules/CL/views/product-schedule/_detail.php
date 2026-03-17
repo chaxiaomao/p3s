@@ -64,7 +64,7 @@
                     echo "<span class='text-red'>{$num}{$unit}</span>";
                 }
                 ?>
-                <a class="btn btn-link" role="button" data-toggle="collapse" href="#Expand_<?= $item['need_product_id'] ?>"
+                <a class="btn btn-link" role="button" data-toggle="collapse" href="#Expand_<?= $item['id'] . $item['need_product_id'] ?>"
                    aria-expanded="false"
                    aria-controls="collapseExample">查看
                     <!--                    <span class="badge">-->
@@ -76,7 +76,7 @@
 
         <tr>
             <td class="no-padding" colspan="11">
-                <div class="collapse " id="Expand_<?= $item['need_product_id'] ?>">
+                <div class="collapse " id="Expand_<?= $item['id'] . $item['need_product_id'] ?>">
 
                     <table class="table table-bordered margin-bottom-none bg-gray">
 

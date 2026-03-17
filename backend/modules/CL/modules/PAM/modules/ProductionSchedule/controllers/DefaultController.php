@@ -155,21 +155,32 @@ class DefaultController extends Controller
 
     public function actionPsMatters($psid, $psitemid, $ids)
     {
-        if (is_string($ids)) {
-            $ids = explode(',', $ids);
-        }
+        $need_product_ids = ProductionConsumption::find()
+            ->select('need_product_id')
+            ->where(['schedule_item_id' => $psitemid])
+            ->column();
+
         $query = ProductionConsumption::find()
-            ->alias('pc')
+            ->alias('a')
             ->select([
-                'pc.*',
+                'a.*',
                 'ps.code',
                 'ps.label',
             ])
-            ->leftJoin('{{%production_schedule}} ps', 'ps.id=pc.schedule_id')
-            ->with('product.measure')
-            ->where(['in', 'pc.schedule_item_id', $ids])
             ->with('product')
-            ->with('product.measure');
+            ->with('product.measure')
+            ->leftJoin('{{%production_schedule}} ps', 'ps.id=a.schedule_id')
+            ->where(['in', 'a.need_product_id', $need_product_ids])
+            ->andWhere(['like', 'ps.label', 'cl'])
+            ->andWhere(['not', ['in', 'ps.state', [
+                ProductionScheduleState::INIT,
+                ProductionScheduleState::FINISH,
+                ProductionScheduleState::TERMINATION,
+            ]]])
+            ->orderBy([
+                'ps.position' => SORT_DESC,
+                // 'ps.estimated_ship_date' => SORT_ASC,
+            ]);
 
         $models = $query->asArray()->all();
 

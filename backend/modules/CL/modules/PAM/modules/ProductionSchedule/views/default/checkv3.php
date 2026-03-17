@@ -62,7 +62,7 @@
                     echo "<span class='text-red'>{$num}{$unit}</span>";
                 }
                 ?>
-                <a role="button" data-toggle="collapse" href="#Expand_<?= $item['combination_id'] ?>"
+                <a role="button" data-toggle="collapse" href="#Expand_<?= $item['id'] . $item['combination_id'] ?>"
                    aria-expanded="false"
                    aria-controls="collapseExample">查看
 <!--                    <span class="badge">-->
@@ -87,7 +87,7 @@
 
         <tr>
             <td class="no-padding" colspan="11">
-                <div class="collapse " id="Expand_<?= $item['combination_id'] ?>">
+                <div class="collapse " id="Expand_<?= $item['id'] . $item['combination_id'] ?>">
 
                     <table class="table table-bordered margin-bottom-none bg-gray">
 

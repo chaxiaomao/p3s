@@ -4,6 +4,7 @@ namespace backend\models\c2\entity\cl;
 
 use common\models\c2\entity\ProductionScheduleItem;
 use common\models\c2\statics\ProductionScheduleState;
+use common\models\c2\statics\ProductionScheduleType;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -93,7 +94,9 @@ class ProductionScheduleItemSearch extends ProductionScheduleItem
 
         $query->with('product.measure');
 
-        $query->where(['like', 'ps.label', 'cl'])
+        $query
+            ->where(['like', 'ps.label', 'cl'])
+            ->andWhere(['ps.type' => ProductionScheduleType::PRODUCT])
             ->andWhere(['in', 'ps.state', [
                 ProductionScheduleState::COMMIT,
                 ProductionScheduleState::CALCULATION
