@@ -10,9 +10,9 @@
         <td class="box60">标签</td>
         <td class="box60">值</td>
         <td class="box60">备注</td>
-        <td class="box60">需送料数</td>
-        <td class="box60">已送料数</td>
-        <td class="box60">未送料数</td>
+        <td class="box60">合单需送料数</td>
+        <td class="box60">合单已送料数</td>
+        <td class="box60">合单未送料数</td>
         <td class="box60">物料库存数</td>
         <td class="box60">合单后物料总数</td>
         <td class="box60">合单后库存情况</td>
@@ -29,9 +29,9 @@
             <td class=""><?= $item['need_product_label'] ?></td>
             <td class=""><?= $item['need_product_value'] ?></td>
             <td class=""><?= $item['memo'] ?></td>
-            <td class=""><?= $item['need_sum'] ?><?= $unit ?></td>
-            <td class=""><?= $item['send_sum'] ?><?= $unit ?></td>
-            <td class=""><?= $item['need_sum'] - $item['send_sum'] ?><?= $unit ?></td>
+            <td class=""><?= $need_sum[$item['need_product_id']] ?><?= $unit ?></td>
+            <td class=""><?= $send_sum[$item['need_product_id']] ?><?= $unit ?></td>
+            <td class=""><?= $need_sum[$item['need_product_id']] - $send_sum[$item['need_product_id']] ?><?= $unit ?></td>
             <td class="">
                 <?php
                 $num = $item['product']['stock'];
