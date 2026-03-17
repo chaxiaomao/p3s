@@ -25,6 +25,8 @@ use yii\validators\RequiredValidator;
  * @property string $producer
  * @property string $dept_manager_name
  * @property string $financial_name
+ * @property string $area
+ * @property string $barcode
  * @property string $occurrence_date
  * @property string $estimated_ship_date
  * @property string $actual_ship_date
@@ -59,7 +61,7 @@ class ProductionSchedule extends \cza\base\models\ActiveRecord
             [['updated_by', 'created_by', 'position'], 'integer'],
             [['memo',], 'string'],
             [['type', 'state', 'status'], 'integer', 'max' => 4],
-            [['code', 'label', 'dept_manager_name', 'financial_name', 'producer'], 'string', 'max' => 255],
+            [['code', 'label', 'dept_manager_name', 'financial_name', 'producer', 'barcode', 'area'], 'string', 'max' => 255],
         ];
     }
 
@@ -86,6 +88,8 @@ class ProductionSchedule extends \cza\base\models\ActiveRecord
             'producer' => Yii::t('app.c2', 'Producer'),
             'updated_at' => Yii::t('app.c2', 'Updated At'),
             'created_at' => Yii::t('app.c2', 'Created At'),
+            'barcode' => Yii::t('app.c2', 'Barcode'),
+            'area' => Yii::t('app.c2', 'Area'),
         ];
     }
 

@@ -18,41 +18,85 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
     <div class="well production-schedule-index">
 
-    <div class="well">
+        <div class="well">
 
-        <?php
+            <?php
 
-        echo Html::a('进行中订单', ['index'], [
-            'title' => Yii::t('app', 'Edit'),
-            'data-pjax' => '0',
-            'class' => 'btn btn-primary ',
-            'style' => 'height: 6rem;line-height:5rem'
-        ])
-        ?>
-        <?php
+            echo Html::a('进行中订单', ['index'], [
+                'title' => Yii::t('app', 'Edit'),
+                'data-pjax' => '0',
+                'class' => 'btn btn-primary ',
+                'style' => 'height: 6rem;line-height:5rem'
+            ])
+            ?>
+            <?php
 
-        echo Html::a('已完成订单', ['index', 'ProductionScheduleSearch[order_state]' => 'show_finished'], [
-            'title' => Yii::t('app', 'Edit'),
-            'data-pjax' => '0',
-            'class' => 'btn btn-success ',
-            'style' => 'height: 6rem;line-height:5rem'
-        ])
-        ?>
-    </div>
+            echo Html::a('已完成订单', ['index', 'ProductionScheduleSearch[order_state]' => 'show_finished'], [
+                'title' => Yii::t('app', 'Edit'),
+                'data-pjax' => '0',
+                'class' => 'btn btn-success ',
+                'style' => 'height: 6rem;line-height:5rem'
+            ])
+            ?>
+        </div>
 
         <?php
 
         $exportColumns = [
             [
                 'attribute' => 'code',
+                'label' => 'PO',
             ],
-            // 'product_id',
-            'label',
-            'created_at',
+            [
+                'attribute' => 'barcode',
+                'label' => '条码',
+                'value' => function ($model) {
+                    return !is_null($model->barcode) ? $model->barcode : '';
+                },
+            ],
+            [
+                'attribute' => 'area',
+                'label' => '地区',
+                'value' => function ($model) {
+                    return !is_null($model->area) ? $model->area : '';
+                },
+            ],
+            [
+                'attribute' => 'product_name',
+                'label' => '名称',
+                'value' => function ($model) {
+                    $scheduleItems = $model->scheduleItems;
+                    if (!empty($scheduleItems) && count($scheduleItems) > 0) {
+                        $item = $scheduleItems[0];
+                        return $item->product_name;
+                    }
+                    return '';
+                },
+            ],
+            [
+                'attribute' => 'number',
+                'label' => '数量',
+                'value' => function ($model) {
+                    $scheduleItems = $model->scheduleItems;
+                    if (!empty($scheduleItems) && count($scheduleItems) > 0) {
+                        $item = $scheduleItems[0];
+                        return $item->production_sum;
+                    }
+                    return '';
+                },
+            ],
+            [
+                'attribute' => 'created_at',
+                'label' => '时间',
+                'value' => function ($model) {
+                    return date('Y-m-d', strtotime($model->created_at));
+                },
+            ],
         ];
 
         $fullExportMenu = ExportMenu::widget([
             'dataProvider' => $dataProvider,
+            'showHeader' => true,
             // 'groupByColIndex' => 2, // group by column's index (order id)
             'columns' => $exportColumns,
             'showColumnSelector' => false,
@@ -256,7 +300,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'finish' => function ($model) {
                             return ($model->state == \common\models\c2\statics\ProductionScheduleState::COMMIT
-                            || $model->state == \common\models\c2\statics\ProductionScheduleState::ALL_SEND);
+                                || $model->state == \common\models\c2\statics\ProductionScheduleState::ALL_SEND);
                         },
                         // 'delivery-record' => function ($model) {
                         //     return ($model->state != \common\models\c2\statics\ProductionScheduleState::FINISH);

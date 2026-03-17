@@ -62,6 +62,9 @@ $form = ActiveForm::begin([
                             'placeholder' => '如：CL-XXX'
                         ]
                     ],
+                    'barcode' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('barcode')]],
+                    'area' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('area')]],
+
                     'dept_manager_name' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('dept_manager_name')]],
                     'financial_name' => ['type' => Form::INPUT_TEXT, 'options' => ['placeholder' => $model->getAttributeLabel('financial_name')]],
                     'occurrence_date' => [

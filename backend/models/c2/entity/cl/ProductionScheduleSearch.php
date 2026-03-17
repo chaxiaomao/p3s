@@ -76,7 +76,18 @@ class ProductionScheduleSearch extends ProductionSchedule
             // $query->where('0=1');
             return $dataProvider;
         }
-        $query->with('creator.profile', 'updator.profile');
+        $query->with([
+            'creator.profile',
+            'updator.profile',
+            'scheduleItems' => function ($q) {
+                $q->select([
+                    'id',
+                    'schedule_id',
+                    'product_name',
+                    'production_sum',
+                ]);
+            }
+        ]);
         $query->where(['like', 'label', 'cl']);
 
         if ($this->order_state == 'show_finished') {
