@@ -108,7 +108,7 @@
                                 <td><?= $item1['need_product_name'] ?></td>
                                 <td><?= $item1['need_product_label'] ?></td>
                                 <td><?= $item1['need_product_value'] ?></td>
-                                <td><?= $item1['memo'] ?></td>
+                                <td><?= $item1['ps_memo'] ?></td>
                                 <td><?= $item1['need_sum'] . $unit ?></td>
                                 <td class=""><?= $item1['send_sum'] ?><?= $unit ?></td>
                                 <td class=""><?= $item1['need_sum'] - $item1['send_sum'] ?><?= $unit ?></td>
