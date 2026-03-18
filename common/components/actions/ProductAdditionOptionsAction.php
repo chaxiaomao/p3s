@@ -90,6 +90,7 @@ class ProductAdditionOptionsAction extends \yii\base\Action {
                 'name' =>  $item->name
             ];
         }
+        $result['output']['product_name'] = $model->sku . '(' . $model->name . ')';
         $result['output']['package'] = $options;
         $result['output']['last_price'] = 0.000;
 

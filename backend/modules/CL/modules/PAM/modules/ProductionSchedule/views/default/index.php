@@ -44,8 +44,16 @@ $this->params['breadcrumbs'][] = $this->title;
 
         $exportColumns = [
             [
-                'attribute' => 'code',
-                'label' => 'PO',
+                'attribute' => 'product_name',
+                'label' => '名称',
+                'value' => function ($model) {
+                    $scheduleItems = $model->scheduleItems;
+                    if (!empty($scheduleItems) && count($scheduleItems) > 0) {
+                        $item = $scheduleItems[0];
+                        return $item->product_name;
+                    }
+                    return '';
+                },
             ],
             [
                 'attribute' => 'barcode',
@@ -62,16 +70,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
             ],
             [
-                'attribute' => 'product_name',
-                'label' => '名称',
-                'value' => function ($model) {
-                    $scheduleItems = $model->scheduleItems;
-                    if (!empty($scheduleItems) && count($scheduleItems) > 0) {
-                        $item = $scheduleItems[0];
-                        return $item->product_name;
-                    }
-                    return '';
-                },
+                'attribute' => 'code',
+                'label' => 'PO',
             ],
             [
                 'attribute' => 'number',
@@ -115,8 +115,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 // ExportMenu::FORMAT_CSV => false,
                 // ExportMenu::FORMAT_PDF => false,
             ],
-            //                'filename' => utf8_encode(Yii::$app->formatter->asDate(time(), 'long') . "test"),
-            'filename' => "Delivery Items_" . time(),
+            'filename' => "产品生产_" . date("Y-m-d", time()),
         ]);
 
         ?>

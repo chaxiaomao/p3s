@@ -52,11 +52,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
         $query = \common\models\c2\entity\Product::find()
             ->andWhere(['type' => \common\models\c2\statics\ProductType::TYPE_PRODUCT]);
+        $query->andFilterWhere(['like', 'sku', 'cl-']);
         $dataProviderAll = new ActiveDataProvider([
             'query' => $query,
-            'pagination' => [
-                'pageSize' => 2000,
-            ],
+            'pagination' => false,
         ]);
 
         $fullExportMenu = \backend\components\exports\CeExport::widget([
@@ -124,15 +123,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'columns' => [
                 // ['class' => 'kartik\grid\CheckboxColumn'],
                 // ['class' => 'kartik\grid\SerialColumn'],
-                // [
-                //     'class' => 'kartik\grid\ExpandRowColumn',
-                //     'expandIcon' => '<span class="fa fa-plus-square-o"></span>',
-                //     'collapseIcon' => '<span class="fa fa-minus-square-o"></span>',
-                //     'detailUrl' => Url::toRoute(['detail']),
-                //     'value' => function ($model, $key, $index, $column) {
-                //         return GridView::ROW_COLLAPSED;
-                //     },
-                // ],
+                [
+                    'class' => 'kartik\grid\ExpandRowColumn',
+                    'expandIcon' => '<span class="fa fa-plus-square-o"></span>',
+                    'collapseIcon' => '<span class="fa fa-minus-square-o"></span>',
+                    'detailUrl' => Url::toRoute(['detail']),
+                    'value' => function ($model, $key, $index, $column) {
+                        return GridView::ROW_COLLAPSED;
+                    },
+                ],
                 'id',
                 // 'type',
 

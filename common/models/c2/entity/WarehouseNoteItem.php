@@ -26,6 +26,8 @@ use Yii;
  * @property integer $before_stock
  * @property integer $price
  * @property integer $subtotal
+ * @property integer creator
+ * @property integer updator
  * @property string $memo
  * @property integer $status
  * @property integer $position
@@ -53,8 +55,9 @@ class WarehouseNoteItem extends \cza\base\models\ActiveRecord
     public function rules()
     {
         return [
-            [['note_id', 'ref_note_id', 'measure_id', 'product_id', 'combination_id', 'package_id', 'pieces', 'number', 'price', 'subtotal', 'position', 'before_stock'], 'integer'],
-            [['created_at', 'updated_at', 'item_id'], 'safe'],
+            [['note_id', 'ref_note_id', 'measure_id', 'product_id', 'combination_id', 'package_id', 'pieces', 'number',
+                'price', 'subtotal', 'position', 'before_stock', 'updator', 'creator'], 'integer'],
+            [['created_at', 'updated_at', 'item_id', 'updator', 'creator'], 'safe'],
             [['product_name', 'product_sku', 'product_label', 'product_value', 'combination_name', 'package_name', 'memo'], 'string', 'max' => 255],
             [['status'], 'integer', 'max' => 4],
         ];
@@ -175,10 +178,10 @@ class WarehouseNoteItem extends \cza\base\models\ActiveRecord
     {
         $warehouseType = $this->owner->type;
         if ($warehouseType == WarehouseNoteType::MIXTURE_RECEIPT
-        || $warehouseType == WarehouseNoteType::PRODUCTION
-        || $warehouseType == WarehouseNoteType::RECEIPT
-        || $warehouseType == WarehouseNoteType::PROCESS_RECEIPT
-        // || $warehouseType == WarehouseNoteType::PROCESS_SAB
+            || $warehouseType == WarehouseNoteType::PRODUCTION
+            || $warehouseType == WarehouseNoteType::RECEIPT
+            || $warehouseType == WarehouseNoteType::PROCESS_RECEIPT
+            // || $warehouseType == WarehouseNoteType::PROCESS_SAB
         ) {
             return true;
         }

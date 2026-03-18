@@ -197,6 +197,7 @@ $form = ActiveForm::begin([
                                             'change' => "function() {
                                                 $.post('" . Url::toRoute(['product-addition']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
                                                     if(data.output !== undefined) {
+                                                        $('#productionschedule-label').val(data.output.product_name);
                                                         $('select#combination-{multiple_index_{$multipleItemsId}}').empty();
                                                         $('select#package-{multiple_index_{$multipleItemsId}}').empty();
                                                         $.each(data.output.combination, function(key, item){
@@ -225,7 +226,6 @@ $form = ActiveForm::begin([
                                     'options' => [
                                         'id' => "combination-{multiple_index_{$multipleItemsId}}",
                                         'onchange' => "function() {
-                                                console.log(1)
                                                 $.post('" . Url::toRoute(['product-addition']) . "', {'depdrop_all_params[product_id]':$(this).val(),'depdrop_parents[]':$(this).val()}, function(data) {
                                                     if(data.output !== undefined) {
                                                     }

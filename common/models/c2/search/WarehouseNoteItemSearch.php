@@ -116,7 +116,6 @@ class WarehouseNoteItemSearch extends WarehouseNoteItem
     public function searchLog($params)
     {
         $query = WarehouseNoteItem::find();
-        $query->with('measure');
         // $query->with('owner', 'measure');
         // $query->select([
         //     '{{%warehouse_note_item}}.*',
@@ -126,6 +125,7 @@ class WarehouseNoteItemSearch extends WarehouseNoteItem
         // $query->leftJoin(WarehouseNote::tableName(), '{{%warehouse_note_item}}.note_id = {{%warehouse_note}}.id');
         // $query->where(['{{%warehouse_note}}.type' => $this->warehouse_note_type]);
 
+        $query->with(['owner.creator', 'owner.updator', 'measure']);
 
         $query->joinWith([
             'owner' => function (\yii\db\ActiveQuery $q) {

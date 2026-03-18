@@ -19,7 +19,6 @@ use yii\helpers\Url;
 class UserTimeLimitAction extends \yii\rest\Action {
 
     public function run() {
-        Yii::info('xxxx');
         return false;
     }
 

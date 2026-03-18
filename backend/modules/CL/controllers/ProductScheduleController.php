@@ -50,6 +50,7 @@ class ProductScheduleController extends Controller
                     'a.*',
                     'ps.code',
                     'ps.label',
+                    'ps.memo',
                 ])
                 ->with('product')
                 ->with('product.measure')

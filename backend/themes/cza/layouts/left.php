@@ -47,9 +47,9 @@ use yii\helpers\Html;
                     ],
                     [
                         'label' => 'CL-生产/加工', 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
-                        'visible' => (\Yii::$app->user->can('P_PRODUCT') && \Yii::$app->user->can('P_CL')),
+                        'visible' => (\Yii::$app->user->can('P_PAM') && \Yii::$app->user->can('P_CL')),
                         'items' => [
-                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Production Schedule')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/pam/production-schedule']],
+                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Production Schedule')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/pam/production-schedule'], 'visible' => \Yii::$app->user->can('P_PRODUCT_SCHEDULE')],
                             ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Mixture Schedule')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/pam/mixture-schedule']],
                             ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Process Schedule')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/pam/process-schedule']],
                             ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Order Items')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/pam/order-item'], 'visible' => \Yii::$app->user->can('P_SYSTEM')],
@@ -104,7 +104,7 @@ use yii\helpers\Html;
                     [
                         'label' => Yii::t('app.c2', 'Process/Machining'), 'visible' => \Yii::$app->user->can('P_PAM'), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
                         'items' => [
-                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Production Schedule')]), 'icon' => 'fa fa-circle-o', 'url' => ['/pam/production-schedule']],
+                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Production Schedule')]), 'icon' => 'fa fa-circle-o', 'url' => ['/pam/production-schedule'], 'visible' => \Yii::$app->user->can('P_PRODUCT_SCHEDULE')],
                             ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Mixture Schedule')]), 'icon' => 'fa fa-circle-o', 'url' => ['/pam/mixture-schedule']],
                             ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Process Schedule')]), 'icon' => 'fa fa-circle-o', 'url' => ['/pam/process-schedule']],
                             ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Order Items')]), 'icon' => 'fa fa-circle-o', 'url' => ['/pam/order-item'], 'visible' => \Yii::$app->user->can('P_SYSTEM')],

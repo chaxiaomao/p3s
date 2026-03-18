@@ -99,11 +99,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'price',
             'subtotal',
             [
-                'attribute' => 'owner.creator.profile.fullname',
+                'attribute' => 'owner.creator.username',
                 'label' => Yii::t('app.c2', 'Created By'),
             ],
             [
-                'attribute' => 'owner.updator.profile.fullname',
+                'attribute' => 'owner.updator.username',
                 'label' => Yii::t('app.c2', 'Updated By'),
             ],
             'memo',
