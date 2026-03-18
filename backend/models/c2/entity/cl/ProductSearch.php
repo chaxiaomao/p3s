@@ -45,7 +45,6 @@ class ProductSearch extends Product
     {
         $query = Product::find();
 
-        $query->with('creator', 'measure');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

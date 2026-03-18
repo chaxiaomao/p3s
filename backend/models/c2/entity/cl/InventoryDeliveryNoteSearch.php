@@ -48,7 +48,6 @@ class InventoryDeliveryNoteSearch extends InventoryDeliveryNote
     {
         $query = InventoryDeliveryNote::find();
 
-        $query->with('customer', 'creator');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
