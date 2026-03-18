@@ -5,13 +5,14 @@ namespace backend\modules\Database\modules\User;
 /**
  * user module definition class
  */
-class Module extends \yii\base\Module
+class Module extends \backend\components\Module
 {
     /**
      * {@inheritdoc}
      */
     public $controllerNamespace = 'backend\modules\Database\modules\User\controllers';
 
+    public $permission = "P_USER";
     /**
      * {@inheritdoc}
      */
