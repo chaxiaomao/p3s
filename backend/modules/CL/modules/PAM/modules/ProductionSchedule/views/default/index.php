@@ -59,7 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'barcode',
                 'label' => '条码',
                 'value' => function ($model) {
-                    return !is_null($model->barcode) ? "{$model->barcode}" : '';
+                    return !is_null($model->barcode) ? "{$model->barcode} " : '';
                 },
             ],
             [
@@ -73,7 +73,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'code',
                 'label' => 'PO',
                 'value' => function ($model) {
-                    return str_replace(' ', "\n", $model->code);
+                    $arr = explode(" ", $model->code);
+                    if ($arr && count($arr) > 0) {
+                        $content = '';
+                        $len = count($arr);
+                        foreach ($arr as $i => $item) {
+                            if ($item) {
+                                $content .=  $item;
+                                if ($i < $len - 1) {
+                                    $content .= "\n";
+                                }
+                            }
+                        }
+                        return $content;
+                    }
+                    return $model->code;
+                    // return str_replace(' ', "\n", $model->code);
                 },
             ],
             [
@@ -184,16 +199,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'code',
                     'format' => 'html',
                     'value' => function ($model) {
-                        // $arr = explode(" ", $model->code);
-                        // if ($arr && count($arr) > 0) {
-                        //     $content = '';
-                        //     foreach ($arr as $item) {
-                        //         $content .=  "<p>{$item}</p>";
-                        //     }
-                        //     return $content;
-                        // }
-                        // return $model->code;
-                        return str_replace(' ', "\n", $model->code);
+                        $arr = explode(" ", $model->code);
+                        if ($arr && count($arr) > 0) {
+                            $content = '';
+                            foreach ($arr as $item) {
+                                if ($item) {
+                                    $content .=  "<p>{$item}</p>";
+                                }
+                            }
+                            return $content;
+                        }
+                        return $model->code;
+                        // $str = preg_replace('/\s+(?=PO-)/', "\n", trim($model->code));
+                        // return str_replace(' ', "<br/>", $str);
                     },
                 ],
                 'label',
