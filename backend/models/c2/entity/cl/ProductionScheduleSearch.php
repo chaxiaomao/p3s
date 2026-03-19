@@ -3,6 +3,7 @@
 namespace backend\models\c2\entity\cl;
 
 use common\models\c2\statics\ProductionScheduleState;
+use common\models\c2\statics\ProductionScheduleType;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -38,6 +39,24 @@ class ProductionScheduleSearch extends ProductionSchedule
         return Model::scenarios();
     }
 
+    public function getPaginationConf()
+    {
+
+        if ($this->order_state == 'show_finished' && $this->type == ProductionScheduleType::PRODUCT) {
+            return [
+                'pageParam' => $this->getPageParamName(),
+                'pageSize' => 20,
+            ];
+        }
+        if ($this->type == ProductionScheduleType::PRODUCT) {
+            return false;
+        }
+        return [
+            'pageParam' => $this->getPageParamName(),
+            'pageSize' => 20,
+        ];
+    }
+
     /**
      * Creates data provider instance with search query applied
      *
@@ -49,13 +68,14 @@ class ProductionScheduleSearch extends ProductionSchedule
     {
         $query = self::find();
 
+        $this->load($params);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => [
                 'sortParam' => $this->getSortParamName(),
             ],
-            'pagination' => false,
+            'pagination' => $this->getPaginationConf(),
             // 'pagination' => [
             //     'pageParam' => $this->getPageParamName(),
             //     'pageSize' => 20,
@@ -68,8 +88,6 @@ class ProductionScheduleSearch extends ProductionSchedule
                 'created_at' => SORT_DESC,
             ],
         ]);
-
-        $this->load($params);
 
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
