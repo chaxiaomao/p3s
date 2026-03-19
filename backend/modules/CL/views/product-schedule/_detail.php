@@ -10,11 +10,11 @@
         <td class="box60">标签</td>
         <td class="box60">值</td>
         <td class="box60">备注</td>
-        <td class="box60">合单需送料数</td>
+        <td class="box60">合单后总需要物料数</td>
         <td class="box60">合单已送料数</td>
         <td class="box60">合单未送料数</td>
         <td class="box60">物料库存数</td>
-        <td class="box60">合单后物料总数</td>
+<!--        <td class="box60">合单后物料总数</td>-->
         <td class="box60">合单后库存情况</td>
     </tr>
 
@@ -43,7 +43,7 @@
                 ?>
             </td>
             <!--            <td class="">--><?php //= $send_sum[$item['need_product_id']] ?><!----><?php //= $unit ?><!--</td>-->
-            <td class=""><?= $need_sum[$item['need_product_id']] ?><?= $unit ?></td>
+<!--            <td class="">--><?php //= $need_sum[$item['need_product_id']] ?><!----><?php //= $unit ?><!--</td>-->
             <td class="">
                 <?php
 

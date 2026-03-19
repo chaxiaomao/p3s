@@ -218,7 +218,10 @@ class ProductionSchedule extends \common\models\c2\entity\ProductionSchedule
         //         $product->save();
         //     }
         // }
-        $this->updateAttributes(['state' => ProductionScheduleState::FINISH]);
+        $this->updateAttributes([
+            'accomplish_date' => date('Y-m-d H:i:s', time()),
+            'state' => ProductionScheduleState::FINISH
+        ]);
     }
 
 }

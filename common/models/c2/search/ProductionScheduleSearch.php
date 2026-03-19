@@ -70,6 +70,9 @@ class ProductionScheduleSearch extends ProductionSchedule
             return $dataProvider;
         }
         $query->with('creator.profile', 'updator.profile');
+
+        $query->where(['not like', 'label', 'cl']);
+
         $query->andFilterWhere([
             'id' => $this->id,
             'occurrence_date' => $this->occurrence_date,
@@ -93,12 +96,12 @@ class ProductionScheduleSearch extends ProductionSchedule
 
         return $dataProvider;
     }
-    
+
     public function getPageParamName($splitor = '-'){
         $name = "ProductionSchedulePage";
         return \Yii::$app->czaHelper->naming->toSplit($name);
     }
-    
+
     public function getSortParamName($splitor = '-'){
         $name = "ProductionScheduleSort";
         return \Yii::$app->czaHelper->naming->toSplit($name);

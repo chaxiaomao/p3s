@@ -176,17 +176,27 @@ $this->params['breadcrumbs'][] = $this->title;
                 //     },
                 //     'filter' => \common\models\c2\statics\ProductionScheduleType::getHashMap('id', 'label')
                 // ],
-                'code',
+                // 'code',
+                [
+                    'attribute' => 'code',
+                    'format' => 'html',
+                    'value' => function ($model) {
+                        $arr = explode(" ", $model->code);
+                        if ($arr && count($arr) > 0) {
+                            $content = '';
+                            foreach ($arr as $item) {
+                                $content .=  "<p>{$item}</p>";
+                            }
+                            return $content;
+                        }
+                        return $model->code;
+                    },
+                ],
                 'label',
                 // 'dept_manager_name',
                 // 'financial_name',
                 // 'occurrence_date',
-                // [
-                //     'attribute' => 'occurrence_date',
-                //     'value' => function ($model) {
-                //         return $model->occurrence_date ? date('Y-m', strtotime($model->occurrence_date)) : '';
-                //     },
-                // ],
+
                 // 'occomplish_date',
                 // 'memo',
                 [
@@ -237,6 +247,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 //     },
                 //     'filter' => \common\models\c2\statics\ProductionScheduleState::getHashMap('id', 'label')
                 // ],
+                [
+                    'attribute' => 'accomplish_date',
+                    'label' => '完成时间',
+                    'value' => function ($model) {
+                        return $model->accomplish_date ? date('Y-m-d', strtotime($model->accomplish_date)) : '';
+                    },
+
+                ],
                 'position',
                 // 'updated_at',
                 // 'created_at',
