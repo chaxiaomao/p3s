@@ -59,7 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'barcode',
                 'label' => '条码',
                 'value' => function ($model) {
-                    return !is_null($model->barcode) ? $model->barcode : '';
+                    return !is_null($model->barcode) ? "{$model->barcode}" : '';
                 },
             ],
             [
@@ -72,6 +72,9 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'code',
                 'label' => 'PO',
+                'value' => function ($model) {
+                    return str_replace(' ', "\n", $model->code);
+                },
             ],
             [
                 'attribute' => 'number',
@@ -181,15 +184,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'code',
                     'format' => 'html',
                     'value' => function ($model) {
-                        $arr = explode(" ", $model->code);
-                        if ($arr && count($arr) > 0) {
-                            $content = '';
-                            foreach ($arr as $item) {
-                                $content .=  "<p>{$item}</p>";
-                            }
-                            return $content;
-                        }
-                        return $model->code;
+                        // $arr = explode(" ", $model->code);
+                        // if ($arr && count($arr) > 0) {
+                        //     $content = '';
+                        //     foreach ($arr as $item) {
+                        //         $content .=  "<p>{$item}</p>";
+                        //     }
+                        //     return $content;
+                        // }
+                        // return $model->code;
+                        return str_replace(' ', "\n", $model->code);
                     },
                 ],
                 'label',
