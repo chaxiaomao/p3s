@@ -16,7 +16,7 @@
         <td class="box60">产品库存</td>
         <!--        <td class="box60">剩余情况</td>-->
         <td class="box60">合单后总数</td>
-        <td class="box60">合单后库存差值</td>
+<!--        <td class="box60">合单后库存差值</td>-->
         <td class="box60">物料情况</td>
     </tr>
 
@@ -44,32 +44,32 @@
                     查看
                 </a>
             </td>
-            <td class="">
-                <?php
-                // $prod_stock = $product_stock[$item['combination_id']];
-                // $remain_total = 0;
-                // foreach ($ps_items[$item['combination_id']] as $ps_item) {
-                //     if ($ps_item['enter_sum'] < $ps_item['production_sum']) {
-                //         $remain_total += $ps_item['production_sum'] - $ps_item['enter_sum'];
-                //     }
-                // }
-                // $num = $prod_stock - $remain_total;
-
-                $num = $product_stock[$item['combination_id']] - $production_sum[$item['combination_id']];
-                if ($num > 0) {
-                    echo "<span class='text-orange'>{$num}{$unit}</span>";
-                } else {
-                    echo "<span class='text-red'>{$num}{$unit}</span>";
-                }
-                ?>
-                <a role="button" data-toggle="collapse" href="#Expand_<?= $item['id'] . $item['combination_id'] ?>"
-                   aria-expanded="false"
-                   aria-controls="collapseExample">查看
-<!--                    <span class="badge">-->
-<!--                        --><?php //= count($ps_items[$item['combination_id']]) ?>
-<!--                    </span>-->
-                </a>
-            </td>
+<!--            <td class="">-->
+<!--                --><?php
+//                 // $prod_stock = $product_stock[$item['combination_id']];
+//                 // $remain_total = 0;
+//                 // foreach ($ps_items[$item['combination_id']] as $ps_item) {
+//                 //     if ($ps_item['enter_sum'] < $ps_item['production_sum']) {
+//                 //         $remain_total += $ps_item['production_sum'] - $ps_item['enter_sum'];
+//                 //     }
+//                 // }
+//                 // $num = $prod_stock - $remain_total;
+//
+//                 $num = $product_stock[$item['combination_id']] - $production_sum[$item['combination_id']];
+//                 if ($num > 0) {
+//                     echo "<span class='text-orange'>{$num}{$unit}</span>";
+//                 } else {
+//                     echo "<span class='text-red'>{$num}{$unit}</span>";
+//                 }
+//                 ?>
+<!--                <a role="button" data-toggle="collapse" href="#Expand_--><?php //= $item['id'] . $item['combination_id'] ?><!--"-->
+<!--                   aria-expanded="false"-->
+<!--                   aria-controls="collapseExample">查看-->
+<!--<!--                    <span class="badge">-->-->
+<!--<!--                        -->--><?php ////= count($ps_items[$item['combination_id']]) ?>
+<!--<!--                    </span>-->-->
+<!--                </a>-->
+<!--            </td>-->
 
             <td>
 
