@@ -47,7 +47,12 @@ class DefaultController extends Controller
         $searchModel->type = ProductionScheduleType::PRODUCT;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
+        $view = 'index';
+        if ($searchModel->order_state == 'show_finished') {
+            $view = 'index2';
+        }
+
+        return $this->render($view, [
             'model' => $this->retrieveModel(),
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

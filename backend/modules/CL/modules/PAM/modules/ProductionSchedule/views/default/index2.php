@@ -269,6 +269,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 //     },
                 //     'filter' => \common\models\c2\statics\ProductionScheduleState::getHashMap('id', 'label')
                 // ],
+                [
+                    'attribute' => 'accomplish_date',
+                    'label' => '完成时间',
+                    'value' => function ($model) {
+                        return $model->accomplish_date ? date('Y-m-d', strtotime($model->accomplish_date)) : '';
+                    },
+
+                ],
                 // 'position',
                 // 'updated_at',
                 // 'created_at',
