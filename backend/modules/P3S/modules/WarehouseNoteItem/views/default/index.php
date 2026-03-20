@@ -16,7 +16,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="well warehouse-note-item-index">
 
     <div style="margin-bottom: 20px;">
-        <?php echo $this->render('summary', ['model' => $note]) ?>
+        <?php
+        if ($note) {
+            echo $this->render('summary', ['model' => $note]);
+        }
+        ?>
     </div>
 
 
@@ -72,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
             \kartik\export\ExportMenu::FORMAT_PDF => false,
         ],
         //                'filename' => utf8_encode(Yii::$app->formatter->asDate(time(), 'long') . "test"),
-        'filename' => $note->supplier->name . '采购进仓记录',
+        'filename' => $note ? $note->supplier->name . '采购进仓记录' : '',
     ]);
 
     ?>

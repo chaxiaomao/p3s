@@ -29,8 +29,11 @@ class DefaultController extends Controller
         // $searchModel->status = WarehouseNoteItemStatus::COMMIT;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        $note_id = Yii::$app->request->queryParams['WarehouseNoteItemSearch']['ref_note_id'];
-        $note = InventoryReceiptNote::findOne($note_id);
+        $note = null;
+        if (isset(Yii::$app->request->queryParams['WarehouseNoteItemSearch']['ref_note_id'])) {
+            $note_id = Yii::$app->request->queryParams['WarehouseNoteItemSearch']['ref_note_id'];
+            $note = InventoryReceiptNote::findOne($note_id);
+        }
 
         return $this->render('index', [
             'model' => $this->retrieveModel(),

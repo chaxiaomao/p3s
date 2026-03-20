@@ -27,7 +27,7 @@ class WarehouseNoteItemSearch extends WarehouseNoteItem
     {
         return [
             [['id', 'note_id', 'ref_note_id', 'measure_id', 'product_id', 'combination_id', 'package_id', 'pieces', 'price',
-                'subtotal', 'number', 'position', 'supplier_id'], 'integer'],
+                'subtotal', 'number', 'position', 'supplier_id', 'combination_id'], 'integer'],
             [['product_name', 'product_sku', 'product_label', 'product_value', 'combination_name', 'package_name',
                 'memo', 'status', 'created_at', 'updated_at', 'code', 'warehouse_note_type'], 'safe'],
         ];
@@ -51,14 +51,8 @@ class WarehouseNoteItemSearch extends WarehouseNoteItem
      */
     public function search($params)
     {
-        $query = WarehouseNoteItem::find();
-        $query->with('receiptNote', 'measure');
-        $query->select([
-            '{{%warehouse_note_item}}.*',
-            '{{%warehouse_note}}.type',
-        ]);
-        $query->leftJoin(WarehouseNote::tableName(), '{{%warehouse_note_item}}.note_id = {{%warehouse_note}}.id');
-        $query->where(['{{%warehouse_note}}.type' => WarehouseNoteType::RECEIPT]);
+        $query = self::find();
+        $this->load($params);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -71,13 +65,19 @@ class WarehouseNoteItemSearch extends WarehouseNoteItem
             ],
         ]);
 
-        $this->load($params);
-
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
             return $dataProvider;
         }
+
+        $query->with('product', 'receiptNote', 'measure', 'supplier');
+        $query->select([
+            '{{%warehouse_note_item}}.*',
+            '{{%warehouse_note}}.type',
+        ]);
+        $query->leftJoin(WarehouseNote::tableName(), '{{%warehouse_note_item}}.note_id = {{%warehouse_note}}.id');
+        // $query->where(['{{%warehouse_note}}.type' => WarehouseNoteType::RECEIPT]);
 
         $query->andFilterWhere([
             'id' => $this->id,
