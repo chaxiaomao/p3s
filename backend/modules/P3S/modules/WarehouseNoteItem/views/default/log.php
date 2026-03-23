@@ -83,19 +83,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             'before_stock',
-            // [
-            //     'label' => '更新后库存',
-            //     'value' => function ($model) {
-            //         // if ($model->before_stock != 0) {
-            //         //     if ($model->isReceipt()) {
-            //         //         return $model->before_stock + $model->number;
-            //         //     }
-            //         //     return $model->before_stock - $model->number;
-            //         // }
-            //
-            //         return $model->product->stock;
-            //     }
-            // ],
+            [
+                'label' => '更新后库存',
+                'value' => function ($model) {
+                    if ($model->before_stock != 0) {
+                        if ($model->isReceipt()) {
+                            return $model->before_stock + $model->number;
+                        }
+                        return $model->before_stock - $model->number;
+                    }
+
+                    return $model->product->stock;
+                }
+            ],
             'price',
             'subtotal',
             [

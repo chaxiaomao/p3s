@@ -47,6 +47,13 @@ if ($from == 'pam-send') {
                             'class' => 'btn btn-success edit',
                             'title' => Yii::t('app.c2', 'Add'),
                             'data-pjax' => '0',
+                        ]) . ' ' .Html::a('<i class="glyphicon glyphicon-plus">自定义送料</i>', [
+                            'customer-edit',
+                            'ref_note_id' => $note->id
+                        ], [
+                            'class' => 'btn btn-primary customer-edit',
+                            'title' => Yii::t('app.c2', 'Add'),
+                            'data-pjax' => '0',
                         ]) . ' ' .
                         Html::a('<i class="glyphicon glyphicon-adjust">' . Yii::t('app.c2', 'All Send') . '</i>', [
                             'all-send',
@@ -186,6 +193,10 @@ $js .= "jQuery(document).off('click', 'a.edit').on('click', 'a.edit', function(e
         });";
 
 $js .= "jQuery(document).off('click', 'a.view').on('click', 'a.view', function(e) {
+            e.preventDefault();
+            jQuery('#content-edit').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
+        });";
+$js .= "jQuery(document).off('click', 'a.customer-edit').on('click', 'a.customer-edit', function(e) {
             e.preventDefault();
             jQuery('#content-edit').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
         });";
