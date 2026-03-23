@@ -1,5 +1,6 @@
 <?php
 
+use common\models\c2\statics\WarehouseNoteType;
 use cza\base\widgets\ui\common\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -89,6 +90,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     if ($model->before_stock != 0) {
                         if ($model->isReceipt()) {
                             return $model->before_stock + $model->number;
+                        }
+                        if ($model->owner->type == WarehouseNoteType::MODIFY_BY_USER) {
+                            return $model->product->stock;
                         }
                         return $model->before_stock - $model->number;
                     }
