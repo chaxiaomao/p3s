@@ -82,6 +82,7 @@ class WarehouseNoteItemSearch extends WarehouseNoteItem
         $query->andFilterWhere([
             'id' => $this->id,
             'note_id' => $this->note_id,
+            '{{%warehouse_note}}.type' => $this->warehouse_note_type,
             '{{%warehouse_note_item}}.ref_note_id' => $this->ref_note_id,
             'measure_id' => $this->measure_id,
             'product_id' => $this->product_id,

@@ -225,6 +225,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'commit-log' => function ($url, $model, $key) {
                             return Html::a(Yii::t('app.c2', 'Commit Log'), [
                                 '/p3s/warehouse-note-item',
+                                'WarehouseNoteItemSearch[warehouse_note_type]' => \common\models\c2\statics\WarehouseNoteType::RECEIPT,
                                 'WarehouseNoteItemSearch[ref_note_id]' => $model->id
                             ], [
                                 'title' => Yii::t('app.c2', 'View'),
