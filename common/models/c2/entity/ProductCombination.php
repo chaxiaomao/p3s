@@ -2,6 +2,9 @@
 
 namespace common\models\c2\entity;
 
+use common\models\c2\statics\WarehouseNoteItemStatus;
+use common\models\c2\statics\WarehouseNoteState;
+use common\models\c2\statics\WarehouseNoteType;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\validators\RequiredValidator;
@@ -160,7 +163,7 @@ class ProductCombination extends \cza\base\models\ActiveRecord
                 }
             }
         }
-        if (isset($changedAttributes['stock'])) {
+        if (isset($changedAttributes['stock']) && (float)$changedAttributes['stock'] != (float)$this->stock) {
             $product = $this->product;
             $combs = $product->combinations;
             $sum = 0;
@@ -168,6 +171,26 @@ class ProductCombination extends \cza\base\models\ActiveRecord
                 $sum += $comb->stock;
             }
             $product->updateAttributes(['stock' => $sum]);
+
+            $warehouseNote = new WarehouseNote();
+            $warehouseNote->type = WarehouseNoteType::MODIFY_BY_USER;
+            $warehouseNote->state = WarehouseNoteState::COMMIT;
+            if ($warehouseNote->save()) {
+                $warehouseNoteItem = new WarehouseNoteItem();
+                $warehouseNoteItem->note_id = $warehouseNote->id;
+                $warehouseNoteItem->product_id = $this->product_id;
+                $warehouseNoteItem->product_name = $this->product->name;
+                $warehouseNoteItem->product_sku = $this->product->sku;
+                $warehouseNoteItem->product_label = $this->product->label;
+                $warehouseNoteItem->product_value = $this->product->value;
+                $warehouseNoteItem->combination_name = $this->name;
+                $warehouseNoteItem->measure_id = $this->product->measure_id;
+                $warehouseNoteItem->status = WarehouseNoteItemStatus::COMMIT;
+                $warehouseNoteItem->before_stock = $changedAttributes['stock'];
+                $warehouseNoteItem->number = $this->stock;
+                $warehouseNoteItem->memo = "手动修改,修改前{$changedAttributes['stock']},修改后{$this->stock}";
+                $warehouseNoteItem->save();
+            }
         }
     }
 

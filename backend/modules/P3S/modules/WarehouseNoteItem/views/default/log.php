@@ -67,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'product_label',
             // 'product_value',
             // 'combination_id',
-            // 'combination_name',
+            'combination_name',
             // 'package_id',
             // 'package_name',
             // 'pieces',
