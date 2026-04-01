@@ -73,7 +73,7 @@ class OrderSearch extends Order
 
         $query->with('customer', 'creator', 'updator', 'updator.profile');
 
-        $query->andWhere(['customer_id' => CL_MYSQL_ID]);
+        $query->where(['customer_id' => CL_MYSQL_ID]);
 
         if (!empty($this->customer_name)) {
             $query->leftJoin('{{%fe_user}} c', 'c.id = {{%order}}.customer_id');
@@ -81,9 +81,8 @@ class OrderSearch extends Order
 
         $isCanSearch2024P3SData = Yii::$app->authManager->checkAccess(Yii::$app->user->id, 'P_2024_P3S_DATA');
         if (!$isCanSearch2024P3SData) {
-            $query->where(['>', 'created_at', '2024-12-31: 23:59:59']);
+            $query->andWhere(['>', 'created_at', '2024-12-31: 23:59:59']);
         }
-
 
         $query->andFilterWhere([
             'id' => $this->id,
