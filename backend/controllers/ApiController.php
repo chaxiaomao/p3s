@@ -9,13 +9,9 @@
 namespace backend\controllers;
 
 
-use linslin\yii2\curl\Curl;
-use yii\filters\AccessControl;
-use yii\filters\ContentNegotiator;
-use yii\filters\Cors;
-use yii\filters\RateLimiter;
-use yii\filters\VerbFilter;
-use yii\helpers\ArrayHelper;
+use common\models\c2\entity\Product;
+use common\models\c2\statics\ProductType;
+use cza\base\models\statics\EntityModelStatus;
 use yii\web\Controller;
 use yii\web\Response;
 
@@ -28,51 +24,42 @@ class ApiController extends Controller
 
     public $result;
 
-    public function behaviors()
+    public function actionProductSearch($keyword, $type = ProductType::TYPE_PRODUCT, $isCL = false)
     {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        'actions' => ['apply'],
-                        'allow' => true,
-                        'roles' => ['?'],
-                    ],
-                ],
-            ],
-            'contentNegotiator' => [
-                'class' => ContentNegotiator::className(),
-                'formats' => [
-                    'application/json' => Response::FORMAT_JSON,
-                    'application/xml' => Response::FORMAT_XML,
-                ],
-            ],
-            [
-                'class' => Cors::className(),
-                'cors' => [
-                    'Origin' => ['http://yp.atjy1.cn'],
-                    'Access-Control-Allow-Origin' => ['*'],
-                    'Access-Control-Request-Method' => ['*'],
-                    'Access-Control-Request-Headers' => ['*'],
-                    'Access-Control-Allow-Credentials' => true,
-                    'Access-Control-Max-Age' => 3600,
-                    'Access-Control-Expose-Header' => ['X-Pagination-Current-Page'],
-                ],
-            ],
-            'verbFilter' => [
-                'class' => VerbFilter::className(),
-                'actions' => [],
-            ],
-            'rateLimiter' => [
-                'class' => RateLimiter::className(),
-            ],
-        ];
-    }
+        $query = Product::find();
 
-    public function actionApply()
-    {
-        return ['code' => '1'];
+        $query->where([
+            'type' => $type,
+        ]);
+
+        if ($isCL) {
+            $query->where(['like', 'sku', 'cl-']);
+        }
+
+        if ($keyword) {
+            $query->andFilterWhere([
+                'or',
+                ['like', 'sku', $keyword],
+                ['like', 'name', $keyword],
+            ]);
+        }
+
+        $query->andFilterWhere(['status' => EntityModelStatus::STATUS_ACTIVE]);
+
+        $data = $query->asArray()->all();
+
+        $items = [];
+
+        foreach ($data as $datum) {
+            $items[] = [
+                'id' => $datum['id'],
+                'text' => $datum['name'],
+            ];
+        }
+
+        return [
+            'results' => $items,
+        ];
     }
 
     public function actionAssess()
@@ -91,10 +78,10 @@ class ApiController extends Controller
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, "http://dpsanbox.deppon.com/sandbox-web/standard-order/queryPriceTime.action");
         curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER,true); //设为TRUE把curl_exec()结果转化为字串，而不是直接输出
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); //设为TRUE把curl_exec()结果转化为字串，而不是直接输出
         curl_setopt($ch, CURLOPT_HEADER, ['application/x-www-form-urlencoded;charset=utf-8']);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST,"POST"); //设置请求方式
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST"); //设置请求方式
         curl_setopt($ch, CURLOPT_POSTFIELDS, [
             'params' => json_encode($params, JSON_UNESCAPED_UNICODE),
             'digest' => $digest,
@@ -129,9 +116,10 @@ class ApiController extends Controller
         return $time . "\r\n" . $digest . "\r\n" . json_encode($params, JSON_UNESCAPED_UNICODE);
     }
 
-    public function getMillisecond() {
+    public function getMillisecond()
+    {
         list($t1, $t2) = explode(' ', microtime());
-        return (float)sprintf('%.0f',(floatval($t1)+floatval($t2))*1000);
+        return (float)sprintf('%.0f', (floatval($t1) + floatval($t2)) * 1000);
     }
 
 }
