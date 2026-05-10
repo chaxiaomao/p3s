@@ -208,7 +208,7 @@ $form = ActiveForm::begin([
                                         return [
                                             'initValueText' => $text,
                                             'pluginOptions' => [
-                                                'width' => '380px',
+                                                'width' => '280px',
                                                 // 'allowClear' => true,
                                                 'minimumInputLength' => 2,
                                                 'ajax' => [

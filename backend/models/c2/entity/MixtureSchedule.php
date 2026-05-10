@@ -26,6 +26,7 @@ class MixtureSchedule extends ProductionSchedule
     {
         return ArrayHelper::merge(parent::rules(), [
             [['items'], 'safe'],
+            [['label'], 'required'],
             [['items'], 'validateItems'],
         ]);
     }
