@@ -168,7 +168,7 @@ $form = ActiveForm::begin([
                                             ->asArray()
                                             ->one();
                                         if ($product) {
-                                            $text = $product['name'];
+                                            $text = $product['sku'] . '(' . $product['name'] . ')';
                                         }
                                     }
                                     return [

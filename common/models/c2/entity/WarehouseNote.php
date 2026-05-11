@@ -384,8 +384,8 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
                 ]);
                 if ($model) {
                     $model->updateCounters(['send_sum' => $item->number]);
-                    $item->product->updateStock(-($item->number));
                 }
+                $item->product->updateStock(-($item->number));
                 // $item->product->updateCounters(['stock' => -($item->number)]);
                 // $item->product->updated_at = date('Y-m-d h:i:s', time());
                 // $item->product->update();

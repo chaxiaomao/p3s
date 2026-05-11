@@ -26,7 +26,7 @@ class ApiController extends Controller
 
     public function actionProductSearch($keyword, $type = ProductType::TYPE_PRODUCT, $isCL = false)
     {
-        $query = Product::find();
+        $query = Product::find()->select('id,name,sku');
 
         $query->where([
             'type' => $type,
@@ -54,7 +54,7 @@ class ApiController extends Controller
         foreach ($data as $datum) {
             $items[] = [
                 'id' => $datum['id'],
-                'text' => $datum['name'],
+                'text' => $datum['sku'] . '(' . $datum['name'] . ')',
             ];
         }
 
