@@ -73,7 +73,7 @@ class OrderSearch extends Order
 
         $query->with('customer', 'creator', 'updator', 'updator.profile');
 
-        $query->where(['customer_id' => CL_MYSQL_ID]);
+        $query->where(['customer_id' => CL_CUSTOMER_ID]);
 
         if (!empty($this->customer_name)) {
             $query->leftJoin('{{%fe_user}} c', 'c.id = {{%order}}.customer_id');

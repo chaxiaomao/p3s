@@ -12,6 +12,7 @@ class Module extends \yii\base\Module
      */
     public $controllerNamespace = 'backend\modules\CL\modules\PAM\modules\ProductionSchedule\controllers';
 
+    public $permission = "P_CL_PRODUCT_SCHEDULE";
     /**
      * {@inheritdoc}
      */

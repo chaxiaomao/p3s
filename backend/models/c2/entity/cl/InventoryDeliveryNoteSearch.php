@@ -76,7 +76,7 @@ class InventoryDeliveryNoteSearch extends InventoryDeliveryNote
 
         $query->with('customer', 'creator.profile', 'updator.profile');
 
-        $query->andWhere(['customer_id' => CL_MYSQL_ID]);
+        $query->andWhere(['customer_id' => CL_CUSTOMER_ID]);
 
         if (!empty($this->customer_name)) {
             $query->leftJoin('{{%fe_user}} c', 'c.id = {{%inventory_delivery_note}}.customer_id');

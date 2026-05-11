@@ -71,6 +71,8 @@ class OrderSearch extends Order
         }
         $query->with('customer', 'creator', 'updator', 'updator.profile');
 
+        $query->where(['not', ['in', 'customer_id', CL_CUSTOMER_ID]]);
+
         if (!empty($this->customer_name)) {
             $query->leftJoin('{{%fe_user}} c', 'c.id = {{%order}}.customer_id');
         }

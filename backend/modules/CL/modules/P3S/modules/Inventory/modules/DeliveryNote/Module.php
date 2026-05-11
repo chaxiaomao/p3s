@@ -14,7 +14,7 @@ class Module extends \backend\components\Module
      */
     public $controllerNamespace = 'backend\modules\CL\modules\P3S\modules\Inventory\modules\DeliveryNote\controllers';
 
-    public $permission = "P_DELIVERY";
+    public $permission = "P_CL_DELIVERY";
 
     /**
      * {@inheritdoc}

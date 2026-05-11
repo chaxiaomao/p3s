@@ -25,7 +25,7 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         $searchModel = new OrderItemSearch();
-        $searchModel->customer_id = CL_MYSQL_ID;
+        $searchModel->customer_id = CL_CUSTOMER_ID;
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [

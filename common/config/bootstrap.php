@@ -1,5 +1,5 @@
 <?php
-define('CL_MYSQL_ID', 234);
+define('CL_CUSTOMER_ID', 234);
 // ini_set('memory_limit', '128M');
 
 define('BACKEND_BASE_URL', 'http://be-jade.tunnel.echomod.cn');

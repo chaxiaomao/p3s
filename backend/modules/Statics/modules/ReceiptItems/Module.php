@@ -12,6 +12,7 @@ class Module extends \yii\base\Module
      */
     public $controllerNamespace = 'backend\modules\Statics\modules\ReceiptItems\controllers';
 
+    public $permission = "P_CL_STATICS_PURCHASE";
     /**
      * {@inheritdoc}
      */

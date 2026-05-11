@@ -73,6 +73,8 @@ class InventoryReceiptNoteSearch extends InventoryReceiptNote
 
         $query->with('creator.profile', 'updator.profile', 'supplier');
 
+        $query->where(['not', ['like', 'label', 'CL']]);
+
         if (!empty($this->supplier_name)) {
             $query->leftJoin('{{%supplier}} c', 'c.id = {{%inventory_receipt_note}}.supplier_id');
         }

@@ -12,6 +12,7 @@ class Module extends \yii\base\Module
      */
     public $controllerNamespace = 'backend\modules\CL\modules\PAM\modules\MixtureSchedule\controllers';
 
+    public $permission = "P_CL_MIXTURE_SCHEDULE";
     /**
      * {@inheritdoc}
      */

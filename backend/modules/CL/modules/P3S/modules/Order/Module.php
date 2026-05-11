@@ -14,7 +14,7 @@ class Module extends \backend\components\Module
      */
     public $controllerNamespace = 'backend\modules\CL\modules\P3S\modules\Order\controllers';
 
-    public $permission = "P_ORDER";
+    public $permission = "P_CL_ORDER";
 
 
     /**

@@ -63,7 +63,7 @@ class InventoryDeliveryNoteItemSearch extends InventoryDeliveryNoteItem
             return $dataProvider;
         }
 
-        $query->andWhere(['customer_id' => CL_MYSQL_ID]);
+        $query->andWhere(['customer_id' => CL_CUSTOMER_ID]);
 
         $query->andFilterWhere([
             'id' => $this->id,

@@ -33,7 +33,7 @@ use yii\helpers\Html;
                     [ 'label' => '生产物料预算', 'icon' => 'fa fa-circle-o', 'url' => ['/cl/product-schedule/cost-sheet'],  'visible' => \Yii::$app->user->can('P_CL')],
                     [
                         'label' => 'CL-资料库', 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
-                        'visible' => (\Yii::$app->user->can('P_PRODUCT') && \Yii::$app->user->can('P_CL')),
+                        'visible' => \Yii::$app->user->can('P_CL_PRODUCT'),
                         'items' => [
                             [
                                 'label' => 'CL-产品管理', 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
@@ -47,32 +47,32 @@ use yii\helpers\Html;
                     ],
                     [
                         'label' => 'CL-生产/加工', 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
-                        'visible' => (\Yii::$app->user->can('P_PAM') && \Yii::$app->user->can('P_CL')),
+                        'visible' => (\Yii::$app->user->can('P_CL_PAM') && \Yii::$app->user->can('P_CL')),
                         'items' => [
-                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Production Schedule')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/pam/production-schedule'], 'visible' => \Yii::$app->user->can('P_PRODUCT_SCHEDULE')],
-                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Mixture Schedule')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/pam/mixture-schedule'], 'visible' => \Yii::$app->user->can('P_MIXTURE_SCHEDULE')],
-                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Process Schedule')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/pam/process-schedule'], 'visible' => \Yii::$app->user->can('P_PROCESS_SCHEDULE')],
+                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Production Schedule')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/pam/production-schedule'], 'visible' => \Yii::$app->user->can('P_CL_PRODUCT_SCHEDULE')],
+                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Mixture Schedule')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/pam/mixture-schedule'], 'visible' => \Yii::$app->user->can('P_CL_MIXTURE_SCHEDULE')],
+                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Process Schedule')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/pam/process-schedule'], 'visible' => \Yii::$app->user->can('P_CL_PROCESS_SCHEDULE')],
                             ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Order Items')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/pam/order-item'], 'visible' => \Yii::$app->user->can('P_SYSTEM')],
                             // ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Attributeset')]), 'icon' => 'fa fa-circle-o', 'url' => ['/database/attributeset']],
                         ]
                     ],
                     [
-                        'label' => 'CL-' . Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Finance')]), 'visible' => (\Yii::$app->user->can('P_FINANCE') && \Yii::$app->user->can('P_CL')), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
+                        'label' => 'CL-' . Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Finance')]), 'visible' => \Yii::$app->user->can('P_CL_FINANCE'), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
                         'items' => [
-                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Sales Order')]), 'visible' => \Yii::$app->user->can('P_ORDER'), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/p3s/order']],
+                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Sales Order')]), 'visible' => \Yii::$app->user->can('P_CL_ORDER'), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/p3s/order']],
                             // ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Order Item Consumption')]), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/order/order-item-consumption']],
-                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Inventory Receipt Note')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/p3s/inventory/receipt-note'], 'visible' => \Yii::$app->user->can('P_PURCHASE')],
-                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Inventory Delivery Note')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/p3s/inventory/delivery-note'], 'visible' => \Yii::$app->user->can('P_DELIVERY')],
+                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Inventory Receipt Note')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/p3s/inventory/receipt-note'], 'visible' => \Yii::$app->user->can('P_CL_PURCHASE')],
+                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Inventory Delivery Note')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/p3s/inventory/delivery-note'], 'visible' => \Yii::$app->user->can('P_CL_DELIVERY')],
                             // ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Warehouse Note')]), 'icon' => 'fa fa-circle-o', 'url' => ['/p3s/warehouse-note/default/index'], 'visible' => \Yii::$app->user->can('P_WAREHOUSE_NOTE')],
                         ]
                     ],
                     [
-                        'label' => 'CL-' . Yii::t('app.c2', 'Statics'), 'visible' => (\Yii::$app->user->can('P_STATICS') && \Yii::$app->user->can('P_CL')), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
+                        'label' => 'CL-' . Yii::t('app.c2', 'Statics'), 'visible' => \Yii::$app->user->can('P_CL_STATICS'), 'icon' => 'fa fa-circle-o', 'url' => ['#'], 'options' => ['class' => 'treeview'],
                         'items' => [
-                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Sales Product Statics')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/statics/sales-product'], 'visible' => \Yii::$app->user->can('P_STATICS_SALES')],
+                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Sales Product Statics')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/statics/sales-product'], 'visible' => \Yii::$app->user->can('P_CL_STATICS_SALES')],
                             // ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Warehouse Commit Note Statics')]), 'icon' => 'fa fa-circle-o', 'url' => ['/statics/warehouse-commit-note']],
-                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Receipt Items Statics')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/statics/receipt-items'], 'visible' => \Yii::$app->user->can('P_STATICS_PURCHASE')],
-                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Delivery Items Statics')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/statics/delivery-items'], 'visible' => \Yii::$app->user->can('P_STATICS_DELIVERY')],
+                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Receipt Items Statics')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/statics/receipt-items'], 'visible' => \Yii::$app->user->can('P_CL_STATICS_PURCHASE')],
+                            ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Delivery Items Statics')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/statics/delivery-items'], 'visible' => \Yii::$app->user->can('P_CL_STATICS_DELIVERY')],
                             // ['label' => Yii::t('app.c2', '{s1} Management', ['s1' => Yii::t('app.c2', 'Warehouse Commit Log')]), 'icon' => 'fa fa-circle-o', 'url' => ['/cl/p3s/warehouse-note/default/log']],
                         ]
                     ],

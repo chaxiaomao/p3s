@@ -12,6 +12,8 @@ class Module extends \yii\base\Module
      */
     public $controllerNamespace = 'backend\modules\CL\modules\P3S\modules\Inventory\modules\ReceiptNote\controllers';
 
+    public $permission = "P_CL_PURCHASE";
+
     /**
      * {@inheritdoc}
      */
