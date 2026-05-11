@@ -32,12 +32,13 @@ class ApiController extends Controller
             'type' => $type,
         ]);
 
-        if ($isCL) {
-            $query->where(['like', 'sku', 'cl-']);
-        }
+        // if ($isCL) {
+        //     $query->andWhere(['like', 'sku', 'cl-']);
+        // }
 
-        if ($keyword) {
-            $query->andFilterWhere([
+        if (!empty($keyword)) {
+            // $query->andWhere(['like', 'name', $keyword]);
+            $query->andWhere([
                 'or',
                 ['like', 'sku', $keyword],
                 ['like', 'name', $keyword],
