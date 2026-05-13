@@ -14,7 +14,7 @@ class Module extends \backend\components\Module
      */
     public $controllerNamespace = 'backend\modules\Statics\modules\SalesProduct\controllers';
 
-    public $permission = "P_CL_STATICS_SALES";
+    public $permission = "P_STATICS_SALES";
 
     /**
      * {@inheritdoc}

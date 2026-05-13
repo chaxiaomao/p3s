@@ -12,7 +12,7 @@ class Module extends \backend\components\Module
      */
     public $controllerNamespace = 'backend\modules\Statics\modules\DeliveryItems\controllers';
 
-    public $permission = "P_CL_STATICS_DELIVERY";
+    public $permission = "P_STATICS_DELIVERY";
 
     /**
      * {@inheritdoc}
