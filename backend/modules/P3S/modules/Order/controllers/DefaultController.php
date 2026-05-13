@@ -76,9 +76,12 @@ class DefaultController extends Controller
         }
 
         $model->loadItems();
-        
+        $model->setItemsTotalAmount();
+
         return (Yii::$app->request->isAjax) ? $this->renderAjax('edit', [ 'model' => $model,]) : $this->render('edit', [ 'model' => $model,]);
     }
+
+
     
     /**
      * Finds the Order model based on its primary key value.

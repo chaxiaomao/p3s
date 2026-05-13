@@ -22,8 +22,7 @@ $form = ActiveForm::begin([
     ]]);
 ?>
 
-    <div class="<?= $model->getPrefixName('form') ?>
-">
+    <div class="<?= $model->getPrefixName('form') ?>">
         <?php if (Yii::$app->session->hasFlash($messageName)): ?>
             <?php if (!$model->hasErrors()) {
                 echo InfoBox::widget([
@@ -80,13 +79,18 @@ $form = ActiveForm::begin([
                             'buttonup_txt' => '<i class="glyphicon glyphicon-plus-sign"></i>',
                         ],
                     ],],
+                    'items_amount' => [
+                        'type' => Form::INPUT_TEXT,
+                        'label' => '数量汇总',
+                        'disabled' => true,
+                        'options' => ['disabled' => true,]
+                    ],
                 ]
             ]);
 
             ?>
 
-            <p style="color: red">产品总量留空则自动计算。</p>
-            <p style="color: red">小计留空则自动计算。</p>
+            <p style="color: red">产品总量留空则自动计算。小计留空则自动计算。</p>
 
             <?php
             $multipleItemsId = $model->getPrefixName('items');

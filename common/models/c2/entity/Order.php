@@ -36,6 +36,7 @@ use yii\validators\RequiredValidator;
 class Order extends \cza\base\models\ActiveRecord
 {
     public $items;
+    public $items_amount;
 
     public $materialItems;
 
@@ -54,7 +55,7 @@ class Order extends \cza\base\models\ActiveRecord
     {
         return [
             [['customer_id', 'created_by', 'updated_by', 'position'], 'integer'],
-            [['production_date', 'delivery_date', 'created_at', 'updated_at', 'items'], 'safe'],
+            [['production_date', 'delivery_date', 'created_at', 'updated_at', 'items', 'items_amount'], 'safe'],
             [['grand_total'], 'number'],
             [['items'], 'validateItems'],
             [['code', 'label', 'memo'], 'string', 'max' => 255],
@@ -104,6 +105,17 @@ class Order extends \cza\base\models\ActiveRecord
         parent::loadDefaultValues($skipIfSet);
         if ($this->isNewRecord) {
             $this->code = CodeGenerator::getCodeByDate($this, 'SO');
+        }
+    }
+
+    public function setItemsTotalAmount()
+    {
+        if (!empty($this->items)) {
+            $num = 0;
+            foreach ($this->items as $item) {
+                $num += $item->product_sum;
+            }
+            $this->items_amount = $num;
         }
     }
 
