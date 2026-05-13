@@ -246,7 +246,7 @@ $form = ActiveForm::begin([
                                                         .val(data.output.last_price);
                                             
                                                     if(data.output !== undefined) {
-                                            
+                                                        $('#productionschedule-label').val(data.output.product_name);
                                                         let combination = row.find(
                                                             '[id^=combination-]'
                                                         );
