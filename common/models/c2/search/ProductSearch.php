@@ -69,6 +69,8 @@ class ProductSearch extends Product
 
         $query->with('creator.profile', 'updator.profile', 'measure');
 
+        $query->andFilterWhere(['not like', 'sku', 'cl-']);
+
         $query->andFilterWhere([
             'id' => $this->id,
             'low_price' => $this->low_price,
