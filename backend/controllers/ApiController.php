@@ -28,9 +28,11 @@ class ApiController extends Controller
     {
         $query = Product::find()->select('id,name,sku');
 
-        $query->where([
-            'type' => $type,
-        ]);
+        if ($type != 0) {
+            $query->where([
+                'type' => $type,
+            ]);
+        }
 
         // if ($isCL) {
         //     $query->andWhere(['like', 'sku', 'cl-']);

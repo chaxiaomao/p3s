@@ -161,6 +161,7 @@ $form = ActiveForm::begin([
                                                         'function(params){
                                                         return {
                                                                 keyword: params.term,
+                                                                type: 0,
                                                                 isCL: true,
                                                             };
                                                         }'
