@@ -1,6 +1,8 @@
 <?php
 
+use common\models\c2\entity\Product;
 use yii\helpers\Html;
+use yii\web\JsExpression;
 use yii\widgets\Pjax;
 use backend\modules\P3S\modules\WarehouseNote\widgets\EntityDetail;
 use cza\base\models\statics\OperationEvent;
@@ -149,21 +151,55 @@ $form = ActiveForm::begin([
                             [
                                 'name' => 'product_id',
                                 // 'type' => 'dropDownList',
-                                'title' => Yii::t('app.c2', 'Material'),
+                                'title' => Yii::t('app.c2', 'Product'),
                                 'enableError' => true,
                                 // 'items' => ['' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', ['status' => EntityModelStatus::STATUS_ACTIVE]),
                                 'type' => \kartik\select2\Select2::className(),
-                                'options' => [
-                                    'data' => \backend\models\c2\entity\Material::getMixedOptions('id', 'sku', [
-                                        'type' => \common\models\c2\statics\ProductType::TYPE_MATERIAL,
-                                        'status' => EntityModelStatus::STATUS_ACTIVE
-                                    ]),
-                                ],
-                                // 'options' => [
-                                //     'data' => \common\models\c2\entity\ProductionConsumption::getHashMap('need_product_id', 'need_product_name', [
-                                //         'schedule_id' => $model->ref_note_id,
-                                //     ]),
-                                // ],
+                                'value' => function ($data) {
+
+                                    return $data ? $data['product_id'] : '';
+                                },
+                                'options' => function ($data) use ($multipleItemsId) {
+                                    $text = '';
+                                    if (!empty($data['product_id'])) {
+                                        $product = Product::find()
+                                            ->select('id,name,sku')
+                                            ->where(['id' => $data['product_id']])
+                                            ->asArray()
+                                            ->one();
+                                        if ($product) {
+                                            $text = $product['sku'] . '(' . $product['name'] . ')';
+                                        }
+                                    }
+                                    return [
+                                        'initValueText' => $text,
+                                        'pluginOptions' => [
+                                            'width' => '280px',
+                                            // 'allowClear' => true,
+                                            'minimumInputLength' => 2,
+                                            'ajax' => [
+                                                'url' => Url::to(['/api/product-search']),
+                                                'dataType' => 'json',
+                                                'delay' => 400,
+                                                'data' => new JsExpression(
+                                                    'function(params){
+                                                        return {
+                                                                keyword: params.term,
+                                                                type: 0,
+                                                            };
+                                                        }'
+                                                ),
+                                                'processResults' => new JsExpression(
+                                                    'function(data){
+                                                        return {
+                                                                results:data.results
+                                                            };
+                                                        }'
+                                                ),
+                                            ],
+                                        ],
+                                    ];
+                                },
                             ],
                             [
                                 'name' => 'measure_id',
