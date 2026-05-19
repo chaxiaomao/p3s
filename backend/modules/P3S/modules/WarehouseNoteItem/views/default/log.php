@@ -87,17 +87,15 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => '更新后库存',
                 'value' => function ($model) {
-                    if ($model->before_stock != 0) {
-                        if ($model->isReceipt()) {
-                            return $model->before_stock + $model->number;
-                        }
-                        if ($model->owner->type == WarehouseNoteType::MODIFY_BY_USER) {
-                            return $model->product->stock;
-                        }
-                        return $model->before_stock - $model->number;
+                    if ($model->isReceipt()) {
+                        return $model->before_stock + $model->number;
                     }
+                    if ($model->owner->type == WarehouseNoteType::MODIFY_BY_USER) {
+                        return $model->product->stock;
+                    }
+                    return $model->before_stock - $model->number;
 
-                    return $model->product->stock;
+                    // return $model->product->stock;
                 }
             ],
             'price',
