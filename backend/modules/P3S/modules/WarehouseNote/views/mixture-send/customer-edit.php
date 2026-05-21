@@ -143,6 +143,24 @@ $form = ActiveForm::begin([
                                 'type' => 'hiddenInput',
                             ],
                             // [
+                            //     'name' => 'product_id',
+                            //     // 'type' => 'dropDownList',
+                            //     'title' => Yii::t('app.c2', 'Material'),
+                            //     'enableError' => true,
+                            //     // 'items' => ['' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', ['status' => EntityModelStatus::STATUS_ACTIVE]),
+                            //     'type' => \kartik\select2\Select2::className(),
+                            //     'options' => [
+                            //         'data' => \backend\models\c2\entity\Material::getMixedOptions('id', 'sku', [
+                            //             'status' => EntityModelStatus::STATUS_ACTIVE
+                            //         ]),
+                            //     ],
+                            //     // 'options' => [
+                            //     //     'data' => \common\models\c2\entity\ProductionConsumption::getHashMap('need_product_id', 'need_product_name', [
+                            //     //         'schedule_id' => $model->ref_note_id,
+                            //     //     ]),
+                            //     // ],
+                            // ],
+                            // [
                             //     'name' => 'label',
                             //     'title' => Yii::t('app.c2', 'Label'),
                             //     'options' => [
@@ -269,5 +287,6 @@ $js .= "jQuery('.btn.multiple-input-list__btn.js-input-remove').off('click').on(
     }
 });\n";
 
+$js .= "$.fn.modal.Constructor.prototype.enforceFocus = function(){};";
 $this->registerJs($js);
 ?>

@@ -187,7 +187,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         'send' => function ($url, $model, $key) {
                             return Html::a(Yii::t('app.c2', 'Product Send'), [
                                 '/p3s/warehouse-note/delivery',
-                                'id' => $model->id
+                                'id' => $model->id,
+                                'f' => 'cl',
                             ], [
                                 'title' => Yii::t('app.c2', 'Product Send'),
                                 'data-pjax' => '0',
@@ -197,7 +198,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         'send_log' => function ($url, $model, $key) {
                             return Html::a(Yii::t('app.c2', 'Send Log'), [
                                 '/p3s/warehouse-note/delivery/log',
-                                'id' => $model->id
+                                'id' => $model->id,
+                                'f' => 'cl',
                             ], [
                                 'title' => Yii::t('app.c2', 'Send Log'),
                                 'data-pjax' => '0',

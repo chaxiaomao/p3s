@@ -138,7 +138,7 @@ if ($from == 'pam-send') {
                     'buttons' => [
                         'update' => function ($url, $model, $key) {
                             return Html::a('<span class="glyphicon glyphicon-pencil"></span>', [
-                                'edit',
+                                'edit-v2',
                                 'id' => $model->id,
                                 'ref_note_id' => $model->ref_note_id
                             ], [
@@ -165,8 +165,9 @@ if ($from == 'pam-send') {
 
 
         echo Html::beginTag('div', ['class' => 'box-footer']);
-        echo Html::a('<i class="fa fa-arrow-left"></i> ' . Yii::t('app.c2', 'Go Back'), ['/cl/pam/production-schedule'], ['data-pjax' => '0', 'class' => 'btn btn-default pull-right', 'title' => Yii::t('app.c2', 'Go Back'),]);
-        // echo Html::a('<i class="fa fa-window-close-o"></i> ' . Yii::t('app.c2', 'Close'), ['index'], ['data-pjax' => '0', 'data-dismiss' => 'modal', 'class' => 'btn btn-default pull-right', 'title' => Yii::t('app.c2', 'Close'),]);
+        echo ' <div class="">
+        <a href="javascript:history.back()" class="btn btn-default pull-right"><i class="fa fa-arrow-left"></i>返回</a>
+    </div>';        // echo Html::a('<i class="fa fa-window-close-o"></i> ' . Yii::t('app.c2', 'Close'), ['index'], ['data-pjax' => '0', 'data-dismiss' => 'modal', 'class' => 'btn btn-default pull-right', 'title' => Yii::t('app.c2', 'Close'),]);
         echo Html::endTag('div');
 
         ?>
@@ -184,6 +185,7 @@ if ($from == 'pam-send') {
 ]);
 
 \yii\bootstrap\Modal::end();
+
 
 $js = "";
 
@@ -266,5 +268,6 @@ $js .= "jQuery(document).off('click', 'a.all-send').on('click', 'a.all-send', fu
             });";
 
 $this->registerJs($js);
+
 
 ?>

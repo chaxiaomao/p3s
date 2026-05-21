@@ -71,7 +71,7 @@ class WarehouseNoteItemSearch extends WarehouseNoteItem
             return $dataProvider;
         }
 
-        $query->with('product', 'receiptNote', 'measure', 'supplier');
+        $query->with('product', 'receiptNote', 'measure', 'deliveryNote', 'supplier');
         $query->select([
             '{{%warehouse_note_item}}.*',
             '{{%warehouse_note}}.type',

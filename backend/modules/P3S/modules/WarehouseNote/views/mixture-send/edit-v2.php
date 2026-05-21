@@ -5,6 +5,7 @@ use yii\helpers\Html;
 use yii\web\JsExpression;
 use yii\widgets\Pjax;
 use backend\modules\P3S\modules\WarehouseNote\widgets\EntityDetail;
+
 use cza\base\models\statics\OperationEvent;
 use unclead\multipleinput\MultipleInput;
 use kartik\widgets\ActiveForm;
@@ -13,8 +14,6 @@ use cza\base\widgets\ui\adminlte2\InfoBox;
 use cza\base\models\statics\EntityModelStatus;
 use yii\helpers\Url;
 
-$regularLangName = \Yii::$app->czaHelper->getRegularLangName();
-$messageName = $model->getMessageName();
 
 /* @var $this yii\web\View */
 /* @var $model common\models\c2\entity\WarehouseNote */
@@ -30,6 +29,9 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('app.c2', 'Warehouse Notes')
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('app.c2', 'Update');
 }
+
+$regularLangName = \Yii::$app->czaHelper->getRegularLangName();
+$messageName = $model->getMessageName();
 ?>
 
 <?php Pjax::begin(['id' => $model->getDetailPjaxName(), 'formSelector' => $model->getBaseFormName(true), 'enablePushState' => false, 'clientOptions' =>[
@@ -156,15 +158,10 @@ $form = ActiveForm::begin([
                             //     // 'items' => ['' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', ['status' => EntityModelStatus::STATUS_ACTIVE]),
                             //     'type' => \kartik\select2\Select2::className(),
                             //     'options' => [
-                            //         'data' => \backend\models\c2\entity\Material::getMixedOptions('id', 'sku', [
-                            //             'status' => EntityModelStatus::STATUS_ACTIVE
-                            //         ]),
+                            //                 'data' => \backend\models\c2\entity\Material::getMixedOptions('id', 'sku', [
+                            //                     'status' => EntityModelStatus::STATUS_ACTIVE
+                            //                 ]),
                             //     ],
-                            //     // 'options' => [
-                            //     //     'data' => \common\models\c2\entity\ProductionConsumption::getHashMap('need_product_id', 'need_product_name', [
-                            //     //         'schedule_id' => $model->ref_note_id,
-                            //     //     ]),
-                            //     // ],
                             // ],
                             [
                                 'name' => 'product_id',
@@ -192,7 +189,7 @@ $form = ActiveForm::begin([
                                     return [
                                         'initValueText' => $text,
                                         'pluginOptions' => [
-                                            // 'width' => '280px',
+                                            'width' => '280px',
                                             // 'allowClear' => true,
                                             'minimumInputLength' => 2,
                                             'ajax' => [
@@ -272,12 +269,14 @@ $form = ActiveForm::begin([
 </div>
 <?php ActiveForm::end(); ?>
 
+
 <?php $js = "";
 $js.= "jQuery('{$model->getDetailPjaxName(true)}').off('pjax:send').on('pjax:send', function(){jQuery.fn.czaTools('showLoading', {selector:'{$model->getDetailPjaxName(true)}', 'msg':''});});\n";
 $js.= "jQuery('{$model->getDetailPjaxName(true)}').off('pjax:complete').on('pjax:complete', function(){jQuery.fn.czaTools('hideLoading', {selector:'{$model->getDetailPjaxName(true)}'});});\n";
 $this->registerJs($js);
 ?>
 <?php  Pjax::end() ?>
+
 <?php
 $js = "";
 $js .= "jQuery('.btn.multiple-input-list__btn.js-input-remove').off('click').on('click', function(){
@@ -286,6 +285,7 @@ $js .= "jQuery('.btn.multiple-input-list__btn.js-input-remove').off('click').on(
        $.ajax({url:'" . Url::toRoute('delete-subitem') . "',data:{id:itemId}}).done(function(result){;}).fail(function(result){alert(result);});
     }
 });\n";
+
 $js .= "$.fn.modal.Constructor.prototype.enforceFocus = function(){};";
 $this->registerJs($js);
 ?>

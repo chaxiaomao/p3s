@@ -138,7 +138,7 @@ if ($from == 'pam-send') {
                     'buttons' => [
                         'update' => function ($url, $model, $key) {
                             return Html::a('<span class="glyphicon glyphicon-pencil"></span>', [
-                                'edit',
+                                'edit-v2',
                                 'id' => $model->id,
                                 'ref_note_id' => $model->ref_note_id
                             ], [

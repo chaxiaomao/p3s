@@ -107,6 +107,32 @@ class MixtureSendController extends Controller
 
         return (Yii::$app->request->isAjax) ? $this->renderAjax('customer-edit', [ 'model' => $model,]) : $this->render('customer-edit', [ 'model' => $model,]);
     }
+
+    /**
+     * create/update a WarehouseNote model.
+     * fit to pajax call
+     * @return mixed
+     */
+    public function actionEditV2($id = null, $ref_note_id = null)
+    {
+        $model = $this->retrieveModel($id);
+        $model->type = WarehouseNoteType::MIXTURE_SEND;
+        $model->ref_note_id = $ref_note_id;
+        $node = ProductionSchedule::findOne($ref_note_id);
+        $model->ref_note_code = $node->code;
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);
+            } else {
+                Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
+            }
+        }
+
+        $model->loadItems();
+
+        return (Yii::$app->request->isAjax) ? $this->renderAjax('edit-v2', [ 'model' => $model,]) : $this->render('edit-v2', [ 'model' => $model,]);
+    }
     
     /**
      * Finds the WarehouseNote model based on its primary key value.

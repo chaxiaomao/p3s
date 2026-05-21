@@ -191,6 +191,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 '/p3s/warehouse-note/receipt/index',
                                 'id' => $model->id,
                                 'from' => 'p3s-receipt',
+                                'f' => 'cl',
                             ], [
                                 'title' => Yii::t('app.c2', 'Enter'),
                                 'data-pjax' => '0',
