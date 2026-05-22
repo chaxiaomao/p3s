@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = Yii::t('app.c2', 'Update');
 
 <?php
 $form = ActiveForm::begin([
-    'action' => ['edit', 'id' => $model->id, 'ref_note_id' => $model->ref_note_id],
+    'action' => ['customer-edit', 'id' => $model->id, 'ref_note_id' => $model->ref_note_id],
     'options' => [
         'id' => $model->getBaseFormName(),
         'data-pjax' => true,
