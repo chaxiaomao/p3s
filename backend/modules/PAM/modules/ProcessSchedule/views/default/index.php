@@ -87,13 +87,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'attribute' => 'created_by',
                     'value' => function ($model) {
-                        return !is_null($model->creator) ? $model->creator->profile->fullname : '';
+                        return !is_null($model->creator) ? $model->creator->username : '';
                     },
                 ],
                 [
                     'attribute' => 'updated_by',
                     'value' => function ($model) {
-                        return !is_null($model->updator) ? $model->updator->profile->fullname : '';
+                        return !is_null($model->updator) ? $model->updator->username : '';
                     },
                 ],
                 // 'created_by',

@@ -88,7 +88,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'updated_by',
                 'value' => function ($model) {
-                    return !is_null($model->updator) ? $model->updator->profile->fullname : '';
+                    return !is_null($model->updator) ? $model->updator->username : '';
                 },
             ],
             // 'updated_by',

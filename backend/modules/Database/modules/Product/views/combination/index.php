@@ -72,21 +72,21 @@ use cza\base\models\statics\OperationEvent;
             // 'updated_at',
             [
                 'attribute' => 'status',
-                'class' => '\kartik\grid\EditableColumn',
-                'editableOptions' => [
-                    'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
-                    'formOptions' => ['action' => Url::toRoute('/database/product/combination/default/editColumn')],
-                    'data' => EntityModelStatus::getHashMap('id', 'label'),
-                    'displayValueConfig' => EntityModelStatus::getHashMap('id', 'label'),
-                ],
-                'filter' => EntityModelStatus::getHashMap('id', 'label'),
+                // 'class' => '\kartik\grid\EditableColumn',
+                // 'editableOptions' => [
+                //     'inputType' => \kartik\editable\Editable::INPUT_DROPDOWN_LIST,
+                //     'formOptions' => ['action' => Url::toRoute('/database/product/combination/default/editColumn')],
+                //     'data' => EntityModelStatus::getHashMap('id', 'label'),
+                //     'displayValueConfig' => EntityModelStatus::getHashMap('id', 'label'),
+                // ],
+                // 'filter' => EntityModelStatus::getHashMap('id', 'label'),
                 'value' => function ($model) {
                     return $model->getStatusLabel();
                 }
             ],
             [
                 'class' => \common\widgets\grid\ActionColumn::className(),
-                'template' => '{update} {delete}',
+                'template' => '{update} {delete} {log}',
                 'buttons' => [
                     'update' => function ($url, $model, $key) {
                         return Html::a('<span class="glyphicon glyphicon-pencil"></span>', [
@@ -108,7 +108,17 @@ use cza\base\models\statics\OperationEvent;
                             'data-pjax' => '0',
                             'class' => 'delete-combination',
                         ]);
-                    }
+                    },
+                    'log' => function ($url, $model, $key) {
+                        return Html::a('<p>库存记录</p>', [
+                            '/p3s/warehouse-note-item',
+                            'WarehouseNoteItemSearch[combination_id]' => $model->id
+                        ], [
+                            'title' => Yii::t('app', 'Info'),
+                            'data-pjax' => '0',
+                            'target' => '_blank',
+                        ]);
+                    },
                 ]
             ],
 

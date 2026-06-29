@@ -56,10 +56,15 @@ $this->params['breadcrumbs'][] = $this->title;
         ];
 
         $query = \common\models\c2\entity\ProductCombination::find();
+        $query->joinWith([
+            'product' => function ($q) {
+                $q->where('{{%product}}.sku LIKE "CL-%"');
+            }
+        ]);
         $dataProviderAll = new ActiveDataProvider([
             'query' => $query,
             'pagination' => [
-                'pageSize' => 2000,
+                'pageSize' => 9999,
             ],
         ]);
 

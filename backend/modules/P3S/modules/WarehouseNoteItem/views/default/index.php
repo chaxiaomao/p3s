@@ -1,5 +1,6 @@
 <?php
 
+use common\models\c2\statics\WarehouseNoteType;
 use cza\base\widgets\ui\common\grid\GridView;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -129,19 +130,42 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'id',
             // 'note_id',
             // 'product_id',
+            [
+                'attribute' => 'warehouse_note_type',
+                'filter' => \common\models\c2\statics\WarehouseNoteType::getHashMap('id', 'label'),
+                'value' => function ($model) {
+                    return \common\models\c2\statics\WarehouseNoteType::getLabel($model->owner->type);
+                }
+            ],
             'product_name',
             'product_sku',
-            'measure.name',
+            'combination_name',
+            // 'measure.name',
             // 'product_label',
             // 'product_value',
             // 'combination_id',
-            // 'combination_name',
             // 'package_id',
             // 'package_name',
             // 'pieces',
-            'number',
-            'price',
-            'subtotal',
+            // 'number',
+            [
+                'label' => '更新后库存',
+                'format' => 'html',
+                'value' => function ($model) {
+                    if ($model->isReceipt()) {
+                        return "<span class='text-green'>进仓{$model->number}</span>";
+                    }
+                    if ($model->owner->type == WarehouseNoteType::MODIFY_BY_USER) {
+                        // return $model->product->stock;
+                        return $model->number;
+                    }
+                    return "<span class='text-red'>出仓{$model->number}</span>";
+
+                    // return $model->product->stock;
+                }
+            ],
+            // 'price',
+            // 'subtotal',
             'memo',
             [
                 'attribute' => 'status',

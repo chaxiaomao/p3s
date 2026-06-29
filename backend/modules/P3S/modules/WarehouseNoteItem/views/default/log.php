@@ -60,7 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'owner.ref_note_code',
             'product_name',
             'product_sku',
-            'measure.name',
+            // 'measure.name',
 
             // 'owner.creator.profile.fullname',
             // 'owner.updator.profile.fullname',
@@ -98,8 +98,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     // return $model->product->stock;
                 }
             ],
-            'price',
-            'subtotal',
+            // 'price',
+            // 'subtotal',
             [
                 'attribute' => 'owner.creator.username',
                 'label' => Yii::t('app.c2', 'Created By'),

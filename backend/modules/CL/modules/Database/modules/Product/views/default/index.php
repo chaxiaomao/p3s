@@ -201,14 +201,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'attribute' => 'created_by',
                     'value' => function ($model) {
-                        return !is_null($model->creator) ? $model->creator->profile->fullname : '';
+                        return !is_null($model->creator) ? $model->creator->username : '';
                     },
                     // 'filter' => \common\models\c2\statics\ProductType::getHashMap('id', 'label')
                 ],
                 [
                     'attribute' => 'updated_by',
                     'value' => function ($model) {
-                        return !is_null($model->updator) ? $model->updator->profile->fullname : '';
+                        return !is_null($model->updator) ? $model->updator->username : '';
                     },
                 ],
                 // 'updated_by',
@@ -232,7 +232,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 [
                     'class' => \common\widgets\grid\ActionColumn::className(),
-                    'template' => '{view} {update} {delete} {log}',
+                    'template' => '{view} {update} {delete} ',
                     'visibleButtons' => [
                         // 'update-material' => function ($model) {
                         //     return ($model->type == \common\models\c2\statics\ProductType::TYPE_MATERIAL);

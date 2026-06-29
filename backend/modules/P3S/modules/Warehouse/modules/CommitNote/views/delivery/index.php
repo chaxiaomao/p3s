@@ -89,7 +89,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'attribute' => 'created_by',
                     'value' => function ($model) {
-                        return $model->creator->profile->fullname;
+                        return $model->creator->username;
                     }
                 ],
                 'memo:ntext',

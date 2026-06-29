@@ -132,7 +132,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'created_by',
                 'value' => function ($model) {
-                    return !is_null($model->creator) ? $model->creator->profile->fullname : '';
+                    return !is_null($model->creator) ? $model->creator->username : '';
                 },
             ],
             // 'updated_by',

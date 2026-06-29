@@ -124,15 +124,15 @@ $this->params['breadcrumbs'][] = $this->title;
             'columns' => [
                 // ['class' => 'kartik\grid\CheckboxColumn'],
                 // ['class' => 'kartik\grid\SerialColumn'],
-                // [
-                //     'class' => 'kartik\grid\ExpandRowColumn',
-                //     'expandIcon' => '<span class="fa fa-plus-square-o"></span>',
-                //     'collapseIcon' => '<span class="fa fa-minus-square-o"></span>',
-                //     'detailUrl' => Url::toRoute(['detail']),
-                //     'value' => function ($model, $key, $index, $column) {
-                //         return GridView::ROW_COLLAPSED;
-                //     },
-                // ],
+                [
+                    'class' => 'kartik\grid\ExpandRowColumn',
+                    'expandIcon' => '<span class="fa fa-plus-square-o"></span>',
+                    'collapseIcon' => '<span class="fa fa-minus-square-o"></span>',
+                    'detailUrl' => Url::toRoute(['detail']),
+                    'value' => function ($model, $key, $index, $column) {
+                        return GridView::ROW_COLLAPSED;
+                    },
+                ],
                 'id',
                 // 'type',
 
@@ -202,14 +202,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'attribute' => 'created_by',
                     'value' => function ($model) {
-                        return !is_null($model->creator) ? $model->creator->profile->fullname : '';
+                        return !is_null($model->creator) ? $model->creator->username : '';
                     },
                     // 'filter' => \common\models\c2\statics\ProductType::getHashMap('id', 'label')
                 ],
                 [
                     'attribute' => 'updated_by',
                     'value' => function ($model) {
-                        return !is_null($model->updator) ? $model->updator->profile->fullname : '';
+                        return !is_null($model->updator) ? $model->updator->username : '';
                     },
                 ],
                 // 'updated_by',
@@ -233,7 +233,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 [
                     'class' => \common\widgets\grid\ActionColumn::className(),
-                    'template' => '{view} {update} {delete} {log}',
+                    'template' => '{view} {update} {delete}',
                     'visibleButtons' => [
                         // 'update-material' => function ($model) {
                         //     return ($model->type == \common\models\c2\statics\ProductType::TYPE_MATERIAL);
