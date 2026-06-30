@@ -4,14 +4,18 @@ namespace backend\modules\PAM\modules\ProductionConsumption\controllers;
 
 use backend\models\c2\form\SabMixtureForm;
 use common\models\c2\entity\Measure;
+use common\models\c2\entity\WarehouseNoteItem;
 use common\models\c2\statics\ProductionScheduleState;
+use common\models\c2\statics\WarehouseNoteItemStatus;
 use cza\base\models\statics\ResponseDatum;
 use Yii;
 use common\models\c2\entity\ProductionConsumption;
 use common\models\c2\search\ProductionConsumptionSearch;
 
 use cza\base\components\controllers\backend\ModelController as Controller;
+use yii\data\ArrayDataProvider;
 use yii\db\Expression;
+use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
@@ -21,7 +25,7 @@ use yii\filters\VerbFilter;
 class DefaultController extends Controller
 {
     public $modelClass = 'common\models\c2\entity\ProductionConsumption';
-    
+
     /**
      * Lists all ProductionConsumption models.
      * @return mixed
@@ -44,14 +48,46 @@ class DefaultController extends Controller
      */
     public function actionSendRecord()
     {
-        $searchModel = new ProductionConsumptionSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $id =  Yii::$app->request->queryParams['ProductionConsumptionSearch']['schedule_id'];
+        $data1 = ProductionConsumption::find()->where(['schedule_id' => $id])->all();
+        $data2 = WarehouseNoteItem::find()->where(['ref_note_id' => $id])->all();
+        $ids = ArrayHelper::getColumn($data1, function($ele) {
+            return $ele->need_product_id;
+        });
+        $data = $data1;
+
+        foreach ($data2 as $item2) {
+            if (!in_array($item2['product_id'], $ids)) {
+                $data[] = [
+                    'id' => $item2->product_id,
+                    'need_product_sku' => $item2->product_name,
+                    'need_product_name' => $item2->product_sku,
+                    'need_product_label' => $item2->product_label,
+                    'need_product_value' => $item2->product_value,
+                    'need_sum' => '',
+                    'send_sum' => $item2->status == WarehouseNoteItemStatus::COMMIT ? $item2['number'] : 0,
+                    'memo' => $item2->memo,
+                    // 'status' => $item2['memo'],
+                    // 'measure' => $item2['product_value'],
+                ];
+            }
+        }
+        $dataProvider = new ArrayDataProvider([
+            'allModels' => $data,
+            'pagination' => false, // Disable pagination if not needed
+        ]);
         return $this->render('index_send_record', [
-            'model' => $this->retrieveModel(),
-            // 'scheduleId' => Yii::$app->request->queryParams['ProductionConsumptionSearch']['schedule_id'],
-            'searchModel' => $searchModel,
+            // 'data' => $data,
             'dataProvider' => $dataProvider,
         ]);
+        // $searchModel = new ProductionConsumptionSearch();
+        // $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        // return $this->render('index_send_record', [
+        //     'model' => $this->retrieveModel(),
+        //     // 'scheduleId' => Yii::$app->request->queryParams['ProductionConsumptionSearch']['schedule_id'],
+        //     'searchModel' => $searchModel,
+        //     'dataProvider' => $dataProvider,
+        // ]);
     }
 
 
@@ -107,10 +143,10 @@ class DefaultController extends Controller
      * fit to pajax call
      * @return mixed
      */
-    public function actionEdit($id = null) 
+    public function actionEdit($id = null)
     {
         $model = $this->retrieveModel($id);
-        
+
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
                 Yii::$app->session->setFlash($model->getMessageName(), [Yii::t('app.c2', 'Saved successful.')]);
@@ -118,10 +154,10 @@ class DefaultController extends Controller
                 Yii::$app->session->setFlash($model->getMessageName(), $model->errors);
             }
         }
-        
+
         return (Yii::$app->request->isAjax) ? $this->renderAjax('edit', [ 'model' => $model,]) : $this->render('edit', [ 'model' => $model,]);
     }
-    
+
     /**
      * Finds the ProductionConsumption model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.

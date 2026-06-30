@@ -2,6 +2,7 @@
 
 namespace common\models\c2\search;
 
+use common\models\c2\entity\WarehouseNoteItem;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -34,6 +35,11 @@ class ProductionConsumptionSearch extends ProductionConsumption
         return Model::scenarios();
     }
 
+    public function getWarehouseNoteItem()
+    {
+        return $this->hasOne(WarehouseNoteItem::className(), ['ref_note_id' => 'schedule_id']);
+    }
+
     /**
      * Creates data provider instance with search query applied
      *
@@ -44,6 +50,7 @@ class ProductionConsumptionSearch extends ProductionConsumption
     public function search($params)
     {
         $query = ProductionConsumption::find();
+        // $query = WarehouseNoteItem::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -55,6 +62,13 @@ class ProductionConsumptionSearch extends ProductionConsumption
                 'pageSize' => 20,
             ],
         ]);
+
+        // $query->select([
+        //    '{{%production_consumption}}.*',
+        //    'b.',
+        // ]);
+
+        // $query->joinWith('warehouseNoteItem');
 
         $this->load($params);
 
@@ -85,6 +99,7 @@ class ProductionConsumptionSearch extends ProductionConsumption
             ->andFilterWhere(['like', 'state', $this->state])
             ->andFilterWhere(['like', 'status', $this->status]);
 
+        // print_r($query->createCommand()->getRawSql());
 
         return $dataProvider;
     }

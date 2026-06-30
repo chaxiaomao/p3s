@@ -65,6 +65,12 @@ class WarehouseNoteItemSearch extends WarehouseNoteItem
             ],
         ]);
 
+        $dataProvider->setSort([
+            'defaultOrder' => [
+                'created_at' => SORT_DESC,
+            ],
+        ]);
+
         if (!$this->validate()) {
             // uncomment the following line if you do not want to return any records when validation fails
             // $query->where('0=1');
@@ -147,6 +153,12 @@ class WarehouseNoteItemSearch extends WarehouseNoteItem
             'pagination' => [
                 'pageParam' => $this->getPageParamName(),
                 'pageSize' => 20,
+            ],
+        ]);
+
+        $dataProvider->setSort([
+            'defaultOrder' => [
+                'created_at' => SORT_DESC,
             ],
         ]);
 

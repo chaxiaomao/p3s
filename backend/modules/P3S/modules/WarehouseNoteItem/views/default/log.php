@@ -91,7 +91,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         return $model->before_stock + $model->number;
                     }
                     if ($model->owner->type == WarehouseNoteType::MODIFY_BY_USER) {
-                        return $model->product->stock;
+                        // return $model->product->stock;
+                        return $model->number;
                     }
                     return $model->before_stock - $model->number;
 
