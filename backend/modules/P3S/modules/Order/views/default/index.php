@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'class' => 'kartik\grid\ExpandRowColumn',
                     'expandIcon' => '<span class="fa fa-plus-square-o"></span>',
                     'collapseIcon' => '<span class="fa fa-minus-square-o"></span>',
-                    'detailUrl' => Url::toRoute(['detail']),
+                    'detailUrl' => Url::toRoute(['/p3s/order/order-item/default/stock',]),
                     'value' => function ($model, $key, $index, $column) {
                         return GridView::ROW_COLLAPSED;
                     },
@@ -133,7 +133,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'class' => \common\widgets\grid\ActionColumn::className(),
                     'width' => '200px',
-                    'template' => '{update} {init} {processing} {solved} {view} {print} {delete}',
+                    'template' => '{update} {init} {processing} {solved} {print} {delete}',
                     'visibleButtons' => [
                         'update' => function ($model) {
                             return ($model->state == \common\models\c2\statics\OrderState::INIT);
@@ -216,11 +216,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'view' => function ($url, $model, $key) {
                             return Html::a('<span class=" ">订单详情</span>', [
-                                '/p3s/order/order-item', 'OrderItemSearch[order_id]' => $model->id
+                                // '/p3s/order/order-item', 'OrderItemSearch[order_id]' => $model->id
+                                '/p3s/order/order-item/default/stock', 'order_id' => $model->id
                             ], [
                                 'title' => Yii::t('app.c2', 'View'),
                                 'data-pjax' => '0',
-                                'class' => 'btn btn-default btn-xs',
+                                'data-order-id' => $model->id,
+                                'class' => 'view btn btn-default btn-xs ',
                             ]);
                         },
                     ]
@@ -232,9 +234,19 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
 <?php
+\yii\bootstrap\Modal::begin([
+    'id' => 'content-edit',
+    'size' => 'modal-lg'
+]);
 
+\yii\bootstrap\Modal::end();
 
 $js = "";
+
+$js .= "jQuery(document).off('click', 'a.view').on('click', 'a.view', function(e) {
+            e.preventDefault();
+            jQuery('#content-edit').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
+        });";
 
 $js .= "jQuery(document).off('click', 'a.init').on('click', 'a.init', function(e) {
                 e.preventDefault();

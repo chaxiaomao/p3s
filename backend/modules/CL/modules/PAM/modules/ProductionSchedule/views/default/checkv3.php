@@ -1,6 +1,6 @@
 <style>
     .modal-dialog {
-        margin: 10% auto;
+        margin: 5% auto;
     }
 </style>
 <table class="table table-bordered " style="background-color: #d9edf7;">
