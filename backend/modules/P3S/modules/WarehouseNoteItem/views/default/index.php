@@ -31,8 +31,8 @@ $this->params['breadcrumbs'][] = $this->title;
     // echo Html::endTag('div');
     // ?>
     <div class="box-footer">
-<!--        <a href="javascript:history.back()" class="btn btn-default pull-right"><i class="fa fa-arrow-left"></i>返回</a>-->
-        <a href="/" class="btn btn-default pull-right"><i class="fa fa-arrow-left"></i>返回</a>
+        <a href="javascript:history.back()" class="btn btn-default pull-right"><i class="fa fa-arrow-left"></i>返回</a>
+<!--        <a href="/" class="btn btn-default pull-right"><i class="fa fa-arrow-left"></i>返回</a>-->
     </div>
 
     <?php

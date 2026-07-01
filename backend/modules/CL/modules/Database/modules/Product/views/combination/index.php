@@ -116,7 +116,7 @@ use cza\base\models\statics\OperationEvent;
                         ], [
                             'title' => Yii::t('app', 'Info'),
                             'data-pjax' => '0',
-                            'target' => '_blank',
+                            // 'target' => '_blank',
                         ]);
                     },
                 ]
