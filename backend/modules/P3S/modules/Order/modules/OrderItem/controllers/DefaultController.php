@@ -3,6 +3,7 @@
 namespace backend\modules\P3S\modules\Order\modules\OrderItem\controllers;
 
 use common\models\c2\entity\Order;
+use common\models\c2\statics\OrderState;
 use cza\base\models\statics\EntityModelStatus;
 use Yii;
 use common\models\c2\entity\OrderItem;
@@ -65,9 +66,11 @@ class DefaultController extends Controller
             ->select([
                 'oi.*',
                 'o.code',
+                'o.state',
             ])
             ->leftJoin('c2_order o', 'o.id = oi.order_id')
             ->where(['in', 'combination_id', $comProdIds])
+            ->andFilterWhere(['o.state' => OrderState::PROCESSING])
             // ->andWhere(['oi.status' => EntityModelStatus::STATUS_ACTIVE])
             ->asArray()
             ->all();
