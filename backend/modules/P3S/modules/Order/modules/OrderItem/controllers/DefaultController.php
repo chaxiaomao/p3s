@@ -70,7 +70,7 @@ class DefaultController extends Controller
             ])
             ->leftJoin('c2_order o', 'o.id = oi.order_id')
             ->where(['in', 'combination_id', $comProdIds])
-            ->andFilterWhere(['o.state' => OrderState::PROCESSING])
+            ->andFilterWhere(['in', 'o.state', [OrderState::PROCESSING, OrderState::INIT]])
             // ->andWhere(['oi.status' => EntityModelStatus::STATUS_ACTIVE])
             ->asArray()
             ->all();
