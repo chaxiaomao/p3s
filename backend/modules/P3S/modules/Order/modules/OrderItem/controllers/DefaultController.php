@@ -76,6 +76,7 @@ class DefaultController extends Controller
             ->all();
 
         foreach ($orderItems as &$orderItem) {
+            $orderItem['other_order_items'] = [];
             foreach ($allOrderItems as $orderItem1) {
                 if ($orderItem['combination_id'] == $orderItem1['combination_id']) {
                     $orderItem['other_order_items'][] = $orderItem1;
