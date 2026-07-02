@@ -304,7 +304,7 @@ return [
     'View Albums' => '查看图集',
     'Production Consumption Print' => '打印物料',
     'Last Price' => '上次单价',
-    'Warehouse Not Commit' => '未进仓',
+    'Warehouse Not Commit' => '未执行',
     'Warehouse Commit Log' => '仓库记录',
     'Warehouse Note Items Log' => '仓库记录',
     'Updated By' => '修改人',

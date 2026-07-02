@@ -296,7 +296,7 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
         if (!empty($items)) {
             foreach ($items as $item) {
                 $item->updateAttributes([
-                    'before_stock' => $item->product->stock,
+                    'before_stock' => $item->productCombination->stock,
                     'status' => WarehouseNoteItemStatus::COMMIT
                 ]);
                 if (!is_null($item->productCombination)) {
@@ -339,7 +339,7 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
         if (!empty($items)) {
             foreach ($items as $item) {
                 $item->updateAttributes([
-                    'before_stock' => $item->product->stock,
+                    'before_stock' => $item->productCombination->stock,
                     'status' => WarehouseNoteItemStatus::COMMIT
                 ]);
                 if (!is_null($item->productCombination)) {

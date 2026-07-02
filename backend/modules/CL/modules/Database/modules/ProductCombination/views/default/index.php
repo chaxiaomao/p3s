@@ -209,6 +209,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 // ],
                 [
                     'class' => '\kartik\grid\ActionColumn',
+                    'width' => '100px',
                     'template' => '{update} {log}',
                     'buttons' => [
                         'update' => function ($url, $model, $key) {
@@ -219,7 +220,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]);
                         },
                         'log' => function ($url, $model, $key) {
-                            return Html::a('<span class="glyphicon glyphicon-log-out"></span>', [
+                            return Html::a('库存记录', [
                                 '/p3s/warehouse-note-item/',
                                 'WarehouseNoteItemSearch[combination_id]' => $model->id
                             ], [

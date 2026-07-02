@@ -48,8 +48,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'exportConfig' => [],
             'columns' => [
-                ['class' => 'kartik\grid\CheckboxColumn'],
-                ['class' => 'kartik\grid\SerialColumn'],
+                // ['class' => 'kartik\grid\CheckboxColumn'],
+                // ['class' => 'kartik\grid\SerialColumn'],
                 [
                     'class' => 'kartik\grid\ExpandRowColumn',
                     'expandIcon' => '<span class="fa fa-plus-square-o"></span>',

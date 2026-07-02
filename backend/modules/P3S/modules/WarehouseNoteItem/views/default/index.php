@@ -148,19 +148,39 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'package_id',
             // 'package_name',
             // 'pieces',
-            // 'number',
+            [
+                'format' => 'html',
+                'attribute' => 'number',
+                'value' => function ($model) {
+
+                    if ($model->owner->type == \common\models\c2\statics\WarehouseNoteType::MODIFY_BY_USER) {
+                        return "<span style='color: #7c7c7c'>手动更新{$model->number}</span>";
+                    }
+                    return $model->isReceipt() ? "<span style='color: #00a65a'>进仓{$model->number}</span>" : "<span style='color: red'>出仓{$model->number}</span>";
+                }
+            ],
+            'before_stock',
             [
                 'label' => '更新后库存',
                 'format' => 'html',
                 'value' => function ($model) {
                     if ($model->isReceipt()) {
-                        return "<span class='text-green'>进仓{$model->number}</span>";
+                        return $model->before_stock + $model->number;
                     }
                     if ($model->owner->type == WarehouseNoteType::MODIFY_BY_USER) {
                         // return $model->product->stock;
                         return $model->number;
                     }
-                    return "<span class='text-red'>出仓{$model->number}</span>";
+                    return $model->before_stock - $model->number;
+
+                    // if ($model->isReceipt()) {
+                    //     return "<span class='text-green'>进仓{$model->number}</span>";
+                    // }
+                    // if ($model->owner->type == WarehouseNoteType::MODIFY_BY_USER) {
+                    //     // return $model->product->stock;
+                    //     return $model->number;
+                    // }
+                    // return "<span class='text-red'>出仓{$model->number}</span>";
 
                     // return $model->product->stock;
                 }
@@ -168,6 +188,14 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'price',
             // 'subtotal',
             'memo',
+            [
+                'attribute' => 'owner.creator.username',
+                'label' => Yii::t('app.c2', 'Created By'),
+            ],
+            [
+                'attribute' => 'owner.updator.username',
+                'label' => Yii::t('app.c2', 'Updated By'),
+            ],
             [
                 'attribute' => 'status',
                 'value' => function ($model) {
