@@ -193,6 +193,10 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
                     if (isset($item['product_sum'])) {
                         $attributes['number'] = $item['product_sum'];
                     }
+                    if (isset($item['production_sum'])) {
+                        $attributes['number'] = $item['production_sum'];
+                    }
+
                     if (isset($item['id']) && $item['id'] == '') {
                         $itemModel = new WarehouseNoteItem();
                         $itemModel->setAttributes($attributes);
