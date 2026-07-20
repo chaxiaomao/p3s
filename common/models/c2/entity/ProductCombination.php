@@ -164,6 +164,7 @@ class ProductCombination extends \cza\base\models\ActiveRecord
             }
         }
         if (isset($changedAttributes['stock']) && (float)$changedAttributes['stock'] != (float)$this->stock) {
+
             $product = $this->product;
             $combs = $product->combinations;
             $sum = 0;
@@ -183,6 +184,7 @@ class ProductCombination extends \cza\base\models\ActiveRecord
                 $warehouseNoteItem->product_sku = $this->product->sku;
                 $warehouseNoteItem->product_label = $this->product->label;
                 $warehouseNoteItem->product_value = $this->product->value;
+                $warehouseNoteItem->combination_id = $this->id;
                 $warehouseNoteItem->combination_name = $this->name;
                 $warehouseNoteItem->measure_id = $this->product->measure_id;
                 $warehouseNoteItem->status = WarehouseNoteItemStatus::COMMIT;
