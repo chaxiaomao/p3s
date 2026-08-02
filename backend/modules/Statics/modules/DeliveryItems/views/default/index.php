@@ -153,6 +153,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
             [
                 'attribute' => 'customer_id',
+                'width' => '160px',
                 'value' => function ($model) {
                     return !empty($model->customer) ? $model->customer->username : '';
                 },
@@ -163,7 +164,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filterWidgetOptions' => [
                     'pluginOptions' => ['allowClear' => true],
                 ],
-                'filterInputOptions' => ['placeholder' => '...'],
+                'filterInputOptions' => ['placeholder' => ''],
                 'format' => 'raw'
             ],
 
