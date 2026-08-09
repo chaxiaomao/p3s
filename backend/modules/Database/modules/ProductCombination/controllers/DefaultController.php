@@ -2,6 +2,8 @@
 
 namespace backend\modules\Database\modules\ProductCombination\controllers;
 
+use common\models\c2\entity\OrderItem;
+use common\models\c2\statics\OrderState;
 use Yii;
 use common\models\c2\entity\ProductCombination;
 use common\models\c2\search\ProductCombinationSearch;
@@ -66,6 +68,29 @@ class DefaultController extends Controller
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
+        ]);
+    }
+
+    public function actionStockDetail()
+    {
+        $id = Yii::$app->request->post('expandRowKey');
+        $models = OrderItem::find()
+            ->alias('oi')
+            ->select([
+                'oi.*',
+                'o.code',
+                'o.state',
+            ])
+            ->leftJoin('c2_order o', 'o.id = oi.order_id')
+            ->where([ 'combination_id' => $id])
+            ->andFilterWhere(['in', 'o.state', [OrderState::PROCESSING, OrderState::INIT]])
+            // ->andWhere(['oi.status' => EntityModelStatus::STATUS_ACTIVE])
+            ->asArray()
+            ->all();
+
+
+        return $this->renderAjax('_stock', [
+            'models' => $models,
         ]);
     }
 
