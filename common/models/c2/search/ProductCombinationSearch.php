@@ -67,6 +67,12 @@ class ProductCombinationSearch extends ProductCombination
             return $dataProvider;
         }
 
+        $query->joinWith([
+            'product' => function ($q) {
+                $q->where('{{%product}}.sku NOT LIKE "CL-%"');
+            }
+        ]);
+
         if (!empty($this->product_name)) {
             $query->joinWith([
                 'product' => function ($q) {
