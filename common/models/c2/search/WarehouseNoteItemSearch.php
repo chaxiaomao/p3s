@@ -225,6 +225,8 @@ class WarehouseNoteItemSearch extends WarehouseNoteItem
         $query->leftJoin(InventoryReceiptNoteItem::tableName(), '{{%warehouse_note_item}}.ref_note_id = {{%inventory_receipt_note_item}}.note_id and {{%warehouse_note_item}}.product_id = {{%inventory_receipt_note_item}}.product_id');
         $query->where(['{{%warehouse_note}}.type' => WarehouseNoteType::RECEIPT]);
 
+        $query->where(['not', ['like', '{{%inventory_receipt_note_item}}.product_sku', 'CL']]);
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
             'sort' => [

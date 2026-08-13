@@ -91,7 +91,8 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'measure_id',
                 'value' => function ($model) {
-                    return !is_null($model->product->measure) ? $model->product->measure->name : '';
+                    // return !is_null($model->product->measure) ? $model->product->measure->name : '';
+                    return '';
                 },
                 // 'filter' => \common\models\c2\entity\Order::getHashMap('id', 'code')
             ],

@@ -69,19 +69,27 @@ class OrderItemSearch extends OrderItem
 
         $query->with('customer', 'order', 'product.measure');
 
-        if (!empty($this->order_code)) {
-            $query->joinWith([
-                'order' => function ($q) {
-                    $q->where('{{%order}}.code LIKE "%' . $this->order_code . '%"');
+        // if (!empty($this->order_code)) {
+        //
+        //     // $query->leftJoin('{{%order}}', 'code LIKE "%' . $this->order_code . '%"');
+        // }
+
+        $query->where(['not', ['like', '{{%order_item}}.product_sku', 'CL']]);
+
+        $query->joinWith([
+            'order' => function ($q) {
+                // $q->where('{{%product}}.sku NOT LIKE "CL-%"');
+                $q->andWhere(['!=', '{{%order}}.customer_id', CL_CUSTOMER_ID]);
+                if (!empty($this->order_code)) {
+                    $q->andFilterWhere('{{%order}}.code LIKE "%' . $this->order_code . '%"');
                 }
-            ]);
-            // $query->leftJoin('{{%order}}', 'code LIKE "%' . $this->order_code . '%"');
-        }
+            }
+        ]);
 
         $query->andFilterWhere([
             'id' => $this->id,
             'order_id' => $this->order_id,
-            'customer_id' => $this->customer_id,
+            '{{%order_item}}.customer_id' => $this->customer_id,
             'product_id' => $this->product_id,
             'combination_id' => $this->combination_id,
             'package_id' => $this->package_id,
@@ -94,11 +102,11 @@ class OrderItemSearch extends OrderItem
             'subtotal' => $this->subtotal,
             'position' => $this->position,
             'updated_at' => $this->updated_at,
-            'status' => $this->status,
+            // 'status' => $this->status,
             // 'status' => EntityModelStatus::STATUS_ACTIVE,
         ]);
 
-        $query->andFilterWhere(['like', 'label', $this->label])
+        $query->andFilterWhere(['like', '{{%order_item}}.label', $this->label])
             ->andFilterWhere(['like', 'product_name', $this->product_name])
             ->andFilterWhere(['like', 'product_sku', $this->product_sku])
             ->andFilterWhere(['like', 'product_label', $this->product_label])
@@ -113,6 +121,7 @@ class OrderItemSearch extends OrderItem
         //
         // $query->andFilterWhere(['LIKE', 'order.code', $this->getAttribute('order.code')]);
 
+        // Yii::info($query->createCommand()->getRawSql());
         return $dataProvider;
     }
 

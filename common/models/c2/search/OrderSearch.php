@@ -79,7 +79,7 @@ class OrderSearch extends Order
 
         $isCanSearch2024P3SData = Yii::$app->authManager->checkAccess(Yii::$app->user->id, 'P_2024_P3S_DATA');
         if (!$isCanSearch2024P3SData) {
-            $query->where(['>', 'created_at', '2024-12-31: 23:59:59']);
+            $query->andFilterWhere(['>', 'created_at', '2024-12-31: 23:59:59']);
         }
 
 
