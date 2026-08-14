@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php echo GridView::widget([
         'dataProvider' => $dataProvider,
         // 'filterModel' => $searchModel,
-        'id' => $model->getPrefixName('grid'),
+        // 'id' => $model->getPrefixName('grid'),
         'pjax' => true,
         'hover' => true,
         'showPageSummary' => true,
@@ -64,7 +64,8 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => Yii::t('app.c2', 'Measure'),
                 'value' => function ($model) {
-                    return !is_null($model->product->measure) ? $model->product->measure->name : '';
+                    return '';
+                    // return !is_null($model->product->measure) ? $model->product->measure->name : '';
                 }
             ],
             'need_sum',
@@ -131,56 +132,56 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 <?php
-\yii\bootstrap\Modal::begin([
-    'id' => 'edit',
-    // 'size' => 'modal-sm',
-    // 'options' => [
-    //     'tabindex' => false
-    // ],
-]);
-$js = "";
-$js .= "jQuery(document).off('click', 'a.send').on('click', 'a.send', function(e) {
-            e.preventDefault();
-            jQuery('#edit').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
-        });";
-
-$js .= "jQuery(document).off('click', 'a.back').on('click', 'a.back', function(e) {
-            e.preventDefault();
-            jQuery('#edit').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
-        });";
-
-$js .= "jQuery(document).off('click', 'a.all-send').on('click', 'a.all-send', function(e) {
-                e.preventDefault();
-                var lib = window['krajeeDialog'];
-                var url = jQuery(e.currentTarget).attr('href');
-                lib.confirm('" . Yii::t('app.c2', 'Are you sure?') . "', function (result) {
-                    if (!result) {
-                        return;
-                    }
-                    jQuery.ajax({
-                            url: url,
-                            success: function(data) {
-                                var lifetime = 6500;
-                                if(data._meta.result == '" . cza\base\models\statics\OperationResult::SUCCESS . "'){
-                                    jQuery('#{$model->getPrefixName('grid')}').trigger('" . OperationEvent::REFRESH . "');
-                                }
-                                else{
-                                  lifetime = 16500;
-                                }
-                                jQuery.msgGrowl ({
-                                        type: data._meta.type, 
-                                        title: '" . Yii::t('cza', 'Tips') . "',
-                                        text: data._meta.message,
-                                        position: 'top-center',
-                                        lifetime: lifetime,
-                                });
-                            },
-                            error :function(data){alert(data._meta.message);}
-                    });
-                });
-            });";
-
-$this->registerJs($js);
+// \yii\bootstrap\Modal::begin([
+//     'id' => 'edit',
+//     // 'size' => 'modal-sm',
+//     // 'options' => [
+//     //     'tabindex' => false
+//     // ],
+// ]);
+// $js = "";
+// $js .= "jQuery(document).off('click', 'a.send').on('click', 'a.send', function(e) {
+//             e.preventDefault();
+//             jQuery('#edit').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
+//         });";
+//
+// $js .= "jQuery(document).off('click', 'a.back').on('click', 'a.back', function(e) {
+//             e.preventDefault();
+//             jQuery('#edit').modal('show').find('.modal-content').html('" . Yii::t('app.c2', 'Loading...') . "').load(jQuery(e.currentTarget).attr('href'));
+//         });";
+//
+// $js .= "jQuery(document).off('click', 'a.all-send').on('click', 'a.all-send', function(e) {
+//                 e.preventDefault();
+//                 var lib = window['krajeeDialog'];
+//                 var url = jQuery(e.currentTarget).attr('href');
+//                 lib.confirm('" . Yii::t('app.c2', 'Are you sure?') . "', function (result) {
+//                     if (!result) {
+//                         return;
+//                     }
+//                     jQuery.ajax({
+//                             url: url,
+//                             success: function(data) {
+//                                 var lifetime = 6500;
+//                                 if(data._meta.result == '" . cza\base\models\statics\OperationResult::SUCCESS . "'){
+//                                     jQuery('#{$model->getPrefixName('grid')}').trigger('" . OperationEvent::REFRESH . "');
+//                                 }
+//                                 else{
+//                                   lifetime = 16500;
+//                                 }
+//                                 jQuery.msgGrowl ({
+//                                         type: data._meta.type,
+//                                         title: '" . Yii::t('cza', 'Tips') . "',
+//                                         text: data._meta.message,
+//                                         position: 'top-center',
+//                                         lifetime: lifetime,
+//                                 });
+//                             },
+//                             error :function(data){alert(data._meta.message);}
+//                     });
+//                 });
+//             });";
+//
+// $this->registerJs($js);
 
 
 ?>
