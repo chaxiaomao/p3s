@@ -5,8 +5,11 @@ namespace backend\modules\PAM\modules\ProductionConsumption\controllers;
 use backend\models\c2\form\SabMixtureForm;
 use common\models\c2\entity\Measure;
 use common\models\c2\entity\WarehouseNoteItem;
+use common\models\c2\search\WarehouseNoteSearch;
 use common\models\c2\statics\ProductionScheduleState;
 use common\models\c2\statics\WarehouseNoteItemStatus;
+use common\models\c2\statics\WarehouseNoteState;
+use common\models\c2\statics\WarehouseNoteType;
 use cza\base\models\statics\ResponseDatum;
 use Yii;
 use common\models\c2\entity\ProductionConsumption;
@@ -48,10 +51,23 @@ class DefaultController extends Controller
      */
     public function actionSendRecord()
     {
-        $id =  Yii::$app->request->queryParams['ProductionConsumptionSearch']['schedule_id'];
+        $id = Yii::$app->request->queryParams['ProductionConsumptionSearch']['schedule_id'];
         $data1 = ProductionConsumption::find()->where(['schedule_id' => $id])->all();
-        $data2 = WarehouseNoteItem::find()->where(['ref_note_id' => $id])->all();
-        $ids = ArrayHelper::getColumn($data1, function($ele) {
+
+        $query = WarehouseNoteSearch::find();
+        $query->where([
+            'type' => WarehouseNoteType::MIXTURE_SEND,
+            'ref_note_id' => $id,
+            'state' => WarehouseNoteState::COMMIT,
+        ]);
+        $notes = $query->all();
+        $note_ids = ArrayHelper::getColumn($notes, function ($ele) {
+            return $ele->id;
+        });
+        $data2 = WarehouseNoteItem::find()
+            ->where(['in', 'note_id', $note_ids])
+            ->all();
+        $ids = ArrayHelper::getColumn($data1, function ($ele) {
             return $ele->need_product_id;
         });
         $data = $data1;
@@ -67,6 +83,7 @@ class DefaultController extends Controller
                     'need_sum' => '',
                     'send_sum' => $item2->status == WarehouseNoteItemStatus::COMMIT ? $item2['number'] : 0,
                     'memo' => $item2->memo,
+                    'is_customer' => true,
                     // 'status' => $item2['memo'],
                     // 'measure' => $item2['product_value'],
                 ];
@@ -155,7 +172,7 @@ class DefaultController extends Controller
             }
         }
 
-        return (Yii::$app->request->isAjax) ? $this->renderAjax('edit', [ 'model' => $model,]) : $this->render('edit', [ 'model' => $model,]);
+        return (Yii::$app->request->isAjax) ? $this->renderAjax('edit', ['model' => $model,]) : $this->render('edit', ['model' => $model,]);
     }
 
     /**
@@ -187,7 +204,7 @@ class DefaultController extends Controller
             }
         }
 
-        return (Yii::$app->request->isAjax) ? $this->renderAjax('send_mixture_form', [ 'model' => $model,]) : $this->render('send_mixture_form', [ 'model' => $model,]);
+        return (Yii::$app->request->isAjax) ? $this->renderAjax('send_mixture_form', ['model' => $model,]) : $this->render('send_mixture_form', ['model' => $model,]);
     }
 
     public function actionBackMixture($id = null, $product_id = null)
@@ -203,7 +220,7 @@ class DefaultController extends Controller
             }
         }
 
-        return (Yii::$app->request->isAjax) ? $this->renderAjax('back_mixture_form', [ 'model' => $model,]) : $this->render('send_mixture_form', [ 'model' => $model,]);
+        return (Yii::$app->request->isAjax) ? $this->renderAjax('back_mixture_form', ['model' => $model,]) : $this->render('send_mixture_form', ['model' => $model,]);
     }
 
     public function actionAllSend($id)

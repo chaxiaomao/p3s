@@ -7,8 +7,11 @@ use common\models\c2\entity\Measure;
 use common\models\c2\entity\ProductionSchedule;
 use common\models\c2\entity\ProductionScheduleItem;
 use common\models\c2\entity\WarehouseNoteItem;
+use common\models\c2\search\WarehouseNoteSearch;
 use common\models\c2\statics\ProductionScheduleState;
 use common\models\c2\statics\WarehouseNoteItemStatus;
+use common\models\c2\statics\WarehouseNoteState;
+use common\models\c2\statics\WarehouseNoteType;
 use cza\base\models\statics\ResponseDatum;
 use Yii;
 use common\models\c2\entity\ProductionConsumption;
@@ -53,7 +56,19 @@ class DefaultController extends Controller
     {
         $id =  Yii::$app->request->queryParams['ProductionConsumptionSearch']['schedule_id'];
         $data1 = ProductionConsumption::find()->where(['schedule_id' => $id])->all();
-        $data2 = WarehouseNoteItem::find()->where(['ref_note_id' => $id])->all();
+        $query = WarehouseNoteSearch::find();
+        $query->where([
+            'type' => WarehouseNoteType::MIXTURE_SEND,
+            'ref_note_id' => $id,
+            'state' => WarehouseNoteState::COMMIT,
+        ]);
+        $notes = $query->all();
+        $note_ids = ArrayHelper::getColumn($notes, function ($ele) {
+            return $ele->id;
+        });
+        $data2 = WarehouseNoteItem::find()
+            ->where(['in', 'note_id', $note_ids])
+            ->all();
         $ids = ArrayHelper::getColumn($data1, function($ele) {
             return $ele->need_product_id;
         });

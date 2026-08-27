@@ -27,6 +27,7 @@ use Yii;
  */
 class ProductionConsumption extends \cza\base\models\ActiveRecord
 {
+
     /**
      * @inheritdoc
      */

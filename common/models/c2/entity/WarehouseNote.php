@@ -171,6 +171,7 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
                         'subtotal' => $subtotal,
                         'memo' => isset($item['memo']) ? $item['memo'] : '',
                         'status' => WarehouseNoteItemStatus::INIT,
+                        // 'created_at' => date('Y-m-d h:i:s', time() + $i * 2000),
                     ];
                     if (isset($item['number'])) {
                         $attributes['number'] = $item['number'];
@@ -240,13 +241,16 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
             foreach ($items as $item) {
                 $item->updateAttributes([
                     'before_stock' => $item->product->stock,
-                    'status' => WarehouseNoteItemStatus::COMMIT
+                    'status' => WarehouseNoteItemStatus::COMMIT,
+                    'updated_at' => date('Y-m-d H:i:s'),
                 ]);
-                $item->product->updateStock($item->number);
-                // $item->product->updated_at = date('Y-m-d h:i:s', time());
-                // $item->product->update();
-                // $item->product->updateCounters(['stock' => $item->number]);
-
+                // $item->product->updateStock($item->number);
+                $item->product->updated_at = date('Y-m-d h:i:s', time());
+                $item->product->updateCounters(['stock' => $item->number]);
+                // $item->product->updateAttributes([
+                //     'updated_at' => date('Y-m-d H:i:s'),
+                // ]);
+                $item->product->update();
             }
         }
         $this->updateAttributes(['state' => WarehouseNoteState::COMMIT]);
@@ -276,11 +280,12 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
                 ]);
                 $model->updateCounters(['production_sum' => $item->number]);
 
-                $item->product->updateStock(-($item->number));
+                // $item->product->updateStock(-($item->number));
 
-                // $item->product->updated_at = date('Y-m-d h:i:s', time());
-                // $item->product->update();
-                // $item->product->updateCounters(['stock' => $item->number]);
+                $item->product->updated_at = date('Y-m-d h:i:s', time());
+                $item->product->updated_by = Yii::$app->user->id;
+                $item->product->update();
+                $item->product->updateCounters(['stock' => -($item->number)]);
                 // $item->updateAttributes(['status' => WarehouseNoteItemStatus::COMMIT]);
             }
         }
@@ -311,13 +316,14 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
                     // $item->productCombination->updated_at = date('Y-m-d h:i:s', time());
                     // $item->productCombination->update();
 
-                    $item->productCombination->updateStock($item->number);
+                    // $item->productCombination->updateStock($item->number);
 
-                    // $item->product->updateCounters(['stock' => $item->number,]);
-                    // $item->product->updated_at = date('Y-m-d h:i:s', time());
-                    // $item->product->update();
+                    $item->product->updateCounters(['stock' => $item->number,]);
+                    $item->product->updated_at = date('Y-m-d h:i:s', time());
+                    $item->product->updated_by = Yii::$app->user->id;
+                    $item->product->update();
 
-                    $item->product->updateStock($item->number);
+                    // $item->product->updateStock($item->number);
 
                     $item->scheduleItem->updateCounters(['enter_sum' => $item->number]);
                 }
@@ -347,15 +353,16 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
                     'status' => WarehouseNoteItemStatus::COMMIT
                 ]);
                 if (!is_null($item->productCombination)) {
-                    // $item->productCombination->updateCounters(['stock' => -($item->number)]);
-                    // $item->productCombination->updated_at = date('Y-m-d h:i:s', time());
-                    // $item->productCombination->update();
-                    $item->productCombination->updateStock(-($item->number));
+                    $item->productCombination->updateCounters(['stock' => -($item->number)]);
+                    $item->productCombination->updated_at = date('Y-m-d h:i:s', time());
+                    $item->productCombination->update();
+                    // $item->productCombination->updateStock(-($item->number));
                 }
-                $item->product->updateStock(-($item->number));
-                // $item->product->updateCounters(['stock' => -($item->number)]);
-                // $item->product->updated_at = date('Y-m-d h:i:s', time());
-                // $item->product->update();
+                // $item->product->updateStock(-($item->number));
+                $item->product->updateCounters(['stock' => -($item->number)]);
+                $item->product->updated_at = date('Y-m-d h:i:s', time());
+                $item->product->updated_by = Yii::$app->user->id;
+                $item->product->update();
                 $orderItem = OrderItem::findOne(['order_id' => $note->sales_order_id, 'product_id' => $item->product_id]);
                 $orderItem->updateCounters([
                     'produced_number' => $item->number,
@@ -389,10 +396,11 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
                 if ($model) {
                     $model->updateCounters(['send_sum' => $item->number]);
                 }
-                $item->product->updateStock(-($item->number));
-                // $item->product->updateCounters(['stock' => -($item->number)]);
-                // $item->product->updated_at = date('Y-m-d h:i:s', time());
-                // $item->product->update();
+                // $item->product->updateStock(-($item->number));
+                $item->product->updateCounters(['stock' => -($item->number)]);
+                $item->product->updated_at = date('Y-m-d h:i:s', time());
+                $item->product->updated_by = Yii::$app->user->id;
+                $item->product->update();
                 // $item->updateAttributes(['status' => WarehouseNoteItemStatus::COMMIT]);
             }
         }
@@ -423,11 +431,12 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
                 ]);
                 $model->updateCounters(['enter_sum' => $item->number]);
 
-                $item->product->updateStock($item->number);
+                // $item->product->updateStock($item->number);
 
-                // $item->product->updateCounters(['stock' => $item->number]);
-                // $item->product->updated_at = date('Y-m-d h:i:s', time());
-                // $item->product->update();
+                $item->product->updateCounters(['stock' => $item->number]);
+                $item->product->updated_at = date('Y-m-d h:i:s', time());
+                $item->product->updated_by = Yii::$app->user->id;
+                $item->product->update();
             }
         }
         $this->updateAttributes(['state' => WarehouseNoteState::COMMIT]);
@@ -456,8 +465,10 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
                     'product_id' => $item->product_id
                 ]);
                 $model->updateCounters(['enter_sum' => $item->number]);
+                $item->product->updated_at = date('Y-m-d h:i:s', time());
+                $item->product->update();
                 // $item->product->updateCounters(['stock' => $item->number]);
-                $item->product->updateStock($item->number);
+                // $item->product->updateStock($item->number);
             }
         }
         $this->updateAttributes(['state' => WarehouseNoteState::COMMIT]);

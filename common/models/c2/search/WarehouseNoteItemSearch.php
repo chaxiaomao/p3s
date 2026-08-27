@@ -5,6 +5,7 @@ namespace common\models\c2\search;
 use common\models\c2\entity\InventoryReceiptNote;
 use common\models\c2\entity\InventoryReceiptNoteItem;
 use common\models\c2\entity\WarehouseNote;
+use common\models\c2\statics\WarehouseNoteState;
 use common\models\c2\statics\WarehouseNoteType;
 use Yii;
 use yii\base\Model;
@@ -68,6 +69,7 @@ class WarehouseNoteItemSearch extends WarehouseNoteItem
         $dataProvider->setSort([
             'defaultOrder' => [
                 'created_at' => SORT_DESC,
+                // 'id' => SORT_DESC,
             ],
         ]);
 
@@ -150,7 +152,9 @@ class WarehouseNoteItemSearch extends WarehouseNoteItem
             'sort' => [
                 'sortParam' => $this->getSortParamName(),
                 'defaultOrder' => [
-                    'created_at' => SORT_DESC
+                    'id' => SORT_DESC,
+                    // 'created_at' => SORT_DESC,
+                    // 'updated_at' => SORT_DESC,
                 ]
             ],
             'pagination' => [
@@ -159,11 +163,12 @@ class WarehouseNoteItemSearch extends WarehouseNoteItem
             ],
         ]);
 
-        $dataProvider->setSort([
-            'defaultOrder' => [
-                'created_at' => SORT_DESC,
-            ],
-        ]);
+        // $dataProvider->setSort([
+        //     'defaultOrder' => [
+        //         // 'created_at' => SORT_DESC,
+        //         'id' => SORT_DESC,
+        //     ],
+        // ]);
 
         $this->load($params);
 
@@ -172,6 +177,8 @@ class WarehouseNoteItemSearch extends WarehouseNoteItem
             // $query->where('0=1');
             return $dataProvider;
         }
+
+        $query->where(['{{%warehouse_note_item}}.status' => WarehouseNoteState::COMMIT]);
 
         $query->andFilterWhere([
             'id' => $this->id,

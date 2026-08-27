@@ -79,6 +79,15 @@ $this->params['breadcrumbs'][] = $this->title;
             //     ],
             // ],
             'memo',
+            [
+                'attribute' => 'is_customer',
+                'label' => '备注',
+                'format' => 'html',
+                'value' => function ($model) {
+                    return (isset($model['is_customer']) && $model['is_customer']) ? "<span style='color: red'>自定义送料</spam>" : '';
+                    // return !is_null($model->product->measure) ? $model->product->measure->name : '';
+                }
+            ],
             // 'state',
             // 'status',
             // 'position',
