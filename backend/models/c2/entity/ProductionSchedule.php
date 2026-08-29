@@ -70,6 +70,9 @@ class ProductionSchedule extends \common\models\c2\entity\ProductionSchedule
 
     public function setStateToCalculation()
     {
+        if ($this->state == ProductionScheduleState::CALCULATION) {
+            return;
+        }
         $db = Yii::$app->db->beginTransaction();
         foreach ($this->scheduleItems as $scheduleItem) {
             // get product combination items

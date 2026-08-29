@@ -312,9 +312,9 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
                     // $item->productCombination->stock = $item->productCombination->stock + $item->number;
                     // $item->productCombination->save();
 
-                    // $item->productCombination->updateCounters(['stock' => $item->number]);
-                    // $item->productCombination->updated_at = date('Y-m-d h:i:s', time());
-                    // $item->productCombination->update();
+                    $item->productCombination->updateCounters(['stock' => $item->number]);
+                    $item->productCombination->updated_at = date('Y-m-d h:i:s', time());
+                    $item->productCombination->update();
 
                     // $item->productCombination->updateStock($item->number);
 
@@ -467,7 +467,7 @@ class WarehouseNote extends \cza\base\models\ActiveRecord
                 $model->updateCounters(['enter_sum' => $item->number]);
                 $item->product->updated_at = date('Y-m-d h:i:s', time());
                 $item->product->update();
-                // $item->product->updateCounters(['stock' => $item->number]);
+                $item->product->updateCounters(['stock' => $item->number]);
                 // $item->product->updateStock($item->number);
             }
         }
