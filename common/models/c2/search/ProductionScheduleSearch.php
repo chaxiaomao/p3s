@@ -72,6 +72,7 @@ class ProductionScheduleSearch extends ProductionSchedule
         $query->with('creator.profile', 'updator.profile');
 
         $query->where(['not like', 'label', 'cl']);
+        $query->andWhere(['not like', 'code', 'po']);
 
         $query->andFilterWhere([
             'id' => $this->id,

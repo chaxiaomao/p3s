@@ -100,6 +100,7 @@
                             <td class="box60">需要物料数量</td>
                             <td class="box60">已送料数</td>
                             <td class="box60">未送料数</td>
+<!--                            <td class="box60">操作</td>-->
                         </tr>
 
                         <?php foreach ($need_products[$item['need_product_id']] as $item1): ?>
@@ -112,6 +113,7 @@
                                 <td><?= $item1['need_sum'] . $unit ?></td>
                                 <td class=""><?= $item1['send_sum'] ?><?= $unit ?></td>
                                 <td class=""><?= $item1['need_sum'] - $item1['send_sum'] ?><?= $unit ?></td>
+<!--                                <td class=""><a href="javascript:;" onclick="del()">删除</a></td>-->
                             </tr>
                         <?php endforeach; ?>
                     </table>
