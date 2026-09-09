@@ -7,6 +7,10 @@ use common\models\c2\entity\Product;
 use common\models\c2\entity\ProductionConsumption;
 use common\models\c2\entity\ProductionSchedule;
 use common\models\c2\entity\ProductionScheduleItem;
+use common\models\c2\entity\WarehouseNote;
+use common\models\c2\entity\WarehouseNoteItem;
+use common\models\c2\statics\ProductionScheduleType;
+use common\models\c2\statics\WarehouseNoteType;
 use Yii;
 use yii\db\conditions\OrCondition;
 use yii\db\Expression;
@@ -106,10 +110,27 @@ class SiteController extends Controller
         }
     }
 
+    public function actionFix1()
+    {
+        // ProductionScheduleItem::find()
+        //     ->alias('psi')
+        //     ->leftJoin('{{%product_schedule ps}}', 'ps.id = psi.schedule_id')
+        //     ->where(['between', 'created_at', '2026-08-29 00:00:00', '2026-08-28 00:00:00']);
+        // $data = WarehouseNoteItem::find()
+        //     ->alias('wni')
+        //     ->leftJoin('{{%warehouse_note}} wn', 'wni.note_id = wn.id')
+        //     ->where(['between', 'wn.created_at', '2026-08-29 00:00:00', '2026-08-29 20:00:00'])
+        //     ->andWhere(['in', 'wn.type', [WarehouseNoteType::MIXTURE_RECEIPT, WarehouseNoteType::PRODUCTION]])
+        //     ->asArray()
+        //     ->all();
+        // print_r($data);
+    }
+
     public function actionFix()
     {
 
 
+        return;
         $rows = ProductionConsumption::find()
             ->alias('pc')
             ->innerJoin(
