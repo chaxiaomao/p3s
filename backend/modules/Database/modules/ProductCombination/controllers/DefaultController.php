@@ -80,6 +80,7 @@ class DefaultController extends Controller
                 'oi.*',
                 'o.code',
                 'o.state',
+                'o.memo as order_memo',
             ])
             ->leftJoin('c2_order o', 'o.id = oi.order_id')
             ->where([ 'combination_id' => $id])

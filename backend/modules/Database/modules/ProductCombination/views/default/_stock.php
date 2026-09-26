@@ -14,7 +14,7 @@ foreach ($models as $item1) {
 
     <table class="table table-bordered margin-bottom-none bg-gray">
         <tr class="">
-            <td class="">订单编号</td>
+            <td class="" style="max-width: 300px">订单编号</td>
             <td class="">名称</td>
             <td class="">型号</td>
             <td class="">件数</td>
@@ -23,7 +23,10 @@ foreach ($models as $item1) {
         </tr>
         <?php foreach ($models as $item1): ?>
             <tr class="">
-                <td><?= $item1['code'] ?></td>
+                <td>
+                    <p><?= $item1['code'] ?></p>
+                    <p><?= '备注：'. $item1['order_memo'] ?></p>
+                </td>
                 <td><?= $item1['product_name'] ?></td>
                 <td><?= $item1['combination_name'] ?></td>
                 <td><?= $item1['pieces'] ?></td>
