@@ -77,7 +77,7 @@ class Application extends \yii\web\Application {
     public function beforeAction($action)
     {
 
-        $sys_open_at = Yii::$app->settings->get('sys_open_at', '08:00');
+        $sys_open_at = Yii::$app->settings->get('sys_open_at', '07:30');
         $sys_close_at = Yii::$app->settings->get('sys_close_at', '20:00');
         // $sys_close_at = '13:00';
 

@@ -117,127 +117,127 @@ $form = ActiveForm::begin([
                                     'options' => [
                                     ],
                                 ],
-                                // [
-                                //     'name' => 'product_id',
-                                //     // 'type' => 'dropDownList',
-                                //     'title' => Yii::t('app.c2', 'Material'),
-                                //     'enableError' => true,
-                                //     // 'items' => ['' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', ['status' => EntityModelStatus::STATUS_ACTIVE]),
-                                //     'type' => \kartik\select2\Select2::className(),
-                                //     'options' => [
-                                //         'data' => \backend\models\c2\entity\Material::getMixedOptions('id', 'sku', [
-                                //             'type' => \common\models\c2\statics\ProductType::TYPE_MATERIAL,
-                                //             'status' => EntityModelStatus::STATUS_ACTIVE
-                                //         ]),
-                                //     ],
-                                // ],
                                 [
                                     'name' => 'product_id',
                                     // 'type' => 'dropDownList',
-                                    'title' => Yii::t('app.c2', 'Product'),
+                                    'title' => Yii::t('app.c2', 'Material'),
                                     'enableError' => true,
                                     // 'items' => ['' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', ['status' => EntityModelStatus::STATUS_ACTIVE]),
                                     'type' => \kartik\select2\Select2::className(),
-                                    'value' => function ($data) {
-                                        return $data ? $data['product_id'] : '';
-                                    },
-                                    'options' => function ($data) use ($multipleItemsId) {
-                                        $text = '';
-                                        if (!empty($data['product_id'])) {
-                                            $product = Product::find()
-                                                ->select('id,name,sku')
-                                                ->where(['id' => $data['product_id']])
-                                                ->asArray()
-                                                ->one();
-                                            if ($product) {
-                                                $text = $product['sku'] . '(' . $product['name'] . ')';
-                                            }
-                                        }
-                                        return [
-                                            'initValueText' => $text,
-                                            'pluginOptions' => [
-                                                'width' => '400px',
-                                                // 'allowClear' => true,
-                                                'minimumInputLength' => 2,
-                                                'ajax' => [
-                                                    'url' => Url::to(['/api/product-search']),
-                                                    'dataType' => 'json',
-                                                    'delay' => 400,
-                                                    'data' => new JsExpression(
-                                                        'function(params){
-                                                        return {
-                                                                keyword: params.term,
-                                                                type: 1,
-                                                                isCL: false,
-                                                            };
-                                                        }'
-                                                    ),
-                                                    'processResults' => new JsExpression(
-                                                        'function(data){
-                                                        return {
-                                                                results:data.results
-                                                            };
-                                                        }'
-                                                    ),
-                                                ],
-                                            ],
-                                            'pluginEvents' => [
-                                                'change' => "function() {
-                                                let row = $(this).closest('tr');
-
-                                                $.post('" . Url::toRoute(['product-addition']) . "', {
-                                                    'depdrop_all_params[product_id]': $(this).val(),
-                                                    'depdrop_parents[]': $(this).val(),
-                                                    'customer_id': $('#order-customer_id').val()
-                                                }, function(data) {
-                                            
-                                                    row.find('[id^=last_price-]')
-                                                        .val(data.output.last_price);
-                                            
-                                                    if(data.output !== undefined) {
-                                            
-                                                        let combination = row.find(
-                                                            '[id^=combination-]'
-                                                        );
-                                            
-                                                        let packageSelect = row.find(
-                                                            '[id^=package-]'
-                                                        );
-                                           
-                                                        combination.empty();
-                                            
-                                                        packageSelect.empty();
-                                            
-                                                        $.each(
-                                                            data.output.combination,
-                                                            function(key,item){
-                                                                combination.append(
-                                                                    '<option value=\"'+item.id+'\">'
-                                                                    + item.name +
-                                                                    '</option>'
-                                                                );
-                                                            }
-                                                        );
-                                            
-                                                        $.each(
-                                                            data.output.package,
-                                                            function(key,item){
-                                                                packageSelect.append(
-                                                                    '<option value=\"'+item.id+'\">'
-                                                                    + item.name +
-                                                                    '</option>'
-                                                                );
-                                                            }
-                                                        );
-                                                    }
-                                                });
-
-                                            }",
-                                            ],
-                                        ];
-
-                                    },
+                                    'options' => [
+                                        'data' => \backend\models\c2\entity\Material::getMixedOptions('id', 'sku', [
+                                            'type' => \common\models\c2\statics\ProductType::TYPE_MATERIAL,
+                                            'status' => EntityModelStatus::STATUS_ACTIVE
+                                        ]),
+                                    ],
                                 ],
+                                // [
+                                //     'name' => 'product_id',
+                                //     // 'type' => 'dropDownList',
+                                //     'title' => Yii::t('app.c2', 'Product'),
+                                //     'enableError' => true,
+                                //     // 'items' => ['' => Yii::t("app.c2", "Select options ..")] + \common\models\c2\entity\ProductModel::getHashMap('id', 'sku', ['status' => EntityModelStatus::STATUS_ACTIVE]),
+                                //     'type' => \kartik\select2\Select2::className(),
+                                //     'value' => function ($data) {
+                                //         return $data ? $data['product_id'] : '';
+                                //     },
+                                //     'options' => function ($data) use ($multipleItemsId) {
+                                //         $text = '';
+                                //         if (!empty($data['product_id'])) {
+                                //             $product = Product::find()
+                                //                 ->select('id,name,sku')
+                                //                 ->where(['id' => $data['product_id']])
+                                //                 ->asArray()
+                                //                 ->one();
+                                //             if ($product) {
+                                //                 $text = $product['sku'] . '(' . $product['name'] . ')';
+                                //             }
+                                //         }
+                                //         return [
+                                //             'initValueText' => $text,
+                                //             'pluginOptions' => [
+                                //                 'width' => '400px',
+                                //                 // 'allowClear' => true,
+                                //                 'minimumInputLength' => 2,
+                                //                 'ajax' => [
+                                //                     'url' => Url::to(['/api/product-search']),
+                                //                     'dataType' => 'json',
+                                //                     'delay' => 400,
+                                //                     'data' => new JsExpression(
+                                //                         'function(params){
+                                //                         return {
+                                //                                 keyword: params.term,
+                                //                                 type: 1,
+                                //                                 isCL: false,
+                                //                             };
+                                //                         }'
+                                //                     ),
+                                //                     'processResults' => new JsExpression(
+                                //                         'function(data){
+                                //                         return {
+                                //                                 results:data.results
+                                //                             };
+                                //                         }'
+                                //                     ),
+                                //                 ],
+                                //             ],
+                                //             'pluginEvents' => [
+                                //                 'change' => "function() {
+                                //                 let row = $(this).closest('tr');
+                                //
+                                //                 $.post('" . Url::toRoute(['product-addition']) . "', {
+                                //                     'depdrop_all_params[product_id]': $(this).val(),
+                                //                     'depdrop_parents[]': $(this).val(),
+                                //                     'customer_id': $('#order-customer_id').val()
+                                //                 }, function(data) {
+                                //
+                                //                     row.find('[id^=last_price-]')
+                                //                         .val(data.output.last_price);
+                                //
+                                //                     if(data.output !== undefined) {
+                                //
+                                //                         let combination = row.find(
+                                //                             '[id^=combination-]'
+                                //                         );
+                                //
+                                //                         let packageSelect = row.find(
+                                //                             '[id^=package-]'
+                                //                         );
+                                //
+                                //                         combination.empty();
+                                //
+                                //                         packageSelect.empty();
+                                //
+                                //                         $.each(
+                                //                             data.output.combination,
+                                //                             function(key,item){
+                                //                                 combination.append(
+                                //                                     '<option value=\"'+item.id+'\">'
+                                //                                     + item.name +
+                                //                                     '</option>'
+                                //                                 );
+                                //                             }
+                                //                         );
+                                //
+                                //                         $.each(
+                                //                             data.output.package,
+                                //                             function(key,item){
+                                //                                 packageSelect.append(
+                                //                                     '<option value=\"'+item.id+'\">'
+                                //                                     + item.name +
+                                //                                     '</option>'
+                                //                                 );
+                                //                             }
+                                //                         );
+                                //                     }
+                                //                 });
+                                //
+                                //             }",
+                                //             ],
+                                //         ];
+                                //
+                                //     },
+                                // ],
                                 [
                                     'name' => 'need_number',
                                     'title' => Yii::t('app.c2', 'Need Number'),
