@@ -52,7 +52,7 @@ class InventoryDeliveryNoteItem extends \cza\base\models\ActiveRecord
             [['note_id', 'customer_id', 'product_id', 'package_id', 'combination_id', 'measure_id', 'pieces', 'product_sum', 'position'], 'integer'],
             [['price', 'subtotal'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
-            [['product_name', 'product_sku', 'package_name', 'combination_name', 'volume', 'weight', 'memo'], 'string', 'max' => 255],
+            [['product_name', 'ps_no', 'product_sku', 'package_name', 'combination_name', 'volume', 'weight', 'memo'], 'string', 'max' => 255],
             [['status'], 'integer', 'max' => 4],
         ];
     }
@@ -125,7 +125,7 @@ class InventoryDeliveryNoteItem extends \cza\base\models\ActiveRecord
         $models = self::find()->where($cond)->all();
         $data = ['' => Yii::t("app.c2", "Select options ..")];
         foreach ($models as $model) {
-            $data[$model->product_id] = $model->product_sku . '(' . $model->product_name . ')' ;
+            $data[$model->product_id] = $model->product_sku . '(' . $model->product_name . ')';
         }
         return $data;
     }

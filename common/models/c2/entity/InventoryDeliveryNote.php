@@ -227,6 +227,7 @@ class InventoryDeliveryNote extends \cza\base\models\ActiveRecord
                             // 'label' => isset($item['label']) ? $item['label'] : '',
                             'customer_id' => $this->customer_id,
                             'product_id' => $item->product_id,
+                            'ps_no' => $item->ps_no,
                             'product_name' => $item->product_name,
                             'product_sku' => $item->product_sku,
                             'combination_id' => $item->combination_id,
@@ -290,6 +291,7 @@ class InventoryDeliveryNote extends \cza\base\models\ActiveRecord
                         'memo' => isset($item['memo']) ? $item['memo'] : '',
                         'position' => isset($item['position']) ? $item['position'] : 0,
                         'is_auto_number' => $item['is_auto_number'],
+                        'ps_no' => $item['ps_no'],
                     ];
                     if (isset($item['id']) && $item['id'] == '') {
                         $itemModel = new InventoryDeliveryNoteItem();

@@ -146,4 +146,20 @@ class ProductionScheduleSearch extends ProductionSchedule
         $name = "ProductionScheduleSort";
         return \Yii::$app->czaHelper->naming->toSplit($name);
     }
+
+    public static function getOrders()
+    {
+        $data = ProductionSchedule::find()
+            ->where([
+                'type' => ProductionScheduleType::PRODUCT
+            ])
+            ->andFilterWhere(['not', ['in', 'state', [
+                ProductionScheduleState::FINISH,
+                ProductionScheduleState::TERMINATION,
+            ]]])
+            ->andFilterWhere(['like', 'label', 'cl'])
+            ->asArray()
+            ->all();
+        return $data;
+    }
 }

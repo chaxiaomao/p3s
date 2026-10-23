@@ -10,6 +10,7 @@ use Yii;
  * @property string $id
  * @property string $order_id
  * @property string $label
+ * @property string $ps_no
  * @property string $customer_id
  * @property string $product_id
  * @property string $product_name
@@ -35,6 +36,9 @@ use Yii;
  */
 class OrderItem extends \cza\base\models\ActiveRecord
 {
+    // public $ps_no;
+    public $ps_id;
+
     /**
      * @inheritdoc
      */
@@ -49,10 +53,10 @@ class OrderItem extends \cza\base\models\ActiveRecord
     public function rules()
     {
         return [
-            [['order_id', 'customer_id', 'product_id', 'combination_id', 'package_id', 'measure_id', 'pieces', 'product_sum', 'position'], 'integer'],
+            [['order_id', 'customer_id', 'product_id', 'combination_id', 'package_id', 'measure_id', 'pieces', 'product_sum', 'position', 'ps_id'], 'integer'],
             [['price', 'subtotal', 'produced_number', 'send_pieces'], 'number'],
-            [['created_at', 'updated_at'], 'safe'],
-            [['label', 'product_name', 'product_sku', 'product_label', 'product_value', 'combination_name', 'package_name', 'memo'], 'string', 'max' => 255],
+            [['created_at', 'updated_at', 'ps_no'], 'safe'],
+            [['label', 'ps_no', 'product_name', 'product_sku', 'product_label', 'product_value', 'combination_name', 'package_name', 'memo'], 'string', 'max' => 255],
             [['status'], 'integer', 'max' => 4],
         ];
     }

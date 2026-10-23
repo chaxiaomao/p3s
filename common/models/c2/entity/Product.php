@@ -309,4 +309,17 @@ class Product extends \cza\base\models\ActiveRecord
             'updated_at' => date('Y-m-d H:i:s'),
         ]);
     }
+
+    public static function getCLProducts()
+    {
+        $data = Product::find()
+            ->select(['id', 'name'])
+            ->where(['type' => \common\models\c2\statics\ProductType::TYPE_PRODUCT])
+            ->andFilterWhere(['like', 'label', 'cl'])
+            ->asArray()
+            ->all();
+
+        return ArrayHelper::map($data, 'id', 'name');
+
+    }
 }

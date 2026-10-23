@@ -4,7 +4,10 @@ namespace common\components\actions;
 
 use common\models\c2\entity\OrderItem;
 use common\models\c2\entity\Product;
+use common\models\c2\entity\ProductCombination;
+use common\models\c2\entity\ProductionScheduleItem;
 use common\models\c2\entity\ProductModel;
+use common\models\c2\entity\ProductPackage;
 use Yii;
 use yii\data\ActiveDataProvider;
 use yii\helpers\FileHelper;
@@ -66,7 +69,57 @@ class ProductAdditionOptionsAction extends \yii\base\Action {
             throw new \Exception('Require parameter "depdrop_parents"!');
         }
         $customer_id = isset($params['customer_id']) ? $params['customer_id'] : 0;
-        $product_id = $params['depdrop_all_params']['product_id'];
+        $product_id = isset($params['depdrop_all_params']['product_id']) ? $params['depdrop_all_params']['product_id'] : 0;
+        $ps_id = isset($params['depdrop_all_params']['ps_id']) ? $params['depdrop_all_params']['ps_id'] : 0;
+        $ps_item_id= isset($params['depdrop_all_params']['ps_item_id']) ? $params['depdrop_all_params']['ps_item_id'] : 0;
+        // $comb_package_id= isset($params['depdrop_all_params']['comb_package_id']) ? $params['depdrop_all_params']['comb_package_id'] : 0;
+
+        if (!empty($ps_id)) {
+            $products = ProductionScheduleItem::find()
+                ->where([
+                    'schedule_id' => $ps_id
+                ])
+                ->asArray()
+                ->all();
+
+            return $this->controller->asJson([
+                'output' => $products,
+                'seletcted' => "",
+            ]);
+        }
+
+        // if (!empty($comb_package_id)) {
+        //     $ids = explode(',', $comb_package_id);
+        //     if ($ids) {
+        //         $comb = ProductCombination::find()
+        //             ->select(['id', 'name'])
+        //             ->where(['id' => $ids[0]])
+        //             ->asArray()
+        //             ->one();
+        //         $package = ProductPackage::find()
+        //             ->select(['id', 'name'])
+        //             ->where(['id' => $ids[1]])
+        //             ->asArray()
+        //             ->one();
+        //         return $this->controller->asJson([
+        //             'output' => [
+        //                 'comb' => $comb,
+        //                 'package' => $package,
+        //             ],
+        //             'seletcted' => "",
+        //         ]);
+        //     }
+        //
+        // }
+
+        if (!empty($ps_item_id)) {
+            $model = ProductionScheduleItem::findOne($ps_item_id);
+            return $this->controller->asJson([
+                'output' => $model,
+                'seletcted' => "",
+            ]);
+        }
+
         $model = Product::findOne(['id' => $product_id]);
 
         $result = [

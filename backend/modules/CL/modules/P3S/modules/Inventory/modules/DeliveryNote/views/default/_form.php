@@ -206,6 +206,13 @@ $form = ActiveForm::begin([
                                         'name' => 'id',
                                         'type' => 'hiddenInput',
                                     ],
+                                    [
+                                        'title' => 'PO订单',
+                                        'name' => 'ps_no',
+                                        'options' => [
+                                            'readonly' => true,
+                                        ],
+                                    ],
                                     // [
                                     //     'name' => 'label',
                                     //     'title' => Yii::t('app.c2', 'Label'),

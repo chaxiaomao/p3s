@@ -321,9 +321,13 @@ class Order extends \cza\base\models\ActiveRecord
                     $subtotal = $item['subtotal'] == '' ? $product_sum * $price : $item['subtotal'];
                 }
                 $grand_total += $subtotal;
+                if (!empty($item['ps_id'])) {
+                    $ps = ProductionSchedule::findOne($item['ps_id']);
+                }
                 $attributes = [
                     'label' => isset($item['label']) ? $item['label'] : '',
                     'customer_id' => $this->customer_id,
+                    'ps_no' => isset($ps) ? $ps->code : '',
                     'product_id' => !is_null($product) ? $product->id : 0,
                     'product_name' => !is_null($product) ? $product->name : '',
                     'product_sku' => !is_null($product) ? $product->sku : '',
