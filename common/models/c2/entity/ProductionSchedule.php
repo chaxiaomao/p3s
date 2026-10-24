@@ -7,6 +7,7 @@ use backend\models\c2\entity\rbac\BeUser;
 use common\helpers\CodeGenerator;
 use common\models\c2\statics\ProductionCommitNoteType;
 use common\models\c2\statics\ProductionScheduleState;
+use common\models\c2\statics\ProductionScheduleType;
 use common\models\c2\statics\WarehouseNoteType;
 use cza\base\models\statics\EntityModelStatus;
 use Yii;
@@ -264,6 +265,22 @@ class ProductionSchedule extends \cza\base\models\ActiveRecord
         if (!$note->save()) {
             Yii::info($note->errors);
         }
+    }
+
+    public static function getPSOrder($keyField, $valField, $cond)
+    {
+        $data = ArrayHelper::map(
+            self::find()
+                ->select([$keyField, $valField])
+                ->where(['type' => ProductionScheduleType::PRODUCT])
+                ->andFilterWhere(['like', 'label', 'cl'])
+                ->andFilterWhere(['>=', 'estimated_ship_date', '2026-10-01'])
+                ->asArray()
+                ->all(),
+            $keyField,
+            $valField
+        );
+        return $data;
     }
 
 }

@@ -133,7 +133,7 @@ $form = ActiveForm::begin([
                                     'type' => \kartik\select2\Select2::className(),
 
                                     'options' => [
-                                        'data' => ['' => '请选择...'] + \common\models\c2\entity\ProductionSchedule::getHashMap('id', 'code', ['like', 'label', 'cl']),
+                                        'data' => ['' => '请选择...'] + \common\models\c2\entity\ProductionSchedule::getPSOrder('id', 'code', ['like', 'label', 'cl']),
                                         'pluginOptions' => [
                                             'width' => '150px',
                                         ],
