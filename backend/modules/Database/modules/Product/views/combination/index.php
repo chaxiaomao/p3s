@@ -96,7 +96,7 @@ use cza\base\models\statics\OperationEvent;
                         ], [
                             'title' => Yii::t('app', 'Info'),
                             'data-pjax' => '0',
-                            'class' => 'combination',
+                            // 'class' => 'combination',
                         ]);
                     },
                     'delete' => function ($url, $model, $key) {
