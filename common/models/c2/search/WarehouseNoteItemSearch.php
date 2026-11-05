@@ -69,7 +69,7 @@ class WarehouseNoteItemSearch extends WarehouseNoteItem
         $dataProvider->setSort([
             'defaultOrder' => [
                 'created_at' => SORT_DESC,
-                // 'id' => SORT_DESC,
+                'id' => SORT_DESC,
             ],
         ]);
 
