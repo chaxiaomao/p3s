@@ -29,7 +29,8 @@ use cza\base\models\statics\OperationEvent;
             [
                 'content' =>
                     Html::a('<i class="glyphicon glyphicon-plus"></i>', ['/database/product/combination/default/edit', 'product_id' => $productModel->id], [
-                        'class' => 'btn btn-success combination',
+                        // 'class' => 'btn btn-success combination',
+                        'class' => 'btn btn-success',
                         'title' => Yii::t('app.c2', 'Add'),
                         'data-pjax' => '0',
                     ]) . ' ' .

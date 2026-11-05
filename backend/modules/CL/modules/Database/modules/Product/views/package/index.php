@@ -28,8 +28,9 @@ use cza\base\models\statics\OperationEvent;
             'toolbar' => [
                 [
                     'content' =>
-                        Html::a('<i class="glyphicon glyphicon-plus"></i>', ['/database/product/package/default/edit', 'product_id' => $productModel->id], [
-                            'class' => 'btn btn-success package',
+                        Html::a('<i class="glyphicon glyphicon-plus"></i>', ['/cl/database/product/package/default/edit', 'product_id' => $productModel->id], [
+                            // 'class' => 'btn btn-success package',
+                            'class' => 'btn btn-success',
                             'title' => Yii::t('app.c2', 'Add'),
                             'data-pjax' => '0',
                         ]) . ' ' .
@@ -92,13 +93,13 @@ use cza\base\models\statics\OperationEvent;
                     'buttons' => [
                         'update' => function ($url, $model, $key) {
                             return Html::a('<span class="glyphicon glyphicon-pencil"></span>', [
-                                '/database/product/package/default/edit',
+                                '/cl/database/product/package/default/edit',
                                 'id' => $model->id,
                                 'product_id' => $model->product_id
                             ], [
                                 'title' => Yii::t('app', 'Info'),
                                 'data-pjax' => '0',
-                                'class' => 'package',
+                                // 'class' => 'package',
                             ]);
                         },
                         'delete' => function ($url, $model, $key) {
